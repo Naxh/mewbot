@@ -27,7 +27,7 @@ natlist = ['Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Relaxed', 'Impish',
 bot = commands.Bot(command_prefix=";")
 version = ("0.0.1c Alpha Build")
 
-TOKEN = 'NDkzMDQ1Nzk1NDQ1Mjc2Njgy.DofT3w.kTYv9WGTh3_FHnnqv3BK_qXhxs8'
+TOKEN = ''
 bot.remove_command('help')
 
 #db connect
