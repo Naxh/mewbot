@@ -909,7 +909,11 @@ async def battle(ctx, user: discord.Member):
         area2 = (170, 290)
         bg.paste(s, area2, mask)
 
-        await ctx.bg.show()
+        bg.save('./bg1', 'png')
+        embed=discord.Embed(title=f"Battle Between {p1} and {p2}")
+        embed.set_image('bg1.png')
+        await ctx.send(embed=embed)
+        os.remove('bg1.png')
         await ctx.channel.send(f'<@{ctx.author.id} use a Move!')
 
 bot.run(TOKEN)
