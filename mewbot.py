@@ -299,7 +299,7 @@ async def pokemon(ctx):
     embed = discord.Embed(title='Your Pokemon List')
     for pn in nrecord:
         for pnu in precord:
-            embed.add_field(name=f'{pn}', value=f'{pnu}')
+            embed.add_field(name=f'{pn}', value=f'{pnu}', inline=True)
     await ctx.send(embed=embed)
 
 @bot.command()
