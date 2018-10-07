@@ -293,8 +293,8 @@ async def pokemon(ctx):
     embed = discord.Embed(title="Your Pokemon List!")
     for pk in pklist:
         try:
-        for pkn in pknum:
-            except TypeError as e:
+            for pkn in pknum:
+        except TypeError as e:
                 await ctx.send("You haven't started")          
             embed.add_field(name=f"{pk}", value=f"{pkn}")
     await ctx.send(embed=embed)
