@@ -205,7 +205,7 @@ async def on_message(message):
         pnum = await pconn.fetchval(pque)
         try:
             pnum += 1
-            except TypeError as e:
+        except TypeError as e:
             await message.channel.send("You need to Start with `start`")
         query2 = '''
             INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, poknick, exp, nature, expcap)
