@@ -287,7 +287,10 @@ async def pokemon(ctx):
     pconn = await asyncpg.connect(dburl)
     nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
     pk1 = await pconn.fetch(nquery)
-    await ctx.send(f'{pk1}-n')
+    precord = [record['pokname']['pnum'] for record in pk1]
+    embed = discord.Embed(title='Your Pokemon List')
+    embed.add_field(name=f'**{precord}', value="**")
+    await ctx.send(embed=embed)
     await pconn.close()
 @bot.command()
 async def moves(ctx):
@@ -345,7 +348,7 @@ async def cp(ctx, *, presence):
 async def inspire(ctx):
     iE = discord.Embed(title="Inspire Me", description="...")
     iE.add_field(name="Here it is", value="you don't understand something unless you know how it works on one level of abstraction lower than you need to know to use it")
-    iE.set_footer("I hope you try harder! :wave:")
+    iE.add_field("I hope you try harder! :wave:")
     await ctx.send(embed=iE)
 
 @bot.command()
