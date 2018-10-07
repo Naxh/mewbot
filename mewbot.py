@@ -285,7 +285,7 @@ async def pokemon(ctx):
     pconn = await asyncpg.connect(dburl)
     nquery = "SELECT pokname FROM pokes WHERE ownerid = {}".format(ctx.author.id)
     nuquery = "SELECT pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
-    pklist = await pconn.fetch(nquery)
+    pklist = await pconn.execute(nquery)
     pknum = await pconn.fetchrow(nuquery)
     embed = discord.Embed(title="Your Pokemon List!")
     for pk in pklist:
