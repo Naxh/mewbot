@@ -292,10 +292,7 @@ async def pokemon(ctx):
     pknum = await pconn.fetchrow(nuquery)
     embed = discord.Embed(title="Your Pokemon List!")
     for pk in pklist:
-        try:
-            for pkn in pknum:
-        except TypeError as e:
-                await ctx.send("You haven't started")          
+        for pkn in pknum:          
             embed.add_field(name=f"{pk}", value=f"{pkn}")
     await ctx.send(embed=embed)
     await pconn.close()
