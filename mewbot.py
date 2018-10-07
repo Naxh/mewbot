@@ -6,6 +6,7 @@ import json
 import asyncio
 import asyncpg
 import random
+import os
 from PIL import Image as i
 import requests
 from io import BytesIO
