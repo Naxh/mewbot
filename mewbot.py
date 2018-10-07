@@ -286,12 +286,8 @@ async def start_journey(ctx):
 async def pokemon(ctx):
     pconn = await asyncpg.connect(dburl)
     nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
-    nuquery = "SELECT pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
     pk1 = await pconn.fetch(nquery)
-    pkn1 = await pconn.fetch(nuquery)
-    nrecord = [record['pokname'] for record in pk1]
-    precord = [record['pnum'] for record in pkn1]
-    await ctx.send(f'{precord}, {nrecord}-n')
+    await ctx.send(f'{pk1}-n')
     await pconn.close()
 @bot.command()
 async def moves(ctx):
