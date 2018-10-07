@@ -507,12 +507,12 @@ async def info(ctx):
 
     embed = discord.Embed(title=f"Your Selected {pn}")
     embed.add_field(name="Pokemon Level", value=f"{plevel}")
-    embed.add_field(name="Hit Points (HP)", value=f"{hp}")
-    embed.add_field(name="Attack", value=f"{attack}")
-    embed.add_field(name="Defense", value=f"{defense}")
-    embed.add_field(name="Special Attack", value=f"{specialattack}")
-    embed.add_field(name="Special Defense", value=f"{specialdefense}")
-    embed.add_field(name="Speed", value=f"{speed}")
+    embed.add_field(name="Hit Points (HP)", value=f"{hp} | {hpiv} IV")
+    embed.add_field(name="Attack", value=f"{attack} | {atkiv} IV")
+    embed.add_field(name="Defense", value=f"{defense} | {defiv} IV")
+    embed.add_field(name="Special Attack", value=f"{specialattack} | {spatkiv} IV")
+    embed.add_field(name="Special Defense", value=f"{specialdefense} | {spdefiv} IV")
+    embed.add_field(name="Speed", value=f"{speed} | {speediv} IV")
     embed.add_field(name="Held Item", value=f"{hi}")
     embed.set_image(url=irul)
     await ctx.send(embed=embed)
@@ -539,7 +539,7 @@ async def pokedex(ctx, *, val):
     pokemonHp = rJson['stats'][5]['base_stat']
     embed = discord.Embed(title=val.capitalize(), description="")
     embed.add_field(name="Pokemon information", value=f"{pName.capitalize()} \n**Ability**: {pAb} \n**Types**: {tlist} \n**Weight**: {pWeight} Kgs \n**Pokedex Number**: {pDexnum}")
-    embed.add_field(name="Stats", value=f"HP: {pokemonHp} | {hpiv} IV\nAttack: {pokemonAtk} | {atkiv} IV\nDefense: {pokemonDef} | {defiv} IV\nSpecial Attack: {pokemonSpa} | {spatkiv} IV\nSpecial Defense: {pokemonSpd} | {spdefiv} IV\nSpeed: {pokemonSpeed} | {speediv} IV")
+    embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk} \nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
     embed.set_image(url='https://img.pokemondb.net/artwork/vector/' + val + '.png')
 
     await ctx.send(embed=embed)
