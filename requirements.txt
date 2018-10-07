@@ -4,3 +4,4 @@ libneko
 psutil
 boto
 PIL
+Pillow
