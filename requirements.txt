@@ -3,5 +3,4 @@ asyncpg
 libneko
 psutil
 boto
-PIL
 Pillow
