@@ -267,7 +267,7 @@ async def start_journey(ctx):
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)'''
 
         args = (answer1, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 5, ctx.author.id, 1, 0, tackle, tackle, tackle, tackle, 'None', 1, nature, 35, 'None')
-        pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = {}".format(ctx.author.id)
+        pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = {}".format(ctx.author.id))
         nrecord = [record['u_id'] for record in pk1]
         if ctx.author.id in nrecord:
             await ctx.send('you have already registered')
