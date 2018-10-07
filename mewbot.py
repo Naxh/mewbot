@@ -270,7 +270,7 @@ async def start_journey(ctx):
             VALUES ($1, $2, $3, $4, $5)
             '''
 
-        args2 = (ctx.author.id, 0, 0, 0, 0)
+        args2 = (ctx.author.id, 0, 0, 'None', 0)
         await tconn.execute(query3, *args2)
         await ctx.channel.send("Records successfully Added\nGoodluck!")
         await tconn.close()
