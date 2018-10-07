@@ -5,3 +5,5 @@ psutil
 boto
 Pillow
 Objectpath
+aiohttp
+asyncio
