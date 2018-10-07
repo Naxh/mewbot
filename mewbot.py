@@ -289,7 +289,7 @@ async def pokemon(ctx):
     nquery = "SELECT pokname FROM pokes WHERE ownerid = {}".format(ctx.author.id)
     nuquery = "SELECT pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
     pklist = await pconn.fetchrow(nquery)
-    pkl = await pconn.fetch(nquery)
+    pk1 = await pconn.fetch(nquery)
     pk2 = await pconn.fetchval(nquery)
     pknum = await pconn.fetchrow(nuquery)
     pkn1 = await pconn.fetch(nuquery)
