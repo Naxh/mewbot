@@ -30,8 +30,8 @@ natlist = ['Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Relaxed', 'Impish',
 bot = commands.Bot(command_prefix=";")
 version = ("0.0.1c Alpha Build")
 
-TOKEN = S3Connection(os.environ['TOKEN'])
-dburl = S3Connection(os.environ['DATABASE_URL'])
+TOKEN = os.environ['TOKEN']
+dburl = os.environ['DATABASE_URL']
 
 bot.remove_command('help')
 #db connect
