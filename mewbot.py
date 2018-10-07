@@ -76,14 +76,22 @@ async def ping(ctx):
 
 @bot.command()
 async def trainer(ctx, user: discord.Member=None):
-    tconn = await asyncpg.connect()
+    tconn = await asyncpg.connect(dburl)
     if user is None:
         user = ctx.author
-    query = '''SELECT * FROM users WHERE u_id = {}'''.format(ctx.author.id)
-    tc = await tconn.fetchrow(query)
+    rquery = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
+    tquery = '''SELECT tnick FROM users WHERE u_id = {}'''.format(ctx.author.id)
+    uquery = '''SELECT upvotepoints FROM users WHERE u_id = {}'''.format(ctx.author.id)
+    cquery = '''SELECT pokname FROM pokes WHERE selected = 1 AND u_id = {}'''.format(ctx.author.id)
+    redeems = await tconn.fetchval(rquery)
+    tnick = await tconn.fetchval(tquery)
+    uppoints = await tconn.fetchval(uquery)
+    poke = await tconn.fetchval(cquery)
     embed = discord.Embed(title="{} Trainer Card".format(user.name))
-    for ti in tc:
-        embed.add_field(name=f"{ti}", value="trainer info")
+    embed.add_field(name="Redeems", value=f'{redeems}')
+    embed.add_field(name="Trainer Nick", value=f'{tnick}')
+    embed.add_field(name="Upvote Points", value=f'{uppoints}')
+    embed.add_field(name="Currently Selected Pokemon", value=f'{poke}')
     embed.set_thumbnail(url=user.avatar_url)
     await ctx.send(embed=embed)
     await tconn.close()
