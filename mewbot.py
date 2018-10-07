@@ -157,11 +157,6 @@ async def status(ctx):
 
     await ctx.author.send(embed=embed)
 
-@bot.command()
-async def moves(ctx):
-    await ctx.author.send("List of available Moves")
-
-
 #hpiv = random.randint(1, 31)
 #atkiv = random.randint(1, 31)
 #defiv = random.randint(1, 31)
@@ -301,7 +296,29 @@ async def pokemon(ctx):
         for pnu in precord:
             embed.add_field(name=f'{pn}', value=f'{pnu}', inline=True)
     await ctx.send(embed=embed)
-
+    await pconn.close()
+@bot.command()
+async def moves(ctx):
+    pconn = await asyncpg.connect(dburl)
+    m1query = "SELECT move1 FROM pokes WHERE selected = 1 AND ownerid = $1', ctx.author.id)
+    m2query = "SELECT move2 FROM pokes WHERE selected = 1 AND ownerid = $1', ctx.author.id)
+    m3query = "SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = $1', ctx.author.id)
+    m4query = "SELECT move4 FROM pokes WHERE selected = 1 AND ownerid = $1', ctx.author.id)
+    m1 = await pconn.fetchval(m1query)
+    m2 = await pconn.fetchval(m2query)
+    m3 = await pconn.fetchval(m3query)
+    m4 = await pconn.fetchval(m4query)
+    embed = discord.Embed(title='Moves')
+    embed.add_field(name='**Move 1**:', value=f'{m1}')
+    embed.add_field(name='**Move 2**:', value=f'{m2}')
+    
+    embed.add_field(name='**Move 3**:', value=f'{m3}')
+    
+    embed.add_field(name='**Move 4**:', value=f'{m4}')
+    await ctx.send(embed=embed)
+    await pconn.close()
+    
+    
 @bot.command()
 async def select(ctx, val):
     pconn = await asyncpg.connect(dburl)
