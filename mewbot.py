@@ -287,11 +287,14 @@ async def pokemon(ctx):
     pconn = await asyncpg.connect(dburl)
     nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
     pk1 = await pconn.fetch(nquery)
-    precord = [record['pokname']['pnum'] for record in pk1]
+    precord = [record['pokname'][0:51] for record in pk1]
     embed = discord.Embed(title='Your Pokemon List')
     embed.add_field(name=f'**{precord}', value="**")
     await ctx.send(embed=embed)
     await pconn.close()
+    
+    
+    
 @bot.command()
 async def moves(ctx):
     pconn = await asyncpg.connect(dburl)
