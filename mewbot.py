@@ -535,7 +535,7 @@ async def pokedex(ctx, *, val):
     pokemonHp = rJson['stats'][5]['base_stat']
     embed = discord.Embed(title=val.capitalize(), description="")
     embed.add_field(name="Pokemon information", value=f"{pName.capitalize()} \n**Ability**: {pAb} \n**Types**: {tlist} \n**Weight**: {pWeight} Kgs \n**Pokedex Number**: {pDexnum}")
-    embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk}\nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
+    embed.add_field(name="Stats", value=f"HP: {pokemonHp} | {hpiv} IV\nAttack: {pokemonAtk} | {atkiv} IV\nDefense: {pokemonDef} | {defiv} IV\nSpecial Attack: {pokemonSpa} | {spatkiv} IV\nSpecial Defense: {pokemonSpd} | {spdefiv} IV\nSpeed: {pokemonSpeed} | {speediv} IV")
     embed.set_image(url='https://img.pokemondb.net/artwork/vector/' + val + '.png')
 
     await ctx.send(embed=embed)
