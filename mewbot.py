@@ -294,7 +294,7 @@ async def pokemon(ctx):
     pknum = await pconn.fetchrow(nuquery)
     pkn1 = await pconn.fetch(nuquery)
     pkn2 = await pconn.fetchval(nuquery)
-    precord = [record.pnum for record in pkn1]
+    precord = [record.pkn1 for record in pkn1]
     await ctx.send(f'{pklist} -pklist \n{pk1} -pk1\n{pk2} -pk2\n{pknum} -pknum\n{pkn1} -pkn1\n{precord}')
     await pconn.close()
 
