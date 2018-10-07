@@ -287,9 +287,12 @@ async def pokemon(ctx):
     pconn = await asyncpg.connect(dburl)
     nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
     pk1 = await pconn.fetch(nquery)
-    precord = [record['pokname'][0:51] for record in pk1]
-    embed = discord.Embed(title='Your Pokemon List')
-    embed.add_field(name=f'**{precord}', value="**")
+    nrecord = [record['pokname'] for record in pk1]
+    precord = [record['pnum'] for record in pk1]	   
+    embed = discord.Embed(title='Your Pokemon List')	    
+    for pn in nrecord:	
+        for pnu in precord:	
+            embed.add_field(name=f'{pn}', value=f'{pnu}', inline=True)
     await ctx.send(embed=embed)
     await pconn.close()
     
