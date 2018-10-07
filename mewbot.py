@@ -289,12 +289,12 @@ async def pokemon(ctx):
     nquery = "SELECT pokname FROM pokes WHERE ownerid = {}".format(ctx.author.id)
     nuquery = "SELECT pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
     pklist = await pconn.fetchrow(nquery)
+    pkl = await pconn.fetch(nquery)
+    pk2 = await pconn.fetchval(nquery)
     pknum = await pconn.fetchrow(nuquery)
-    embed = discord.Embed(title="Your Pokemon List!")
-    for pk in pklist:
-        for pkn in pknum:          
-            embed.add_field(name=f"{pk}", value=f"{pkn}")
-    await ctx.send(embed=embed)
+    pkn1 = await pconn.fetch(nuquery)
+    pkn2 = await pconn.fetchval(nuquery)
+    await ctx.send(f'{pklist} -pklist \n{pk1} -pk1\n{pk2} -pk2\n{pknum} -pknum\n{pkn1} -pkn1\n{pkn2} -pkn2')
     await pconn.close()
 
 @bot.command()
