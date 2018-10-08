@@ -420,26 +420,26 @@ async def info(ctx):
 		except TypeError as e:
 			await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 		pns = str(pn)
-    	r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
+		r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
 		rJson = r.json()
 		types = [t['type']['name'] for t in rJson['types']]
 		tlist = ", ".join(types)
 		pAb = rJson['abilities'][0]['ability']['name']
-        pWeight = rJson['weight']/10
-        pDexnum = rJson['id']
-        pokemonSpeed = rJson['stats'][0]['base_stat']
-        pokemonSpd = rJson['stats'][1]['base_stat']
-        pokemonSpa = rJson['stats'][2]['base_stat']
-        pokemonDef = rJson['stats'][3]['base_stat']
-        pokemonAtk = rJson['stats'][4]['base_stat']
-        pokemonHp = rJson['stats'][5]['base_stat']
+		pWeight = rJson['weight']/10
+		pDexnum = rJson['id']
+		pokemonSpeed = rJson['stats'][0]['base_stat']
+		pokemonSpd = rJson['stats'][1]['base_stat']
+		pokemonSpa = rJson['stats'][2]['base_stat']
+		pokemonDef = rJson['stats'][3]['base_stat']
+		pokemonAtk = rJson['stats'][4]['base_stat']
+		pokemonHp = rJson['stats'][5]['base_stat']
 
-    hp = round((((2*pokemonHp+hpiv+(0/4))*plevel)/100)+plevel+10)
-    attack = round((((2*pokemonSpeed+atkiv+(0/4))*plevel)/100)+5)
-    defense = round((((2*pokemonDef+defiv+(0/4))*plevel)/100)+5)
-    specialattack = round((((2*pokemonSpa+spatkiv+(0/4))*plevel)/100)+5)
-    specialdefense = round((((2*pokemonSpd+spdefiv+(0/4))*plevel)/100)+5)
-    speed = round((((2*pokemonSpeed+speediv+(0/4))*plevel)/100)+5)
+	hp = round((((2*pokemonHp+hpiv+(0/4))*plevel)/100)+plevel+10)
+	attack = round((((2*pokemonSpeed+atkiv+(0/4))*plevel)/100)+5)
+	defense = round((((2*pokemonDef+defiv+(0/4))*plevel)/100)+5)
+	specialattack = round((((2*pokemonSpa+spatkiv+(0/4))*plevel)/100)+5)
+	specialdefense = round((((2*pokemonSpd+spdefiv+(0/4))*plevel)/100)+5)
+	speed = round((((2*pokemonSpeed+speediv+(0/4))*plevel)/100)+5)
 
     if nature == 'Adamant':
         attack = attack*1.1
