@@ -617,7 +617,7 @@ async def redeem(ctx, val):
         speiv = random.randint(1, 31)
         pque = '''SELECT MAX(pnum) FROM pokes WHERE ownerid = {}'''.format(ctx.author.id)
         rque = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
-        rnum = await tconn.fetchval(rque)
+        rnum = await pconn.fetchval(rque)
         rnat = random.choice(natlist)
         if rnum >= 1:
             pnum = await pconn.fetchval(pque)
