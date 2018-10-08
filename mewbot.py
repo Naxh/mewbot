@@ -172,37 +172,37 @@ async def status(ctx):
 #plevel = random.randint(1, 100)
 @bot.listen()
 async def on_message(message):
-    vowels = ['a', 'k', 'e', 't', 'u', 'i', 'o', 'l', 'o', 'm', 'y', 'i', 'e', 'z', 'x', 'b', 'g', 'l', 'a', 'w', 'q']
-    vl = random.choice(vowels)
-    if message.content.startswith(vl):
-        channel = message.channel
-        val1 = random.choice(pList)
-        val = val1.lower() or val1.upper() or val1.capitalize()
-        url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
-        embed = discord.Embed(title="A Pokemon has spawned, identify it to catch it!")
-        embed.set_image(url=url)
-        await channel.send(embed=embed)
-        def check(m):
-            return m.content == val and m.channel == channel
-        msg = await bot.wait_for('message', check=check, timeout=60)
-        val = val.capitalize()
+	vowels = ['a', 'k', 'e', 't', 'u', 'i', 'o', 'l', 'o', 'm', 'y', 'i', 'e', 'z', 'x', 'b', 'g', 'l', 'a', 'w', 'q']
+	vl = random.choice(vowels)
+	if message.content.startswith(vl):
+		channel = message.channel
+		val1 = random.choice(pList)
+		val = val1.lower() or val1.upper() or val1.capitalize()
+		url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
+		embed = discord.Embed(title="A Pokemon has spawned, identify it to catch it!")
+		embed.set_image(url=url)
+		await channel.send(embed=embed)
+		def check(m):
+			return m.content == val and m.channel == channel
+		msg = await bot.wait_for('message', check=check, timeout=60)
+		val = val.capitalize()
 
 
-        #db code starts here
+		#db code starts here
 
 
-        pconn = await bot.db.acquire()
-        hpiv = random.randint(1, 31)
-        atkiv = random.randint(1, 31)
-        defiv = random.randint(1, 31)
-        spaiv = random.randint(1, 31)
-        spdiv = random.randint(1, 31)
-        speiv = random.randint(1, 31)
-        plevel = random.randint(1, 100)
-        nature = random.choice(natlist)
-        expc = (plevel ** 3)
-        pque = '''SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
-        pnum = await pconn.fetchval(pque)
+		pconn = await bot.db.acquire()
+		hpiv = random.randint(1, 31)
+		atkiv = random.randint(1, 31)
+		defiv = random.randint(1, 31)
+		spaiv = random.randint(1, 31)
+		spdiv = random.randint(1, 31)
+		speiv = random.randint(1, 31)
+		plevel = random.randint(1, 100)
+		nature = random.choice(natlist)
+		expc = (plevel ** 3)
+		pque = '''SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
+		pnum = await pconn.fetchval(pque)
 		try:
 			pnum + 1
 		except TypeError as e:
