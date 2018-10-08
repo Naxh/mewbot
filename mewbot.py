@@ -513,6 +513,7 @@ async def info(ctx):
 	embed = discord.Embed(title=f"Your Selected {pn}")
 
 	embed.add_field(name="Pokemon Level", value=f"{plevel}")
+	embed.add_field(name="Nature: ", value=f'{nature}')
 	embed.add_field(name="Hit Points (HP)", value=f"{hp} | {hpiv} IV")
 	embed.add_field(name="Attack", value=f"{round(attack)} | {atkiv} IV")
 	embed.add_field(name="Defense", value=f"{round(defense)} | {defiv} IV")
