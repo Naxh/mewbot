@@ -207,16 +207,16 @@ async def on_message(message):
 			pnum + 1
 		except TypeError as e:
 			await message.channel.send("You need to Start with `start`")
-        query2 = '''
-            INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, poknick, exp, nature, expcap)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
-            '''
+		query2 = '''
+		INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, poknick, exp, nature, expcap)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
+		'''
 
-        args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
-        await pconn.execute(query2, *args)
-        await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
-        await pconn.close()
-    #   db code goes here
+		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
+		await pconn.execute(query2, *args)
+		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
+		await pconn.close()
+	#   db code goes here
 
 # None Pokemon Commands  ctx
 # this will only be a shell, like a plan
