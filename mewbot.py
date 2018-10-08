@@ -386,8 +386,7 @@ async def info(ctx):
     plevel = await pconn.fetchval(plquery)
     hpiv = await pconn.fetchval(hpquery)
     hi = await pconn.fetchval(hiquery)
-	
-    if pn == 'Flowing':
+	if pn == 'Flowing':
 		pokemonSpeed = 73
 		pokemonAtk = 99
 		pokemonDef = 79
