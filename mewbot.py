@@ -396,7 +396,7 @@ async def info(ctx):
 		pokemonHp = 95
 		pAb = 'Sizzling Growth'
 		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
-    elif pn == 'Flire':
+	elif pn == 'Flire':
 		pokemonSpeed = 110
 		pokemonAtk = 120
 		pokemonDef = 95
@@ -405,7 +405,7 @@ async def info(ctx):
 		pokemonHp = 73
 		pAb = 'Scorched feet'
 		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
-    elif pn == 'Aquino':
+	elif pn == 'Aquino':
 		pokemonSpeed = 95
 		pokemonAtk = 79
 		pokemonDef = 120
