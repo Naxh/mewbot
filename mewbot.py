@@ -203,10 +203,10 @@ async def on_message(message):
         expc = (plevel ** 3)
         pque = '''SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
         pnum = await pconn.fetchval(pque)
-        try:
+		try:
 			pnum + 1
-        except TypeError as e:
-            await message.channel.send("You need to Start with `start`")
+		except TypeError as e:
+			await message.channel.send("You need to Start with `start`")
         query2 = '''
             INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, poknick, exp, nature, expcap)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
