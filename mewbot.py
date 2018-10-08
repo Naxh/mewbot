@@ -292,7 +292,7 @@ async def pokemon(ctx):
     embed = discord.Embed(title='Your Pokemon List')	    
     for pn in precord:
         nr = nrecord[1-pn]
-        embed.add_field(name=f'{nr}', value=f'{pn}', inline=True)
+        embed.add_field(name=f'{nr} {pn}', value=f'{pn}', inline=True)
     await ctx.send(embed=embed)
     await pconn.close()
     
@@ -323,7 +323,7 @@ async def moves(ctx):
 @bot.command()
 async def select(ctx, val):
     pconn = await asyncpg.connect(dburl)
-    await pconn.execute("UPDATE pokes SET select = 0 WHERE selected = 1 AND ownerid = {0}".format(ctx.author.id, val))
+    await pconn.execute("UPDATE pokes SET selected = 0 WHERE selected = 1 AND ownerid = {0}".format(ctx.author.id, val))
     pque = '''UPDATE pokes SET selected = 1 WHERE ownerid = {0} and pnum = {1}'''.format(ctx.author.id, val)
     pnum = await pconn.execute(pque)
     await ctx.send("You have successfully selected your No. {0} Pokemon".format(val))
