@@ -245,44 +245,44 @@ async def start_journey(ctx):
     reaction, user = await bot.wait_for("reaction_add", check=check, timeout=1234) # some timeout in seconds
     await ctx.send(f"You have selected {react_to_starter[reaction.emoji]} as your starter!")
     await ctx.send(react_to_starter[reaction.emoji])
-    def pred(m):
-        return m.author == message.author and m.channel == message.channel
-    answer1 = (react_to_starter[reaction.emoji])
-    values = ["Flowing", "Flire", "Aquino"]
-    if (answer1) in values:
-        pconn = await bot.db.acquire()
-        hpiv = random.randint(1, 31)
-        atkiv = random.randint(1, 31)
-        defiv = random.randint(1, 31)
-        spaiv = random.randint(1, 31)
-        spdiv = random.randint(1, 31)
-        speiv = random.randint(1, 31)
-        nature = random.choice(natlist)
-        tackle = 'tackle'
-        msg = await ctx.channel.send("Creating Database")
-        await msg.edit(content="Registration Complete!!")
+	def pred(m):
+		return m.author == message.author and m.channel == message.channel
+	answer1 = (react_to_starter[reaction.emoji])
+	values = ["Flowing", "Flire", "Aquino"]
+	if (answer1) in values:
+		pconn = await bot.db.acquire()
+		hpiv = random.randint(1, 31)
+		atkiv = random.randint(1, 31)
+		defiv = random.randint(1, 31)
+		spaiv = random.randint(1, 31)
+		spdiv = random.randint(1, 31)
+		speiv = random.randint(1, 31)
+		nature = random.choice(natlist)
+		tackle = 'tackle'
+		msg = await ctx.channel.send("Creating Database")
+		await msg.edit(content="Registration Complete!!")
 
-        query2 = '''
-            INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, hitem, exp, nature, expcap, poknick)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)'''
+		query2 = '''
+		INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, hitem, exp, nature, expcap, poknick)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)'''
 
-        args = (answer1, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 5, ctx.author.id, 1, 0, tackle, tackle, tackle, tackle, 'None', 1, nature, 35, 'None')
-        pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = {}".format(ctx.author.id))
-        nrecord = [record['u_id'] for record in pk1]
-        if ctx.author.id in nrecord:
-            await ctx.send('you have already registered')
-            return;
-        else:
-            await pconn.execute(query2, *args)
-            query3 = '''
-            INSERT INTO users (u_id, redeems, evpoints, tnick, upvotepoints)
-            VALUES ($1, $2, $3, $4, $5)
-            '''
+		args = (answer1, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 5, ctx.author.id, 1, 0, tackle, tackle, tackle, tackle, 'None', 1, nature, 35, 'None')
+		pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = {}".format(ctx.author.id))
+		nrecord = [record['u_id'] for record in pk1]
+		if ctx.author.id in nrecord:
+			await ctx.send('you have already registered')
+			return;
+		else:
+			await pconn.execute(query2, *args)
+			query3 = '''
+			INSERT INTO users (u_id, redeems, evpoints, tnick, upvotepoints)
+			VALUES ($1, $2, $3, $4, $5)
+			'''
 
-            args2 = (ctx.author.id, 0, 0, 'None', 0)
-            await pconn.execute(query3, *args2)
-            await ctx.channel.send("Records successfully Added\nGoodluck!")
-            await pconn.close()
+			args2 = (ctx.author.id, 0, 0, 'None', 0)
+			await pconn.execute(query3, *args2)
+			await ctx.channel.send("Records successfully Added\nGoodluck!")
+			await pconn.close()
 
 
 
