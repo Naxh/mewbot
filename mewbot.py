@@ -293,7 +293,7 @@ async def pokemon(ctx):
     precord = [record['pnum'] for record in pk1]	   
     embed = discord.Embed(title='Your Pokemon List')	    
     for pn in precord:
-	nr = (nrecord[pn])
+	nr = nrecord[pn]
 	embed.add_field(name=f'󠂪󠂪󠂪󠂪{nr}󠂪󠂪', value=f"Number-{pn}", inline=False)
     embed.set_footer(text='Upvote the Bot!')
     await ctx.send(embed=embed)
