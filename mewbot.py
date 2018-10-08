@@ -133,7 +133,7 @@ async def invite(ctx):
 
     #invite link
     embed.add_field(name="Invite", value="[Invite MewBot](https://discordapp.com/api/oauth2/authorize?client_id=493045795445276682&permissions=8&scope=bot)")
-
+    embed.add_field(name="User Count", value=f"{len(bot.users)}")
     await ctx.send(embed=embed)
 
 @bot.command()
@@ -577,17 +577,18 @@ async def redeem(ctx, val):
         pque = '''SELECT MAX(pnum) FROM pokes WHERE ownerid = {}'''.format(ctx.author.id)
         rque = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
         rnum = await tconn.fetchval(rque)
+        rnat = random.choice(natlist)
         if rnum >= 1:
             pnum = await pconn.fetchval(pque)
             rnum-=1
             pnum+=1
             rquery = '''UPDATE users SET redeems = {0} WHERE u_id = {1}'''.format(rnum, ctx.author.id)
             query2 = '''
-                INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, hitem, exp)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
+                INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, hitem, exp, nature, expcap, poknick)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)
                 '''
 
-            args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 1, ctx.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 0)
+            args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 1, ctx.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 0, rnat, 35,'None')
             await ctx.channel.send(f"Here's your {val}!")
             await pconn.execute(query2, *args)
             await tconn.close()
