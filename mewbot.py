@@ -416,16 +416,16 @@ async def info(ctx):
         pAb = 'Eternal Rain'
         irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
     else:
-        try:
-            irul = 'https://img.pokemondb.net/artwork/vector/' + pn + '.png'
+	try:
+		irul = 'https://img.pokemondb.net/artwork/vector/' + pn + '.png'
         except TypeError as e:
-            await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
+		await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 	pns = str(pn)
 	r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
 	rJson = r.json()
-        types = [t['type']['name'] for t in rJson['types']]
-        tlist = ", ".join(types)
-        pAb = rJson['abilities'][0]['ability']['name']
+	types = [t['type']['name'] for t in rJson['types']]
+	tlist = ", ".join(types)
+	pAb = rJson['abilities'][0]['ability']['name']
         pWeight = rJson['weight']/10
         pDexnum = rJson['id']
         pokemonSpeed = rJson['stats'][0]['base_stat']
