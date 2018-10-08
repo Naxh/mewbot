@@ -35,7 +35,11 @@ dburl = os.environ['DATABASE_URL']
 
 bot.remove_command('help')
 #db connect
-
+@bot.listen()
+async def on_connect():
+	if not hasattr(bot, 'db'):
+		bot.db = await asyncpg.create_pool(dburl)
+		
 @bot.listen()
 async def on_ready():
     print('Logged in as')
@@ -187,7 +191,7 @@ async def on_message(message):
         #db code starts here
 
 
-        pconn = await asyncpg.connect(dburl)
+        pconn = await bot.db.acquire()
         hpiv = random.randint(1, 31)
         atkiv = random.randint(1, 31)
         defiv = random.randint(1, 31)
@@ -246,8 +250,7 @@ async def start_journey(ctx):
     answer1 = (react_to_starter[reaction.emoji])
     values = ["Flowing", "Flire", "Aquino"]
     if (answer1) in values:
-        tconn = await asyncpg.connect(dburl)
-        pconn = await asyncpg.connect(dburl)
+        pconn = await bot.db.acquire()
         hpiv = random.randint(1, 31)
         atkiv = random.randint(1, 31)
         defiv = random.randint(1, 31)
@@ -277,16 +280,15 @@ async def start_journey(ctx):
             '''
 
             args2 = (ctx.author.id, 0, 0, 'None', 0)
-            await tconn.execute(query3, *args2)
+            await pconn.execute(query3, *args2)
             await ctx.channel.send("Records successfully Added\nGoodluck!")
-            await tconn.close()
             await pconn.close()
 
 
 
 @bot.command()
 async def pokemon(ctx):
-	pconn = await asyncpg.connect(dburl)
+	pconn = await bot.db.acquire()
 	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {} ORDER BY pnum".format(ctx.author.id)
 	pk1 = await pconn.fetch(nquery)
 	nrecord = [record['pokname'] for record in pk1]
@@ -302,7 +304,7 @@ async def pokemon(ctx):
     
 @bot.command()
 async def moves(ctx):
-    pconn = await asyncpg.connect(dburl)
+    pconn = await bot.db.acquire()
     m1query = "SELECT move1 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
     m2query = "SELECT move2 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
     m3query = "SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
@@ -324,7 +326,7 @@ async def moves(ctx):
     
 @bot.command()
 async def select(ctx, val):
-    pconn = await asyncpg.connect(dburl)
+    pconn = await bot.db.acquire()
     await pconn.execute("UPDATE pokes SET selected = 0 WHERE selected = 1 AND ownerid = {0}".format(ctx.author.id, val))
     pque = '''UPDATE pokes SET selected = 1 WHERE ownerid = {0} and pnum = {1}'''.format(ctx.author.id, val)
     pnum = await pconn.execute(pque)
@@ -362,7 +364,7 @@ async def inspire(ctx):
 
 @bot.command()
 async def info(ctx):
-	pconn = await asyncpg.connect(dburl)
+	pconn = await bot.db.acquire()
 	pquery = "SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
 	atquery = "SELECT atkiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
 	dequery = "SELECT defiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
@@ -589,26 +591,26 @@ async def pokedex(ctx, *, val):
 @bot.listen()
 async def on_guild_join(guild):
     if (len(guild.members) >= 50):
-        tconn = await asyncpg.connect(dburl)
+        pconn = await bot.db.acquire()
         query = '''UPDATE users SET redeems = 10 WHERE u_id = {}'''.format(guild.owner.id)
         await tconn.execute(query)
         await ctx.guild.owner.send("You have Received 10 Redeems for Adding me :smile:!,.. but remove me and it's gone :cry:")
-        await tconn.close()
+        await pconn.close()
     else:
         return
 @bot.listen()
 async def on_guild_remove(guild):
-    tconn = await asyncpg.connect(dburl)
+    pconn = await bot.db.acquire()
     query = '''UPDATE users SET redeems = 0 WHERE u_id = {}'''.format(guild.owner.id)
     await tconn.execute(query)
     await guild.owner.send("Goodbye to 10 Redeems :cry:")
-    await tconn.close()
+    await pconn.close()
 
 @bot.command()
 async def redeem(ctx, val):
     val = val.capitalize()
     if val in pList:
-        pconn = await asyncpg.connect(dburl)
+        pconn = await bot.db.acquire()
         hpiv = random.randint(1, 31)
         atkiv = random.randint(1, 31)
         defiv = random.randint(1, 31)
@@ -649,8 +651,7 @@ async def redeem(ctx, val):
 ##########################################################################
 @bot.command()
 async def trade(ctx, user: discord.Member):
-    pconn = await asyncpg.connect(dburl)
-    tconn = await asyncpg.connect(dburl)
+    pconn = await bot.db.acquire()
     await ctx.channel.send(f"<@{ctx.author.id}> has began a trade with <@{user.id}>.")
     await ctx.channel.send (f"Trade between {ctx.author.name} and {user.name}, {user.name} type `;accept trade` to accept")
     emsg = await ctx.send(f"{ctx.author.name} is offering: \n{user.name} is offering: \nUse ``;addc credit amount>`` for credits and ``;addp poke number`` for pokemon")
@@ -664,8 +665,8 @@ async def trade(ctx, user: discord.Member):
         if tmsg.content.startswith(';addc'):
             cred = tmsg.split()
             credamt = int(cred[1])
-            adderc = await tconn.fetchval(f'SELECT credits FROM trainers WHERE u_id = {msg.author.id}')
-            getterc = await tconn.fetchval(f'SELECT credits FROM trainers WHERE u_id = {uauthor.id}')
+            adderc = await pconn.fetchval(f'SELECT credits FROM trainers WHERE u_id = {msg.author.id}')
+            getterc = await pconn.fetchval(f'SELECT credits FROM trainers WHERE u_id = {uauthor.id}')
             if adderc < credamt: 
                 return;
             acred = acred - credamt
@@ -687,19 +688,19 @@ async def trade(ctx, user: discord.Member):
                 return confirmer == cauthor.id and receiver == uauthor.id
             cmsg = await bot.wait_for('message', check=ccheck, timeout=65)
             if cmsg == ';confirm' and cmsg.author.id == cauthor.id and uauthor.id:
-                await tconn.execute(acquery)
-                await tconn.execute(gcquery)
+                await pconn.execute(acquery)
+                await pconn.execute(gcquery)
                 await pconn.execute(cquery)
                 await pconn.close()
-                await tconn.close()
+                await pconn.close()
     elif msg.content.startswith(';deny'):
-        await msg.channe.send(f"<@{msg.author.id}> has cancelled the trade")
+        await msg.channel.send(f"<@{msg.author.id}> has cancelled the trade")
         return
 
 
 @bot.command()
 async def pexec(ctx, *, val):
-    pconn = await asyncpg.connect(dburl)
+    pconn = await bot.db.acquire()
     if ctx.author.id == 358293206900670467:
         await pconn.execute(val)
     else:
@@ -707,7 +708,7 @@ async def pexec(ctx, *, val):
 
 @bot.command()
 async def texec(ctx, *, val):
-    tconn = await asyncpg.connect(dburl)
+    pconn = await bot.db.acquire()
     if ctx.author.id == 358293206900670467:
         await tconn.execute(val)
     else:
@@ -731,14 +732,14 @@ async def evaluate(ctx, *, code: str):
         await bot.say(python.format(type(err).__name__ + ": " + str(error)))
         return
 
-    await bot.say(f"```py\n{result}\n```")
+    await ctx.send(f"```py\n{result}\n```")
 
 #############################################################################3
 ###333333333333333333battles###########################333
 #####################33333333nothing goes here
 @bot.command()
 async def battle(ctx, user: discord.Member):
-    pconn = await asyncpg.connect(dburl)
+    pconn = await bot.db.acquire()
     if user == None:
             await ctx.channel.send("You can not battle yourself")
             return
