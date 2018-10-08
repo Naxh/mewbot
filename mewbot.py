@@ -376,6 +376,7 @@ async def info(ctx):
 
     nature = await pconn.fetchval(natque)
     pn = await pconn.fetchval(pquery)
+    await ctx.channel.send(pn)
     atkiv = await pconn.fetchval(atquery)
     defiv = await pconn.fetchval(dequery)
     spatkiv = await pconn.fetchval(spaquery)
