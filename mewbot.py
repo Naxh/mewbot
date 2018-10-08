@@ -201,10 +201,10 @@ async def on_message(message):
         plevel = random.randint(1, 100)
         nature = random.choice(natlist)
         expc = (plevel ** 3)
-        pque = '''SELECT MAX(pnum) FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
+        pque = '''SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
         pnum = await pconn.fetchval(pque)
         try:
-            pnum += 1
+			pnum + 1
         except TypeError as e:
             await message.channel.send("You need to Start with `start`")
         query2 = '''
@@ -617,21 +617,20 @@ async def redeem(ctx, val):
         spaiv = random.randint(1, 31)
         spdiv = random.randint(1, 31)
         speiv = random.randint(1, 31)
-        pque = '''SELECT MAX(pnum) FROM pokes WHERE ownerid = {}'''.format(ctx.author.id)
+        pque = '''SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {}'''.format(ctx.author.id)
         rque = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
         rnum = await pconn.fetchval(rque)
         rnat = random.choice(natlist)
         if rnum >= 1:
             pnum = await pconn.fetchval(pque)
             rnum1 = rnum - 1
-            pnum1 = pnum + 1
             await pconn.execute('UPDATE users SET redeems = {0} WHERE u_id = {1}'.format(rnum1, ctx.author.id))
             query2 = '''
                 INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, hitem, exp, nature, expcap, poknick)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)
                 '''
 
-            args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 1, ctx.author.id, pnum1, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 0, rnat, 35,'None')
+            args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 1, ctx.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 0, rnat, 35,'None')
             await ctx.channel.send(f"Here's your {val}!")
             await pconn.execute(query2, *args)
             await pconn.close()
