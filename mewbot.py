@@ -377,7 +377,6 @@ async def info(ctx):
 
     nature = await pconn.fetchval(natque)
     pn = await pconn.fetchval(pquery)
-    await ctx.send(type(pn))
     atkiv = await pconn.fetchval(atquery)
     defiv = await pconn.fetchval(dequery)
     spatkiv = await pconn.fetchval(spaquery)
@@ -417,11 +416,11 @@ async def info(ctx):
         irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
     else:
         try:
-            irul = 'https://img.pokemondb.net/artwork/vector/' + pn + '.png'
+            irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
         except TypeError as e:
             await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
         
-        r = requests.get('http://pokeapi.co/api/v2/pokemon/'+pn+'/')
+        r = requests.get('http://pokeapi.co/api/v2/pokemon/'+pn.lower()+'/')
         rJson = r.json()
         types = [t['type']['name'] for t in rJson['types']]
         tlist = ", ".join(types)
