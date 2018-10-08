@@ -417,14 +417,14 @@ async def info(ctx):
     else:
         try:
             irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
-        except TypeError as e:
-            await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
+	except TypeError as e:
+		await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 	r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pn.lower() +'/')
 	rJson = r.json()
-        types = [t['type']['name'] for t in rJson['types']]
-        tlist = ", ".join(types)
-        pAb = rJson['abilities'][0]['ability']['name']
-        pWeight = rJson['weight']/10
+	types = [t['type']['name'] for t in rJson['types']]
+	tlist = ", ".join(types)
+	pAb = rJson['abilities'][0]['ability']['name']
+	pWeight = rJson['weight']/10
         pDexnum = rJson['id']
         pokemonSpeed = rJson['stats'][0]['base_stat']
         pokemonSpd = rJson['stats'][1]['base_stat']
