@@ -121,8 +121,10 @@ async def botinfo(ctx):
     embed.add_field(name="User Count", value=f"{len(bot.users)}")
 
     embed.add_field(name="Discord Version", value=discord.__version__)
+    mem = psutil.virtual_memory()
+    cmem = (mem.available/1000000000)
 
-    embed.add_field(name="CPU Statistics", value=f"\nCPU Count **{psutil.cpu_count()}**\nRAM **{psutil.virtual_memory()}**")
+    embed.add_field(name="CPU Statistics", value=f"\nCPU Count **{psutil.cpu_count()}**\nRAM **{cmem}**")
     # give users a link to invite thsi bot to their server
     embed.add_field(name="Invite", value="[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=493045795445276682&permissions=1342434418&scope=bot)")
 
@@ -523,7 +525,7 @@ async def info(ctx):
 
 
 @bot.command()
-async def pokedex(ctx, *, val):
+async def pokedex(ctx, val):
 	
 	val = val.capitalize()
 	if ' ' in val:
