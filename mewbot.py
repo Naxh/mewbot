@@ -323,6 +323,7 @@ async def moves(ctx):
 @bot.command()
 async def select(ctx, val):
     pconn = await asyncpg.connect(dburl)
+    await pconn.execute("UPDATE pokes SET select = 0 WHERE selected = 1 AND ownerid = {0}'''.format(ctx.author.id, val)
     pque = '''UPDATE pokes SET selected = 1 WHERE ownerid = {0} and pnum = {1}'''.format(ctx.author.id, val)
     pnum = await pconn.execute(pque)
     await ctx.send("You have successfully selected your No. {0} Pokemon".format(val))
@@ -562,7 +563,7 @@ async def on_guild_remove(guild):
     await guild.owner.send("Goodbye to 10 Redeems :cry:")
     await tconn.close()
 
-@bot.command
+@bot.command()
 async def redeem(ctx, val):
     if val in pList:
         pconn = await asyncpg.connect(dburl)
