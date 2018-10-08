@@ -603,6 +603,7 @@ async def on_guild_remove(guild):
 
 @bot.command()
 async def redeem(ctx, val):
+    val = val.capitalize()
     if val in pList:
         pconn = await asyncpg.connect(dburl)
         tconn = await asyncpg.connect(dburl)
