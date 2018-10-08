@@ -416,7 +416,7 @@ async def info(ctx):
 		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 	else:
 		try:
-			irul = 'https://img.pokemondb.net/artwork/vector/' + pn + '.png'
+			irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
 		except TypeError as e:
 			await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 		pns = str(pn)
@@ -514,11 +514,11 @@ async def info(ctx):
 
 	embed.add_field(name="Pokemon Level", value=f"{plevel}")
 	embed.add_field(name="Hit Points (HP)", value=f"{hp} | {hpiv} IV")
-	embed.add_field(name="Attack", value=f"{attack} | {atkiv} IV")
-	embed.add_field(name="Defense", value=f"{defense} | {defiv} IV")
-	embed.add_field(name="Special Attack", value=f"{specialattack} | {spatkiv} IV")
-	embed.add_field(name="Special Defense", value=f"{specialdefense} | {spdefiv} IV")
-	embed.add_field(name="Speed", value=f"{speed} | {speediv} IV")
+	embed.add_field(name="Attack", value=f"{round(attack)} | {atkiv} IV")
+	embed.add_field(name="Defense", value=f"{round(defense)} | {defiv} IV")
+	embed.add_field(name="Special Attack", value=f"{round(specialattack)} | {spatkiv} IV")
+	embed.add_field(name="Special Defense", value=f"{round(specialdefense)} | {spdefiv} IV")
+	embed.add_field(name="Speed", value=f"{speed} | {round(speediv)} IV")
 	embed.add_field(name="Held Item", value=f"{hi}")
 	embed.set_image(url=irul)
 	await ctx.send(embed=embed)
