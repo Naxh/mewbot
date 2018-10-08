@@ -121,7 +121,7 @@ async def botinfo(ctx):
 
     embed.add_field(name="Discord Version", value=discord.__version__)
 
-    embed.add_field(name="CPU Statistics", value=f"\nCPU Count **{psutil.cpu_count()}**\n\n CPU Frequency **{psutil.cpu_freq(percpu=True)}**\n\nRAM **{psutil.virtual_memory()}**")
+    embed.add_field(name="CPU Statistics", value=f"\nCPU Count **{psutil.cpu_count()}**\nRAM **{psutil.virtual_memory()}**")
     # give users a link to invite thsi bot to their server
     embed.add_field(name="Invite", value="[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=493045795445276682&permissions=1342434418&scope=bot)")
 
