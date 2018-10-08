@@ -621,7 +621,7 @@ async def redeem(ctx, val):
             pnum = await pconn.fetchval(pque)
             rnum1 = rnum - 1
             pnum1 = pnum - 1
-            rquery = '''UPDATE users SET redeems = {0} WHERE u_id = {1}'''.format(rnum1, ctx.author.id)
+            await pconn.execute('UPDATE users SET redeems = {0} WHERE u_id = {1}'.format(rnum1, ctx.author.id))
             query2 = '''
                 INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, hitem, exp, nature, expcap, poknick)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)
@@ -629,7 +629,6 @@ async def redeem(ctx, val):
 
             args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 1, ctx.author.id, pnum1, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 0, rnat, 35,'None')
             await ctx.channel.send(f"Here's your {val}!")
-	    await pconn.execute(rquery)
             await pconn.execute(query2, *args)
             await tconn.close()
             await pconn.close()
