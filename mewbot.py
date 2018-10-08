@@ -1,5 +1,4 @@
-
-			#work with python 3.7
+#work with python 3.7
 import discord
 from boto.s3.connection import S3Connection
 import time
@@ -389,7 +388,7 @@ async def info(ctx):
     hi = await pconn.fetchval(hiquery)
 	
     if pn == 'Flowing':
-        pokemonSpeed = 73
+		pokemonSpeed = 73
         pokemonAtk = 99
         pokemonDef = 79
         pokemonSpa = 120
