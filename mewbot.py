@@ -125,7 +125,7 @@ async def botinfo(ctx):
 
     embed.add_field(name="CPU Statistics", value=f"\nCPU Count **{psutil.cpu_count()}**\nRAM **{cmem}**")
     # give users a link to invite thsi bot to their server
-    embed.add_field(name="Invite", value="[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=493045795445276682&permissions=1342434418&scope=bot)")
+    embed.add_field(name="Invite", value="[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=493045795445276682&permissions=388160&scope=bot)")
 
     await ctx.send(embed=embed)
 
@@ -134,7 +134,7 @@ async def invite(ctx):
     embed = discord.Embed(title="Invite Me", description="The invite link for MewBot")
 
     #invite link
-    embed.add_field(name="Invite", value="[Invite MewBot](https://discordapp.com/api/oauth2/authorize?client_id=493045795445276682&permissions=8&scope=bot)")
+    embed.add_field(name="Invite", value="[Invite MewBot](https://discordapp.com/api/oauth2/authorize?client_id=493045795445276682&permissions=388160&scope=bot)")
     embed.add_field(name="User Count", value=f"{len(bot.users)}")
     await ctx.send(embed=embed)
 
@@ -168,7 +168,7 @@ async def status(ctx):
 #plevel = random.randint(1, 100)
 @bot.listen()
 async def on_message(message):
-    vowels = ['a', 'k', 'e', 't', 'u', 'i', 'o', 'l', 'o', 'm', 'y', 'i', 'e']
+    vowels = ['a', 'k', 'e', 't', 'u', 'i', 'o', 'l', 'o', 'm', 'y', 'i', 'e', 'z', 'x', 'b', 'g', 'l', 'a', 'w', 'q']
     vl = random.choice(vowels)
     if message.content.startswith(vl):
         channel = message.channel
