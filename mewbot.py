@@ -229,22 +229,22 @@ react_to_starter = {
 }
 @bot.command(name="start")
 async def start_journey(ctx):
-    embed = discord.Embed(title="Select a Starter!", description="Choose any of the Starters!")
-    embed.add_field(name="...", value="You've been hypnotized by Mew, and instead of the normal starters, you are forced to pick between \n-Flowin, the Grass type fakemon, \n-Flire the fire type fakemon and \n-Aquino, the water type.")
-    embed.set_thumbnail(url="https://nerdist.com/wp-content/uploads/2016/02/Screen-Shot-2016-02-02-at-12.05.40-PM-615x346.png")
-    embed.set_image(url="https://pm1.narvii.com/6252/3746bb43045886ce9ec8498a6f7d96f520ed6341_hq.jpg") # you cannot set two images. either put one as a thumbnail or remove it
-    embed.add_field(name="Pick a Starter!", value="...")
-    start_msg = await ctx.send(embed=embed)
-    for r in react_to_starter:
-        await start_msg.add_reaction(r)
-    def check(r, u):
-        mcheck =( r.message.id == start_msg.id)
-        rcheck = (r.emoji in react_to_starter)
-        ucheck = (u == ctx.author)
-        return mcheck and rcheck and ucheck
-    reaction, user = await bot.wait_for("reaction_add", check=check, timeout=1234) # some timeout in seconds
-    await ctx.send(f"You have selected {react_to_starter[reaction.emoji]} as your starter!")
-    await ctx.send(react_to_starter[reaction.emoji])
+	embed = discord.Embed(title="Select a Starter!", description="Choose any of the Starters!")
+	embed.add_field(name="...", value="You've been hypnotized by Mew, and instead of the normal starters, you are forced to pick between \n-Flowin, the Grass type fakemon, \n-Flire the fire type fakemon and \n-Aquino, the water type.")
+	embed.set_thumbnail(url="https://nerdist.com/wp-content/uploads/2016/02/Screen-Shot-2016-02-02-at-12.05.40-PM-615x346.png")
+	embed.set_image(url="https://pm1.narvii.com/6252/3746bb43045886ce9ec8498a6f7d96f520ed6341_hq.jpg") # you cannot set two images. either put one as a thumbnail or remove it
+	embed.add_field(name="Pick a Starter!", value="...")
+	start_msg = await ctx.send(embed=embed)
+	for r in react_to_starter:
+		await start_msg.add_reaction(r)
+	def check(r, u):
+		mcheck =( r.message.id == start_msg.id)
+		rcheck = (r.emoji in react_to_starter)
+		ucheck = (u == ctx.author)
+		return mcheck and rcheck and ucheck
+	reaction, user = await bot.wait_for("reaction_add", check=check, timeout=1234) # some timeout in seconds
+	await ctx.send(f"You have selected {react_to_starter[reaction.emoji]} as your starter!")
+	await ctx.send(react_to_starter[reaction.emoji])
 	def pred(m):
 		return m.author == message.author and m.channel == message.channel
 	answer1 = (react_to_starter[reaction.emoji])
