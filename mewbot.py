@@ -286,17 +286,17 @@ async def start_journey(ctx):
 
 @bot.command()
 async def pokemon(ctx):
-    pconn = await asyncpg.connect(dburl)
-    nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {} ORDER BY pnum".format(ctx.author.id)
-    pk1 = await pconn.fetch(nquery)
-    nrecord = [record['pokname'] for record in pk1]
-    precord = [record['pnum'] for record in pk1]	   
-    embed = discord.Embed(title='Your Pokemon List')	    
-    for pn in precord:
-	embed.add_field(name=f'󠂪󠂪󠂪󠂪{nrecrod}{precord}󠂪󠂪', value=f"Number-{pn}", inline=False)
-	embed.set_footer(text='Upvote the Bot!')
-    await ctx.send(embed=embed)
-    await pconn.close()
+	pconn = await asyncpg.connect(dburl)
+	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {} ORDER BY pnum".format(ctx.author.id)
+	pk1 = await pconn.fetch(nquery)
+	nrecord = [record['pokname'] for record in pk1]
+	precord = [record['pnum'] for record in pk1]
+	embed = discord.Embed(title='Your Pokemon List')
+	for pn in precord:
+		nr = nrecord[1-pn]
+		nr2 = nrecord[pn]
+		embed.add_Field(name=f'{pn nrecord precord nr nr2}', value=f'{pn}', inline=False)
+	await ctx.send(embed=embed)
     
     
     
