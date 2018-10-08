@@ -420,8 +420,7 @@ async def info(ctx):
         except TypeError as e:
             await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 	pns = pn.lower()
-        
-        r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pns +'/')
+	r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pns +'/')
         rJson = r.json()
         types = [t['type']['name'] for t in rJson['types']]
         tlist = ", ".join(types)
@@ -511,6 +510,7 @@ async def info(ctx):
     info.defense = defense
 
     embed = discord.Embed(title=f"Your Selected {pn}")
+    embed.add_field(name="Pokemon Nature", value=f'{nature}')
     embed.add_field(name="Pokemon Level", value=f"{plevel}")
     embed.add_field(name="Hit Points (HP)", value=f"{hp} | {hpiv} IV")
     embed.add_field(name="Attack", value=f"{attack} | {atkiv} IV")
