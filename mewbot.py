@@ -528,24 +528,55 @@ async def info(ctx):
 async def pokedex(ctx, *, val):
     if ' ' in val:
         val = val.replace(' ', '-')
-    r = requests.get('http://pokeapi.co/api/v2/pokemon/' + val + '/')
-    rJson = r.json()
-    pName = rJson['name']
-    types = [t['type']['name'] for t in rJson['types']]
-    tlist = ", ".join(types)
-    pAb = rJson['abilities'][0]['ability']['name']
-    pWeight = rJson['weight']/10
-    pDexnum = rJson['id']
-    pokemonSpeed = rJson['stats'][0]['base_stat']
-    pokemonSpd = rJson['stats'][1]['base_stat']
-    pokemonSpa = rJson['stats'][2]['base_stat']
-    pokemonDef = rJson['stats'][3]['base_stat']
-    pokemonAtk = rJson['stats'][4]['base_stat']
-    pokemonHp = rJson['stats'][5]['base_stat']
+    if val == 'Flowing':
+	    pokemonSpeed = 73
+	    pokemonAtk = 99
+	    pokemonDef = 79
+	    pokemonSpa = 120
+	    pokemonSpd =110
+	    pokemonHp = 95
+	    pAb = 'Sizzling Growth'
+	    irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
+	elif val == 'Flire':
+	    pokemonSpeed = 110
+	    pokemonAtk = 120
+	    pokemonDef = 95
+	    pokemonSpa = 79
+	    pokemonSpd =99
+	    pokemonHp = 73
+	    pAb = 'Scorched feet'
+	    irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
+
+	elif val == 'Aquino':
+	    pokemonSpeed = 95
+	    pokemonAtk = 79
+	    pokemonDef = 120
+	    pokemonSpa = 73
+	    pokemonSpd = 110
+	    pokemonHp = 99
+	    pAb = 'Prehistoric Rain'
+	    irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
+    else:
+        r = requests.get('http://pokeapi.co/api/v2/pokemon/' + val + '/')
+        rJson = r.json()
+        iurl = ('https://img.pokemondb.net/artwork/vector/' + val + '.png')
+        pName = rJson['name']
+        types = [t['type']['name'] for t in rJson['types']]
+        tlist = ", ".join(types)
+        pAb = rJson['abilities'][0]['ability']['name']
+        pWeight = rJson['weight']/10
+        pDexnum = rJson['id']
+        pokemonSpeed = rJson['stats'][0]['base_stat']
+        pokemonSpd = rJson['stats'][1]['base_stat']
+        pokemonSpa = rJson['stats'][2]['base_stat']
+        pokemonDef = rJson['stats'][3]['base_stat']
+        pokemonAtk = rJson['stats'][4]['base_stat']
+        pokemonHp = rJson['stats'][5]['base_stat']
+        
     embed = discord.Embed(title=val.capitalize(), description="")
     embed.add_field(name="Pokemon information", value=f"{pName.capitalize()} \n**Ability**: {pAb} \n**Types**: {tlist} \n**Weight**: {pWeight} Kgs \n**Pokedex Number**: {pDexnum}")
     embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk} \nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
-    embed.set_image(url='https://img.pokemondb.net/artwork/vector/' + val + '.png')
+    embed.set_image(url=iurl)
 
     await ctx.send(embed=embed)
 
