@@ -295,7 +295,7 @@ async def pokemon(ctx):
 	for pn in precord:
 		nr = nrecord[1-pn]
 		nr2 = nrecord[pn]
-		embed.add_Field(name=f'{pn} {nrecord} {precord} {nr} {nr2}', value=f'{pn}', inline=False)
+		embed.add_field(name=f'{pn} {nrecord} {precord} {nr} {nr2}', value=f'{pn}', inline=False)
 	await ctx.send(embed=embed)
     
     
