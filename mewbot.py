@@ -294,8 +294,7 @@ async def pokemon(ctx):
 	embed = discord.Embed(title='Your Pokemon List')
 	for pn in precord:
 		nr = nrecord[1-pn]
-		nr2 = nrecord[pn]
-		embed.add_field(name=f'{pn} {nrecord} {precord} {nr} {nr2}', value=f'{pn}', inline=False)
+		embed.add_field(name=f'{pn} {nrecord} {precord} {nr}', value=f'{pn}', inline=False)
 	await ctx.send(embed=embed)
     
     
