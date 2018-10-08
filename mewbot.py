@@ -292,9 +292,8 @@ async def pokemon(ctx):
 	nrecord = [record['pokname'] for record in pk1]
 	precord = [record['pnum'] for record in pk1]
 	embed = discord.Embed(title='Your Pokemon List')
-	for pn in precord:
-		nr = nrecord[1-pn]
-		embed.add_field(name=f'{nr}', value=f'{pn}', inline=False)
+	for precord
+	embed.add_field(name=f'{nr}', value=f'{pn}', inline=False)
 	await ctx.send(embed=embed)
     
     
@@ -608,7 +607,6 @@ async def redeem(ctx, val):
     val = val.capitalize()
     if val in pList:
         pconn = await asyncpg.connect(dburl)
-        tconn = await asyncpg.connect(dburl)
         hpiv = random.randint(1, 31)
         atkiv = random.randint(1, 31)
         defiv = random.randint(1, 31)
@@ -622,7 +620,7 @@ async def redeem(ctx, val):
         if rnum >= 1:
             pnum = await pconn.fetchval(pque)
             rnum1 = rnum - 1
-            pnum1 = pnum - 1
+            pnum1 = pnum + 1
             await pconn.execute('UPDATE users SET redeems = {0} WHERE u_id = {1}'.format(rnum1, ctx.author.id))
             query2 = '''
                 INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, hitem, exp, nature, expcap, poknick)
@@ -632,7 +630,6 @@ async def redeem(ctx, val):
             args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 1, ctx.author.id, pnum1, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 0, rnat, 35,'None')
             await ctx.channel.send(f"Here's your {val}!")
             await pconn.execute(query2, *args)
-            await tconn.close()
             await pconn.close()
             
 
