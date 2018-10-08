@@ -389,32 +389,31 @@ async def info(ctx):
 	
     if pn == 'Flowing':
 		pokemonSpeed = 73
-        pokemonAtk = 99
-        pokemonDef = 79
-        pokemonSpa = 120
-        pokemonSpd =110
-        pokemonHp = 95
-        pAb = 'Sizzling Growth'
-        irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
+		pokemonAtk = 99
+		pokemonDef = 79
+		pokemonSpa = 120
+		pokemonSpd =110
+		pokemonHp = 95
+		pAb = 'Sizzling Growth'
+		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
     elif pn == 'Flire':
-        pokemonSpeed = 110
-        pokemonAtk = 120
-        pokemonDef = 95
-        pokemonSpa = 79
-        pokemonSpd =99
-        pokemonHp = 73
-        pAb = 'Scorched feet'
-        irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
-
+		pokemonSpeed = 110
+		pokemonAtk = 120
+		pokemonDef = 95
+		pokemonSpa = 79
+		pokemonSpd =99
+		pokemonHp = 73
+		pAb = 'Scorched feet'
+		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
     elif pn == 'Aquino':
-        pokemonSpeed = 95
-        pokemonAtk = 79
-        pokemonDef = 120
-        pokemonSpa = 73
-        pokemonSpd = 110
-        pokemonHp = 99
-        pAb = 'Eternal Rain'
-        irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
+		pokemonSpeed = 95
+		pokemonAtk = 79
+		pokemonDef = 120
+		pokemonSpa = 73
+		pokemonSpd = 110
+		pokemonHp = 99
+		pAb = 'Eternal Rain'
+		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 	else:
 		try:
 			irul = 'https://img.pokemondb.net/artwork/vector/' + pn + '.png'
