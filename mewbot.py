@@ -293,6 +293,7 @@ async def pokemon(ctx):
     for pn in precord:
         nr = (nrecord[1-pn])
         embed.add_field(name=f'󠂪󠂪󠂪󠂪{nr}󠂪󠂪', value=f"Number-{pn}", inline=False)
+    embed.set_footer(text='Upvote the Bot!')
     await ctx.send(embed=embed)
     await pconn.close()
     
