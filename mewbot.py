@@ -423,7 +423,7 @@ async def info(ctx):
         
         pns = str(pn)
 	r = requests.get('http://pokeapi.co/api/v2/pokemon/'+ pns.lower() +'/')
-        rJson = r.json()
+	rJson = r.json()
         types = [t['type']['name'] for t in rJson['types']]
         tlist = ", ".join(types)
         pAb = rJson['abilities'][0]['ability']['name']
