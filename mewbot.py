@@ -421,7 +421,7 @@ async def info(ctx):
         except TypeError as e:
             await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 	pns = str(pn)
-	r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
+        r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
 	rJson = r.json()
 	types = [t['type']['name'] for t in rJson['types']]
 	tlist = ", ".join(types)
