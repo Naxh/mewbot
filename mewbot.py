@@ -525,12 +525,10 @@ async def info(ctx):
 
 
 @bot.command()
-async def pokedex(ctx, val):
+async def pokedex(ctx, *, val):
 	
 	val = val.capitalize()
 	if ' ' in val:
-		
-		
 		val = val.replace(' ', '-')
 	if val == 'Flowing':
 		
@@ -578,12 +576,12 @@ async def pokedex(ctx, val):
 		pokemonAtk = rJson['stats'][4]['base_stat']
 		pokemonHp = rJson['stats'][5]['base_stat']
         
-		embed = discord.Embed(title=val.capitalize(), description="")
-		embed.add_field(name="Pokemon information", value=f"{pName.capitalize()} \n**Ability**: {pAb} \n**Types**: {tlist} \n**Weight**: {pWeight} Kgs \n**Pokedex Number**: {pDexnum}")
-		embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk} \nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
-		embed.set_image(url=iurl)
+	embed = discord.Embed(title=val.capitalize(), description="")
+	embed.add_field(name="Pokemon information", value=f"{pName.capitalize()} \n**Ability**: {pAb} \n**Types**: {tlist} \n**Weight**: {pWeight} Kgs \n**Pokedex Number**: {pDexnum}")
+	embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk} \nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
+	embed.set_image(url=iurl)
 
-		await ctx.send(embed=embed)
+	await ctx.send(embed=embed)
 
 @bot.listen()
 async def on_guild_join(guild):
