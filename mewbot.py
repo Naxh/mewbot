@@ -440,88 +440,88 @@ async def info(ctx):
 	specialattack = round((((2*pokemonSpa+spatkiv+(0/4))*plevel)/100)+5)
 	specialdefense = round((((2*pokemonSpd+spdefiv+(0/4))*plevel)/100)+5)
 	speed = round((((2*pokemonSpeed+speediv+(0/4))*plevel)/100)+5)
+	
+	if nature == 'Adamant':
+		attack = attack*1.1
+		specialattack *= 0.9
+	elif nature == 'Bold':
+		defense *= 1.1
+		attack *= 0.9
+	elif nature == 'Brave':
+		attack *= 1.1
+		speed *= 0.9
+	elif nature == 'Calm':
+		specialdefense *= 1.1
+		attack *= 0.9
+	elif nature == 'careful':
+		specialdefense *= 1.1
+		specialattack *= 0.9
+	elif nature == 'Gentle':
+		specialdefense *= 1.1
+		defense *= 0.9
+	elif nature == 'Hasty':
+		speed *= 1.1
+		defense *= 0.9
+	elif nature == 'Impish':
+		defense *= 1.1
+		specialattack *= 0.9
+	elif nature == 'Jolly':
+		speed *= 1.1
+		specialattack *= 0.9
+	elif nature == 'Lax':
+		defense *= 1.1
+		specialdefense *= 0.9
+	elif nature == 'Lonely':
+		attack *= 1.1
+		defense *= 0.9
+	elif nature == 'Mild':
+		specialattack *= 1.1
+		defense *= 0.9
+	elif nature == 'Modest':
+		specialattack *= 1.1
+		attack *= 0.9
+	elif nature == 'Naive':
+		speed *= 1.1
+		specialdefense *= 0.9
+	elif nature == 'Naughty':
+		attack *= 1.1
+		specialdefense *= 0.9
+	elif nature == 'Quiet':
+		specialattack *= 1.1
+		speed *= 0.9
+	elif nature == 'Rash':
+		specialattack *= 1.1
+		specialdefense *= 0.9
+	elif nature == 'Relaxed':
+		defense *= 1.1
+		speed *= 0.9
+	elif nature == 'Sassy':
+		specialdefense *= 1.1
+		speed *= 0.9
+	elif nature == 'Tired':
+		speed *= 1.1
+		attack *= 0.9
+		
+	info.speed = speed
+	info.hp = hp
+	info.atk = attack
+	info.spa = specialattack
+	info.spd = specialdefense
+	info.defense = defense
 
-    if nature == 'Adamant':
-        attack = attack*1.1
-        specialattack *= 0.9
-    elif nature == 'Bold':
-        defense *= 1.1
-        attack *= 0.9
-    elif nature == 'Brave':
-        attack *= 1.1
-        speed *= 0.9
-    elif nature == 'Calm':
-        specialdefense *= 1.1
-        attack *= 0.9
-    elif nature == 'careful':
-        specialdefense *= 1.1
-        specialattack *= 0.9
-    elif nature == 'Gentle':
-        specialdefense *= 1.1
-        defense *= 0.9
-    elif nature == 'Hasty':
-        speed *= 1.1
-        defense *= 0.9
-    elif nature == 'Impish':
-        defense *= 1.1
-        specialattack *= 0.9
-    elif nature == 'Jolly':
-        speed *= 1.1
-        specialattack *= 0.9
-    elif nature == 'Lax':
-        defense *= 1.1
-        specialdefense *= 0.9
-    elif nature == 'Lonely':
-        attack *= 1.1
-        defense *= 0.9
-    elif nature == 'Mild':
-        specialattack *= 1.1
-        defense *= 0.9
-    elif nature == 'Modest':
-        specialattack *= 1.1
-        attack *= 0.9
-    elif nature == 'Naive':
-        speed *= 1.1
-        specialdefense *= 0.9
-    elif nature == 'Naughty':
-        attack *= 1.1
-        specialdefense *= 0.9
-    elif nature == 'Quiet':
-        specialattack *= 1.1
-        speed *= 0.9
-    elif nature == 'Rash':
-        specialattack *= 1.1
-        specialdefense *= 0.9
-    elif nature == 'Relaxed':
-        defense *= 1.1
-        speed *= 0.9
-    elif nature == 'Sassy':
-        specialdefense *= 1.1
-        speed *= 0.9
-    elif nature == 'Tired':
-        speed *= 1.1
-        attack *= 0.9
+	embed = discord.Embed(title=f"Your Selected {pn}")
 
-    info.speed = speed
-    info.hp = hp
-    info.atk = attack
-    info.spa = specialattack
-    info.spd = specialdefense
-    info.defense = defense
-
-    embed = discord.Embed(title=f"Your Selected {pn}")
-
-    embed.add_field(name="Pokemon Level", value=f"{plevel}")
-    embed.add_field(name="Hit Points (HP)", value=f"{hp} | {hpiv} IV")
-    embed.add_field(name="Attack", value=f"{attack} | {atkiv} IV")
-    embed.add_field(name="Defense", value=f"{defense} | {defiv} IV")
-    embed.add_field(name="Special Attack", value=f"{specialattack} | {spatkiv} IV")
-    embed.add_field(name="Special Defense", value=f"{specialdefense} | {spdefiv} IV")
-    embed.add_field(name="Speed", value=f"{speed} | {speediv} IV")
-    embed.add_field(name="Held Item", value=f"{hi}")
-    embed.set_image(url=irul)
-    await ctx.send(embed=embed)
-    await pconn.close()
+	embed.add_field(name="Pokemon Level", value=f"{plevel}")
+	embed.add_field(name="Hit Points (HP)", value=f"{hp} | {hpiv} IV")
+	embed.add_field(name="Attack", value=f"{attack} | {atkiv} IV")
+	embed.add_field(name="Defense", value=f"{defense} | {defiv} IV")
+	embed.add_field(name="Special Attack", value=f"{specialattack} | {spatkiv} IV")
+	embed.add_field(name="Special Defense", value=f"{specialdefense} | {spdefiv} IV")
+	embed.add_field(name="Speed", value=f"{speed} | {speediv} IV")
+	embed.add_field(name="Held Item", value=f"{hi}")
+	embed.set_image(url=irul)
+	await ctx.send(embed=embed)
+	await pconn.close()
 
 
 @bot.command()
