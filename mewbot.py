@@ -82,7 +82,7 @@ async def trainer(ctx, user: discord.Member=None):
     rquery = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
     tquery = '''SELECT tnick FROM users WHERE u_id = {}'''.format(ctx.author.id)
     uquery = '''SELECT upvotepoints FROM users WHERE u_id = {}'''.format(ctx.author.id)
-    cquery = '''SELECT pokname FROM pokes WHERE selected = 1 AND u_id = {}'''.format(ctx.author.id)
+    cquery = '''SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(ctx.author.id)
     redeems = await tconn.fetchval(rquery)
     tnick = await tconn.fetchval(tquery)
     uppoints = await tconn.fetchval(uquery)
