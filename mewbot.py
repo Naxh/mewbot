@@ -377,6 +377,7 @@ async def info(ctx):
 
     nature = await pconn.fetchval(natque)
     pn = await pconn.fetchval(pquery)
+    await ctx.send(type(pn))
     atkiv = await pconn.fetchval(atquery)
     defiv = await pconn.fetchval(dequery)
     spatkiv = await pconn.fetchval(spaquery)
@@ -416,15 +417,16 @@ async def info(ctx):
         irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
     else:
         try:
-            irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
-	except TypeError as e:
-		await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
-	r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pn.lower() +'/')
-	rJson = r.json()
-	types = [t['type']['name'] for t in rJson['types']]
-	tlist = ", ".join(types)
-	pAb = rJson['abilities'][0]['ability']['name']
-	pWeight = rJson['weight']/10
+            irul = 'https://img.pokemondb.net/artwork/vector/' + pn + '.png'
+        except TypeError as e:
+            await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
+        
+        r = requests.get('http://pokeapi.co/api/v2/pokemon/'+pn.lower()+'/')
+        rJson = r.json()
+        types = [t['type']['name'] for t in rJson['types']]
+        tlist = ", ".join(types)
+        pAb = rJson['abilities'][0]['ability']['name']
+        pWeight = rJson['weight']/10
         pDexnum = rJson['id']
         pokemonSpeed = rJson['stats'][0]['base_stat']
         pokemonSpd = rJson['stats'][1]['base_stat']
@@ -509,7 +511,7 @@ async def info(ctx):
     info.defense = defense
 
     embed = discord.Embed(title=f"Your Selected {pn}")
-    embed.add_field(name="Pokemon Nature", value=f'{nature}')
+
     embed.add_field(name="Pokemon Level", value=f"{plevel}")
     embed.add_field(name="Hit Points (HP)", value=f"{hp} | {hpiv} IV")
     embed.add_field(name="Attack", value=f"{attack} | {atkiv} IV")
