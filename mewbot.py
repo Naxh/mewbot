@@ -232,7 +232,6 @@ async def on_message(message):
 		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
 		await pconn.execute(query2, *args)
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
-		bot.getlogger
 	#   db code goes here
 
 # None Pokemon Commands  ctx
@@ -662,7 +661,55 @@ async def redeem(ctx, val):
 
 
 
-
+##############################################################################################################################################################
+#level up
+############################
+@bot.listen()
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    if message.author.bot:
+        return
+    pconn = await bot.db.acquire()
+    lque = "SELECT expcap FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
+    pnque = "SELECT pokname FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
+    pn = await pconn.fetchval(pnque)
+    lexp = await pconn.fetchval(lque)
+    quer1 = '''SELECT (exp)+25 FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(message.author.id)
+    exp1 = await pconn.fetchval(quer1)
+    await message.channel.send(f'current exp = {exp1} <@{message.author.id}>')
+    query = '''UPDATE pokes SET exp ={} WHERE selected = 1 AND ownerid = {}'''.format(exp1, message.author.id)
+    try:
+        await pconn.execute(query)
+    except Exception as e:
+        return;
+    plque = '''SELECT (pokelevel)+1 FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(message.author.id)
+    plup = await pconn.fetchval(plque)
+    try:
+        await message.channel.send(plup)
+    except Exception as e:
+        return
+    if exp1 == lexp:
+        lupque = '''UPDATE pokes SET pokelevel = {} WHERE selected = 1 AND ownerid = {}'''.format(plup, message.author.id)
+        await message.channel.send(f"Congratulations!, your Pokemon has Leveled up to Level {plup}!")
+    r1 = requests.get('https://pokeapi.co/api/v2/pokemon/' + pn + '/')
+    r1Json = r1.json
+    pi = r1Json['id']
+    pid = int(pi)
+    r = requests.get('http://pokeapi.co/api/v2/evolution-chain/' + pid + '/')
+    rJson = r.json()
+    jsonnn_tree = objectpath.Tree(rJson['chain']['evolves_to'])
+    minr = tuple(jsonnn_tree.execute('$..min_level'))
+    min1 = minr[0]
+###############################################################################
+    jsontree = objectpath.Tree(rJson['chain']['evolves_to'][0]['species'])
+    esearch = tuple(jsontree.execute('$..name'))
+    evoname = esearch[0]
+    if min1 != None:
+        if plup == min1:
+            await message.channel.send(f"Your {pn} Has evolved into a {evoname}")
+			
+#########################################################################
 
 
 
