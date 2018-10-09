@@ -99,7 +99,43 @@ async def trainer(ctx, user: discord.Member=None):
     embed.set_thumbnail(url=user.avatar_url)
     await ctx.send(embed=embed)
     await tconn.close()
-
+	
+########################################################################################################33
+@bot.listen()
+async def on_message(message):
+    pconn = bot.db.acquire
+    lque = "SELECT expcap FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
+    pnque = "SELECT pokname FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
+    pn = await pconn.fetchval(pnque)
+    lexp = await pconn.fetchval(lque)
+    quer1 = '''SELECT (exp)+25 FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(message.author.id)
+    exp1 = await pconn.fetchval(quer1)
+    await message.channel.send(exp1)
+    query = '''UPDATE pokes SET exp ={} WHERE selected = 1 AND ownerid = {}'''.format(exp1, message.author.id)
+    await pconn.execute(query)
+    plque = '''SELECT (pokelevel)+1 FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(message.author.id)
+    plup = await pconn.fetchval(plque)
+    if exp1 == lexp:
+        lupque = '''UPDATE pokes SET pokelevel = {} WHERE selected = 1 AND ownerid = {}'''.format(plup)
+        await message.channel.send(f"Congratulations!, your Pokemon has Leveled up to Level {plup}!")
+    r1 = requests.get('https://pokeapi.co/api/v2/pokemon/' + pn + '/')
+    r1Json = r1.json
+    pi = r1Json['id']
+    pid = int(pi)
+    r = requests.get('http://pokeapi.co/api/v2/evolution-chain/' + pid + '/')
+    rJson = r.json()
+    jsonnn_tree = objectpath.Tree(rJson['chain']['evolves_to'])
+    minr = tuple(jsonnn_tree.execute('$..min_level'))
+    min1 = minr[0]
+###############################################################################
+    jsontree = objectpath.Tree(rJson['chain']['evolves_to'][0]['species'])
+    esearch = tuple(jsontree.execute('$..name'))
+    evoname = esearch[0]
+    if min1 != None:
+        if plup == min1:
+            await message.channel.send(f"Your {pn} Has evolved into a {evoname}")
+			
+############################################################################################################			
 @bot.command()
 async def help(ctx):
     embed = discord.Embed(title="MewBot commands", description="The pokemon discord utility bot made for you!!!", color=0xeee657)
