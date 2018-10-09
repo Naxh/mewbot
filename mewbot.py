@@ -28,11 +28,6 @@ pList = ['Bulbasaur','Ivysaur','Venusaur','Charmander','Charmeleon','Charizard',
 natlist = ['Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Relaxed', 'Impish', 'Lax', 'Timid', 'Hasty', 'Jolly', 'Naive', 'Modest', 'Mild', 'Quiet', 'Rash', 'Calm', 'Gentle', 'Sassy', 'Careful', 'Bashful', 'Quirky', 'Serious', 'Docile', 'Hardy']
 
 logging.basicConfig(level="INFO")
-logger = logging.getLogger('discord')
-logger.setLevel(logging.ERROR)
-handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
 
 bot = commands.Bot(command_prefix=";")
 version = ("0.0.5c Beta Build")
@@ -195,7 +190,7 @@ async def on_message(message):
 	if message.content.startswith(vl):
 		channel = message.channel
 		val1 = random.choice(pList)
-		val = val1.lower().upper().capitalize()
+		val = val1.lower()
 		url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
 		embed = discord.Embed(title="A Pokemon has spawned, say it's name it to catch it!")
 		embed.set_image(url=url)
