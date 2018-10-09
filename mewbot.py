@@ -666,11 +666,15 @@ async def redeem(ctx, val):
 ############################
 @bot.listen()
 async def on_message(message):
-    if message.author == bot.user:
+    if message.author.id == 493045795445276682:
         return
     if message.author.bot:
         return
     pconn = await bot.db.acquire()
+    pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = {}".format(ctx.author.id))
+        nrecord = [record['u_id'] for record in pk1]
+        if not message.author.id in nrecord:
+            return;
     lque = "SELECT expcap FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
     pnque = "SELECT pokname FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
     pn = await pconn.fetchval(pnque)
