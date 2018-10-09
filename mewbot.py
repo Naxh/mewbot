@@ -122,7 +122,7 @@ async def help(ctx):
     embed.add_field(name="trainer", value="Displays your Trainer Card and other information")
     embed.add_field(name="start", value="Start Playing Mewbot!!")
     embed.add_field(name="trade", value="Trade Items, Redeems, Pokemon, and Credits!")
-	embed.add_field(name="shop", value="Buy TMs, Held Items, Evolution Items & More!")
+    embed.add_field(name="shop", value="Buy TMs, Held Items, Evolution Items & More!")
     embed.set_thumbnail(url='http://pm1.narvii.com/5848/b18cd35647528a7bdffc8e4b8e4d6a1465fc5253_00.jpg')
     await ctx.send(embed=embed)
 
