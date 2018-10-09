@@ -118,7 +118,7 @@ async def on_message(message):
         pass;
     plque = '''SELECT (pokelevel)+1 FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(message.author.id)
     plup = await pconn.fetchval(plque)
-	await message.channel.send(plup)
+    await message.channel.send(plup)
     if exp1 == lexp:
         lupque = '''UPDATE pokes SET pokelevel = {} WHERE selected = 1 AND ownerid = {}'''.format(plup, message.author.id)
         await message.channel.send(f"Congratulations!, your Pokemon has Leveled up to Level {plup}!")
