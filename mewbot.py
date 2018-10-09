@@ -219,7 +219,7 @@ async def on_message(message):
 		try:
 			pnum + 1
 		except TypeError as e:
-			await message.channel.send("You need to Start with `start`")
+			await message.channel.send("You need to Start with `;start`")
 		query2 = '''
 		INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, poknick, exp, nature, expcap)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
@@ -309,7 +309,7 @@ async def pokemon(ctx):
 	embed = discord.Embed(title='Your Pokemon List')
 	for pn in precord:
 		nr = nrecord[pn-1]
-		embed.add_field(name=f'{nr}', value=f'{pn}', inline=True)
+		embed.add_field(name=f'{nr}', value=f'{pn}', inline=False)
 	embed.set_footer(text="Upvote the Bot!!")
 	await pconn.close()
 	await ctx.send(embed=embed)
