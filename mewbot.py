@@ -214,7 +214,7 @@ async def on_message(message):
 		plevel = random.randint(1, 100)
 		nature = random.choice(natlist)
 		expc = (plevel ** 3)
-		pque = '''SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
+		pque = '''SELECT MAX(pnum) FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
 		pnum = await pconn.fetchval(pque)
 		try:
 			pnum + 1
@@ -631,7 +631,7 @@ async def redeem(ctx, val):
         spaiv = random.randint(1, 31)
         spdiv = random.randint(1, 31)
         speiv = random.randint(1, 31)
-        pque = '''SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {}'''.format(ctx.author.id)
+        pque = '''SELECT MAX(pnum) FROM pokes WHERE ownerid = {}'''.format(ctx.author.id)
         rque = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
         rnum = await pconn.fetchval(rque)
         rnat = random.choice(natlist)
