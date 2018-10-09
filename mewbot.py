@@ -179,6 +179,8 @@ async def status(ctx):
 #plevel = random.randint(1, 100)
 @bot.listen()
 async def on_message(message):
+	if message.guild.id == 264445053596991498:
+		return
 	vowels = ['a', 'k', 'e', 't', 'u', 'i', 'o', 'l', 'o', 'm', 'y', 'i', 'e', 'z', 'x', 'b', 'g', 'l', 'a', 'w', 'q']
 	vl = random.choice(vowels)
 	if message.content.startswith(vl):
