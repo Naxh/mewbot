@@ -103,7 +103,7 @@ async def trainer(ctx, user: discord.Member=None):
 ########################################################################################################33
 @bot.listen()
 async def on_message(message):
-    pconn = bot.db.acquire()
+    pconn = await bot.db.acquire()
     lque = "SELECT expcap FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
     pnque = "SELECT pokname FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
     pn = await pconn.fetchval(pnque)
@@ -412,6 +412,8 @@ async def info(ctx):
 	hiquery = "SELECT hitem FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
 	hpquery = "SELECT hpiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
 	natque = "SELECT nature FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+	expque = "SELECT exp FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+	expcque = "SELECT expc FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
 
 	nature = await pconn.fetchval(natque)
 	pn = await pconn.fetchval(pquery)
@@ -425,6 +427,8 @@ async def info(ctx):
 	plevel = await pconn.fetchval(plquery)
 	hpiv = await pconn.fetchval(hpquery)
 	hi = await pconn.fetchval(hiquery)
+	exp = await pconn.fetchval(expque)
+	expcap = await pconn.fetchval(expcque)
 	
 	if pn == 'Flowing':
 		pokemonSpeed = 73
@@ -552,6 +556,7 @@ async def info(ctx):
 	embed = discord.Embed(title=f"Your Selected {pn}")
 
 	embed.add_field(name="Pokemon Level", value=f"{plevel}")
+	embed.add_field(name="Exp", value=f"{exp}/{expcap}")
 	embed.add_field(name="Nature: ", value=f'{nature}')
 	embed.add_field(name="Hit Points (HP)", value=f"{hp} | {hpiv} IV")
 	embed.add_field(name="Attack", value=f"{round(attack)} | {atkiv} IV")
