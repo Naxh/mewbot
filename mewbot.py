@@ -28,6 +28,7 @@ pList = ['Bulbasaur','Ivysaur','Venusaur','Charmander','Charmeleon','Charizard',
 natlist = ['Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Relaxed', 'Impish', 'Lax', 'Timid', 'Hasty', 'Jolly', 'Naive', 'Modest', 'Mild', 'Quiet', 'Rash', 'Calm', 'Gentle', 'Sassy', 'Careful', 'Bashful', 'Quirky', 'Serious', 'Docile', 'Hardy']
 
 logging.basicConfig(level="INFO")
+setattr(bot, "logger", logging.getLogger("kewl_name"))
 
 bot = commands.Bot(command_prefix=";")
 version = ("0.0.1c Alpha Build")
@@ -133,7 +134,7 @@ async def botinfo(ctx):
     mem = psutil.virtual_memory()
     cmem = (mem.available/1000000000)
 
-    embed.add_field(name="CPU Statistics", value=f"\nCPU Count **{psutil.cpu_count()}**\nRAM **{cmem}**")
+    embed.add_field(name="CPU Statistics", value=f"\nCPU Count **{psutil.cpu_count()}**\nRAM **{cmem} GB**")
     # give users a link to invite thsi bot to their server
     embed.add_field(name="Invite", value="[Invite Me](https://discordapp.com/api/oauth2/authorize?client_id=493045795445276682&permissions=388160&scope=bot)")
 
@@ -221,7 +222,7 @@ async def on_message(message):
 		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
 		await pconn.execute(query2, *args)
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
-		logging.info()
+		bot.getlogger
 	#   db code goes here
 
 # None Pokemon Commands  ctx
@@ -235,6 +236,7 @@ react_to_starter = {
 }
 @bot.command(name="start")
 async def start_journey(ctx):
+	bot.logger
 	embed = discord.Embed(title="Select a Starter!", description="Choose any of the Starters!")
 	embed.add_field(name="...", value="You've been hypnotized by Mew, and instead of the normal starters, you are forced to pick between \n-Flowin, the Grass type fakemon, \n-Flire the fire type fakemon and \n-Aquino, the water type.")
 	embed.set_thumbnail(url="https://nerdist.com/wp-content/uploads/2016/02/Screen-Shot-2016-02-02-at-12.05.40-PM-615x346.png")
@@ -293,6 +295,7 @@ async def start_journey(ctx):
 
 @bot.command()
 async def pokemon(ctx):
+	bot.logger
 	pconn = await bot.db.acquire()
 	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
 	pk1 = await pconn.fetch(nquery)
