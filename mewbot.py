@@ -304,9 +304,12 @@ async def start_journey(ctx):
 
 
 @bot.command()
-async def pokemon(ctx):
+async def pokemon(ctx, val: int):
+	if val is None:
+		val = 1
+	rnum = val * 30
 	pconn = await asyncpg.connect(dburl)
-	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
+	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {} LIMIT {}".format(ctx.author.id, rnum)
 	pk1 = await pconn.fetch(nquery)
 	nrecord = [record['pokname'] for record in pk1]
 	precord = [record['pnum'] for record in pk1]
