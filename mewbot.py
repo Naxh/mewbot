@@ -679,54 +679,7 @@ async def redeem(ctx, val):
 ##############################################################################################################################################################
 #level up
 ############################
-@bot.listen()
-async def on_message(message):
-    if message.author.id == 493045795445276682:
-        return
-    if message.author.bot:
-        return
-    pconn = await bot.db.acquire()
-    pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = {}".format(message.author.id))
-    nrecord = [record['u_id'] for record in pk1]
-    if not message.author.id in nrecord:
-        return;
-    lque = "SELECT expcap FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
-    pnque = "SELECT pokname FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
-    pn = await pconn.fetchval(pnque)
-    lexp = await pconn.fetchval(lque)
-    quer1 = '''SELECT (exp)+25 FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(message.author.id)
-    exp1 = await pconn.fetchval(quer1)
-    await message.channel.send(f'current exp = {exp1} <@{message.author.id}>')
-    query = '''UPDATE pokes SET exp ={} WHERE selected = 1 AND ownerid = {}'''.format(exp1, message.author.id)
-    try:
-        await pconn.execute(query)
-    except Exception as e:
-        return;
-    plque = '''SELECT (pokelevel)+1 FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(message.author.id)
-    plup = await pconn.fetchval(plque)
-    try:
-        await message.channel.send(plup)
-    except Exception as e:
-        return
-    if exp1 == lexp:
-        lupque = '''UPDATE pokes SET pokelevel = {} WHERE selected = 1 AND ownerid = {}'''.format(plup, message.author.id)
-        await message.channel.send(f"Congratulations!, your Pokemon has Leveled up to Level {plup}!")
-    r1 = requests.get('https://pokeapi.co/api/v2/pokemon/' + pn + '/')
-    r1Json = r1.json()
-    pi = r1Json['id']
-    pid = int(pi)
-    r = requests.get('http://pokeapi.co/api/v2/evolution-chain/' + pid + '/')
-    rJson = r.json()
-    jsonnn_tree = objectpath.Tree(rJson['chain']['evolves_to'])
-    minr = tuple(jsonnn_tree.execute('$..min_level'))
-    min1 = minr[0]
-###############################################################################
-    jsontree = objectpath.Tree(rJson['chain']['evolves_to'][0]['species'])
-    esearch = tuple(jsontree.execute('$..name'))
-    evoname = esearch[0]
-    if min1 != None:
-        if plup == min1:
-            await message.channel.send(f"Your {pn} Has evolved into a {evoname}")
+
 			
 #########################################################################
 
@@ -1151,8 +1104,6 @@ async def tms(ctx):
 	
 	
 	
-	
-bot.loop.create_task(change_status())
 bot.run(TOKEN)
 
 			
