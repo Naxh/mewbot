@@ -693,7 +693,7 @@ async def on_message(message):
         lupque = '''UPDATE pokes SET pokelevel = {} WHERE selected = 1 AND ownerid = {}'''.format(plup, message.author.id)
         await message.channel.send(f"Congratulations!, your Pokemon has Leveled up to Level {plup}!")
     r1 = requests.get('https://pokeapi.co/api/v2/pokemon/' + pn + '/')
-    r1Json = r1.json
+    r1Json = r1.json()
     pi = r1Json['id']
     pid = int(pi)
     r = requests.get('http://pokeapi.co/api/v2/evolution-chain/' + pid + '/')
