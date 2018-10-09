@@ -304,7 +304,7 @@ async def start_journey(ctx):
 
 
 @bot.command()
-async def pokemon(ctx, val: int):
+async def pokemon(ctx, val=None):
 	if val is None:
 		val = 1
 	rnum = val * 30
