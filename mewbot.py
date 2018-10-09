@@ -294,7 +294,7 @@ async def start_journey(ctx):
 
 			args2 = (ctx.author.id, 0, 0, 'None', 0)
 			await pconn.execute(query3, *args2)
-			await ctx.channel.send("Records successfully Added\nGoodluck!\n <a:sylveon:463817633578483723> <a:jirachigif:499179583531253760> <a:PikaRun:480358691405561856>")
+			await ctx.channel.send("Records successfully Added\nGoodluck!\n <:sylveon:463817633578483723> <:jirachigif:499179583531253760> <:PikaRun:480358691405561856>")
 
 
 
@@ -312,8 +312,6 @@ async def pokemon(ctx):
 	embed.set_footer(text="Upvote the Bot!!")
 	await pconn.close()
 	await ctx.send(embed=embed)
-    
-    
     
 @bot.command()
 async def moves(ctx):
@@ -342,7 +340,7 @@ async def select(ctx, val):
     await pconn.execute("UPDATE pokes SET selected = 0 WHERE selected = 1 AND ownerid = {0}".format(ctx.author.id, val))
     pque = '''UPDATE pokes SET selected = 1 WHERE ownerid = {0} and pnum = {1}'''.format(ctx.author.id, val)
     pnum = await pconn.execute(pque)
-    await ctx.send("You have successfully selected your No. {0} Pokemon".format(val)\n <a:sylveon:463817633578483723> <a:jirachigif:499179583531253760> <a:PikaRun:480358691405561856>)
+    await ctx.send("You have successfully selected your No. {0} Pokemon \n <a:sylveon:463817633578483723> <a:jirachigif:499179583531253760> <a:PikaRun:480358691405561856>n".format(val))
 
 @bot.command(pass_context=True)
 async def shutdown(ctx):
