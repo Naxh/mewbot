@@ -303,7 +303,7 @@ async def pokemon(ctx, val=None):
 	if val is None:
 		val = 1
 	rnum = val * 30
-	pconn = await asyncpg.connect(dburl)
+	pconn = await bot.db.acquire()
 	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {} LIMIT {}".format(ctx.author.id, rnum)
 	pk1 = await pconn.fetch(nquery)
 	nrecord = [record['pokname'] for record in pk1]
@@ -313,7 +313,6 @@ async def pokemon(ctx, val=None):
 		nr = nrecord[pn-1]
 		embed.add_field(name=f'{nr}', value=f'{pn}', inline=False)
 	embed.set_footer(text="Upvote the Bot!!")
-	await pconn.close()
 	await ctx.send(embed=embed)
     
 @bot.command()
