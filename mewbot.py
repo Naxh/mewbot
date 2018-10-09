@@ -981,6 +981,53 @@ async def battle(ctx, user: discord.Member):
         os.remove('bg1.png')
         await ctx.channel.send(f'<@{ctx.author.id} use a Move!')
 
+		
+		
+@bot.command()
+async def spawn(ctx, val1):
+	if message.author.id == 358293206900670467:
+		channel = ctx.channel
+		val = val1.lower() or val1.upper() or val1.capitalize()
+		url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
+		embed = discord.Embed(title="A Pokemon has spawned, identify it to catch it!")
+		embed.set_image(url=url)
+		await channel.send(embed=embed)
+		def check(m):
+			return m.content == val and m.channel == channel
+		msg = await bot.wait_for('message', check=check, timeout=60)
+		val = val.capitalize()
+
+
+		#db code starts here
+
+
+		pconn = await bot.db.acquire()
+		hpiv = random.randint(1, 31)
+		atkiv = random.randint(1, 31)
+		defiv = random.randint(1, 31)
+		spaiv = random.randint(1, 31)
+		spdiv = random.randint(1, 31)
+		speiv = random.randint(1, 31)
+		plevel = random.randint(1, 100)
+		nature = random.choice(natlist)
+		expc = (plevel ** 3)
+		pque = '''SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
+		pnum = await pconn.fetchval(pque)
+		try:
+			pnum + 1
+		except TypeError as e:
+			await message.channel.send("You need to Start with `start`")
+		query2 = '''
+		INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, poknick, exp, nature, expcap)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
+		'''
+
+		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
+		await pconn.execute(query2, *args)
+		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
+	#   db code goes here
+	else:
+		await ctx.send("Only Dylee can use this command")
 bot.run(TOKEN)
 
 			
