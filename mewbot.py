@@ -36,6 +36,7 @@ logger.addHandler(handler)
 
 bot = commands.Bot(command_prefix=";")
 version = ("0.0.5c Beta Build")
+statuses = [f"over {len(bot.users)} users", f"over {len(bot.guilds)} servers"]
 
 TOKEN = os.environ['TOKEN']
 dburl = os.environ['DATABASE_URL']
@@ -55,6 +56,20 @@ async def on_ready():
     print(version)
     print('-------------')
 
+	
+	
+async def change_status():
+	bot.wait_until_ready()
+	status = cycle(statuses)
+	
+	while not bot.is_closed:
+		current_status = next(status)
+		await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=current_status))
+		await asyncio.sleep(5)
+	
+	
+	
+	
 @bot.command()
 async def mew(ctx):
     """Makes MewBot respond"""
@@ -672,9 +687,9 @@ async def on_message(message):
         return
     pconn = await bot.db.acquire()
     pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = {}".format(ctx.author.id))
-        nrecord = [record['u_id'] for record in pk1]
-        if not message.author.id in nrecord:
-            return;
+    nrecord = [record['u_id'] for record in pk1]
+    if not message.author.id in nrecord:
+        return;
     lque = "SELECT expcap FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
     pnque = "SELECT pokname FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
     pn = await pconn.fetchval(pnque)
@@ -1108,7 +1123,8 @@ async def addredeems(ctx, val, user: discord.Member):
 		await pconn.execute(rquery)
 	else:
 		await ctx.send("Only Dylee can use this command")
-
+		
+bot.loop.create_task(change_status())
 bot.run(TOKEN)
 
 			
