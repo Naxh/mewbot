@@ -35,7 +35,7 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 
 bot = commands.Bot(command_prefix=";")
-version = ("0.0.1c Alpha Build")
+version = ("0.0.5c Beta Build")
 
 TOKEN = os.environ['TOKEN']
 dburl = os.environ['DATABASE_URL']
@@ -159,7 +159,7 @@ async def status(ctx):
 
     #list
 
-    embed.add_field(name="Current Build version", value="0.0.1b Alpha Build")
+    embed.add_field(name="Current Build version", value="0.0.5c Beta Build")
 
     embed.add_field(name="Bot Logging", value=":white_check_mark: Complete")
 
@@ -308,7 +308,7 @@ async def pokemon(ctx):
 	embed = discord.Embed(title='Your Pokemon List')
 	for pn in precord:
 		nr = nrecord[pn-1]
-		embed.add_field(name=f'{nr}', value=f'{pn}', inline=False)
+		embed.add_field(name=f'{nr}', value=f'{pn}', inline=True)
 	embed.set_footer(text="Upvote the Bot!!")
 	await pconn.close()
 	await ctx.send(embed=embed)
