@@ -59,7 +59,7 @@ async def on_ready():
 	
 	
 async def change_status():
-	bot.wait_until_ready()
+	await bot.wait_until_ready()
 	status = cycle(statuses)
 	
 	while not bot.is_closed:
@@ -686,7 +686,7 @@ async def on_message(message):
     if message.author.bot:
         return
     pconn = await bot.db.acquire()
-    pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = {}".format(ctx.author.id))
+    pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = {}".format(message.author.id))
     nrecord = [record['u_id'] for record in pk1]
     if not message.author.id in nrecord:
         return;
