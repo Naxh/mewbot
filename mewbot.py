@@ -29,7 +29,7 @@ natlist = ['Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Relaxed', 'Impish',
 
 logging.basicConfig(level="INFO")
 logger = logging.getLogger('discord')
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.ERROR)
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
@@ -214,7 +214,7 @@ async def on_message(message):
 		plevel = random.randint(1, 100)
 		nature = random.choice(natlist)
 		expc = (plevel ** 3)
-		pque = '''SELECT MAX(pnum) FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
+		pque = '''SELECT MAX(pnum) + 1 FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
 		pnum = await pconn.fetchval(pque)
 		try:
 			pnum + 1
@@ -392,7 +392,6 @@ async def info(ctx):
 
 	nature = await pconn.fetchval(natque)
 	pn = await pconn.fetchval(pquery)
-	await ctx.send(type(pn))
 	atkiv = await pconn.fetchval(atquery)
 	defiv = await pconn.fetchval(dequery)
 	spatkiv = await pconn.fetchval(spaquery)
@@ -630,7 +629,7 @@ async def redeem(ctx, val):
         spaiv = random.randint(1, 31)
         spdiv = random.randint(1, 31)
         speiv = random.randint(1, 31)
-        pque = '''SELECT MAX(pnum) FROM pokes WHERE ownerid = {}'''.format(ctx.author.id)
+        pque = '''SELECT MAX(pnum) + 1 FROM pokes WHERE ownerid = {}'''.format(ctx.author.id)
         rque = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
         rnum = await pconn.fetchval(rque)
         rnat = random.choice(natlist)
