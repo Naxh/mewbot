@@ -112,7 +112,10 @@ async def on_message(message):
     exp1 = await pconn.fetchval(quer1)
     await message.channel.send(f'current exp = {exp1} <@{message.author.id}>')
     query = '''UPDATE pokes SET exp ={} WHERE selected = 1 AND ownerid = {}'''.format(exp1, message.author.id)
-    await pconn.execute(query)
+	try:
+		await pconn.execute(query)
+	except Exception as e:
+		pass;
     plque = '''SELECT (pokelevel)+1 FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(message.author.id)
     plup = await pconn.fetchval(plque)
     if exp1 == lexp:
