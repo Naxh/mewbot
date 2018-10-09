@@ -302,7 +302,7 @@ async def start_journey(ctx):
 @bot.command()
 async def pokemon(ctx):
 	bot.logger
-	pconn = await bot.db.acquire()
+	pconn = await asyncpg.connect(dburl)
 	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
 	pk1 = await pconn.fetch(nquery)
 	nrecord = [record['pokname'] for record in pk1]
@@ -312,6 +312,7 @@ async def pokemon(ctx):
 		nr = nrecord[1-pn]
 		embed.add_field(name=f'{nr}', value=f'{pn}', inline=False)
 	embed.set_footer(text="Upvote the Bot!!")
+	await pconn.close()
 	await ctx.send(embed=embed)
     
     
