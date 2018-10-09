@@ -1124,6 +1124,34 @@ async def addredeems(ctx, val, user: discord.Member):
 	else:
 		await ctx.send("Only Dylee can use this command")
 		
+		
+@bot.command()
+async def tms(ctx):
+	pconn = await bot.db.acquire()
+	pokname = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = {} AND selected = 1".format(ctx.author.id))
+	r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pokname.lower() + '/')
+	rJson = r.json()
+	tlink = [t['type']['url'] for t in rJson['types']]
+	tlink1 = tlink[0]
+	t_id = tlink1.replace("http://pokeapi.co/api/v2/type/", "")
+	t_id = t_id.replace("/", "")
+	tlink2 = tlink[1]
+	t2_id = tlink2.replace("https://pokeapi.co/api/v2/type/", "")
+	t2_id = t_id.replace("/", "")
+	line_count = 0
+	for row in csv_reader:
+		if line_count == 0:
+			line_count += 1
+		if row["type_id"] == t_id:
+			await ctx.send((row["identifier"]).capitalize())
+		if row["type_id"] == t2_id:
+			await ctx.channel.send((row["identifier"]).capitalize())
+			
+	
+	
+	
+	
+	
 bot.loop.create_task(change_status())
 bot.run(TOKEN)
 
