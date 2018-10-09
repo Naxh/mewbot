@@ -294,7 +294,8 @@ async def start_journey(ctx):
 
 			args2 = (ctx.author.id, 0, 0, 'None', 0)
 			await pconn.execute(query3, *args2)
-			await ctx.channel.send("Records successfully Added\nGoodluck!\n <:sylveon:463817633578483723> <:jirachigif:499179583531253760> <:PikaRun:480358691405561856>")
+			await ctx.channel.send("Records successfully Added\nGoodluck!")
+			await ctx.send("<:sylveon:463817633578483723> <:jirachigif:499179583531253760> <:PikaRun:480358691405561856>")
 
 
 
