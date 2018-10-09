@@ -292,7 +292,7 @@ async def start_journey(ctx):
 @bot.command()
 async def pokemon(ctx):
 	pconn = await bot.db.acquire()
-	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {} ORDER BY pnum".format(ctx.author.id)
+	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {}".format(ctx.author.id)
 	pk1 = await pconn.fetch(nquery)
 	nrecord = [record['pokname'] for record in pk1]
 	precord = [record['pnum'] for record in pk1]
@@ -378,7 +378,7 @@ async def info(ctx):
 	hpquery = "SELECT hpiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
 	natque = "SELECT nature FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
 	expque = "SELECT exp FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	expcque = "SELECT expc FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+	expcque = "SELECT expcap FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
 
 	nature = await pconn.fetchval(natque)
 	pn = await pconn.fetchval(pquery)
