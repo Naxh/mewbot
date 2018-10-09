@@ -103,7 +103,7 @@ async def trainer(ctx, user: discord.Member=None):
 ########################################################################################################33
 @bot.listen()
 async def on_message(message):
-    pconn = bot.db.acquire
+    pconn = bot.db.acquire()
     lque = "SELECT expcap FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
     pnque = "SELECT pokname FROM pokes WHERE ownerid = {} AND selected = 1".format(message.author.id)
     pn = await pconn.fetchval(pnque)
