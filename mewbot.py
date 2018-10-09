@@ -36,13 +36,13 @@ logger.addHandler(handler)
 
 bot = commands.Bot(command_prefix=";")
 version = ("0.0.5c Beta Build")
-statuses = [f"over {len(bot.users)} users", f"over {len(bot.guilds)} servers"]
 
 TOKEN = os.environ['TOKEN']
 dburl = os.environ['DATABASE_URL']
 
 bot.remove_command('help')
 #db connect
+
 @bot.listen()
 async def on_connect():
 	if not hasattr(bot, 'db'):
@@ -56,20 +56,6 @@ async def on_ready():
     print(version)
     print('-------------')
 
-	
-	
-async def change_status():
-	await bot.wait_until_ready()
-	status = cycle(statuses)
-	
-	while not bot.is_closed:
-		current_status = next(status)
-		await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=current_status))
-		await asyncio.sleep(5)
-	
-	
-	
-	
 @bot.command()
 async def mew(ctx):
     """Makes MewBot respond"""
@@ -209,9 +195,9 @@ async def on_message(message):
 	if message.content.startswith(vl):
 		channel = message.channel
 		val1 = random.choice(pList)
-		val = val1.lower() or val1.upper() or val1.capitalize()
+		val = val1.lower().upper().capitalize()
 		url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
-		embed = discord.Embed(title="A Pokemon has spawned, identify it to catch it!")
+		embed = discord.Embed(title="A Pokemon has spawned, say it's name it to catch it!")
 		embed.set_image(url=url)
 		await channel.send(embed=embed)
 		def check(m):
