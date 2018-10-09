@@ -341,6 +341,7 @@ async def select(ctx, val):
     pque = '''UPDATE pokes SET selected = 1 WHERE ownerid = {0} and pnum = {1}'''.format(ctx.author.id, val)
     pnum = await pconn.execute(pque)
     await ctx.send("You have successfully selected your No. {0} Pokemon".format(val))
+	await ctx.send("<a:jirachigif:499179583531253760>")
 
 @bot.command()
 async def test(ctx):
