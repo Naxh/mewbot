@@ -80,7 +80,7 @@ async def ping(ctx):
 
 @bot.command()
 async def trainer(ctx, user: discord.Member=None):
-    tconn = await asyncpg.connect(dburl)
+    tconn = await bot.db.acquire()
     if user is None:
         user = ctx.author
     rquery = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
@@ -98,7 +98,7 @@ async def trainer(ctx, user: discord.Member=None):
     embed.add_field(name="Currently Selected Pokemon", value=f'{poke}')
     embed.set_thumbnail(url=user.avatar_url)
     await ctx.send(embed=embed)
-    await tconn.close()
+   
 	
 ########################################################################################################33
 @bot.listen()
@@ -251,7 +251,6 @@ async def on_message(message):
 		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
 		await pconn.execute(query2, *args)
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
-		await pconn.close()
 	#   db code goes here
 
 # None Pokemon Commands  ctx
@@ -318,7 +317,6 @@ async def start_journey(ctx):
 			args2 = (ctx.author.id, 0, 0, 'None', 0)
 			await pconn.execute(query3, *args2)
 			await ctx.channel.send("Records successfully Added\nGoodluck!")
-			await pconn.close()
 
 
 
@@ -357,7 +355,6 @@ async def moves(ctx):
     
     embed.add_field(name='**Move 4**:', value=f'{m4}')
     await ctx.send(embed=embed)
-    await pconn.close()
     
     
 @bot.command()
@@ -367,7 +364,6 @@ async def select(ctx, val):
     pque = '''UPDATE pokes SET selected = 1 WHERE ownerid = {0} and pnum = {1}'''.format(ctx.author.id, val)
     pnum = await pconn.execute(pque)
     await ctx.send("You have successfully selected your No. {0} Pokemon".format(val))
-    await pconn.close()
 
 @bot.command(pass_context=True)
 async def shutdown(ctx):
@@ -567,7 +563,6 @@ async def info(ctx):
 	embed.add_field(name="Held Item", value=f"{hi}")
 	embed.set_image(url=irul)
 	await ctx.send(embed=embed)
-	await pconn.close()
 
 
 @bot.command()
@@ -636,7 +631,6 @@ async def on_guild_join(guild):
         query = '''UPDATE users SET redeems = 10 WHERE u_id = {}'''.format(guild.owner.id)
         await tconn.execute(query)
         await ctx.guild.owner.send("You have Received 10 Redeems for Adding me :smile:!,.. but remove me and it's gone :cry:")
-        await pconn.close()
     else:
         return
 @bot.listen()
@@ -645,7 +639,6 @@ async def on_guild_remove(guild):
     query = '''UPDATE users SET redeems = 0 WHERE u_id = {}'''.format(guild.owner.id)
     await tconn.execute(query)
     await guild.owner.send("Goodbye to 10 Redeems :cry:")
-    await pconn.close()
 
 @bot.command()
 async def redeem(ctx, val):
@@ -674,7 +667,6 @@ async def redeem(ctx, val):
             args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 1, ctx.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 0, rnat, 35,'None')
             await ctx.channel.send(f"Here's your {val}!")
             await pconn.execute(query2, *args)
-            await pconn.close()
             
 
 
@@ -731,48 +723,16 @@ async def trade(ctx, user: discord.Member):
                 await pconn.execute(acquery)
                 await pconn.execute(gcquery)
                 await pconn.execute(cquery)
-                await pconn.close()
-                await pconn.close()
     elif msg.content.startswith(';deny'):
         await msg.channel.send(f"<@{msg.author.id}> has cancelled the trade")
         return
 
-
-@bot.command()
-async def pexec(ctx, *, val):
-    pconn = await bot.db.acquire()
-    if ctx.author.id == 358293206900670467:
-        await pconn.execute(val)
-    else:
-        await ctx.send("Only Dylee can use this command")
-
-@bot.command()
-async def texec(ctx, *, val):
-    pconn = await bot.db.acquire()
-    if ctx.author.id == 358293206900670467:
-        await tconn.execute(val)
-    else:
-        await ctx.send("Only Dylee can use this command")
 
 
 
 ############################################################################
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
 ##############################################################################
-@bot.command(name="eval", hidden=True, pass_context=True, enabled=False)
-async def evaluate(ctx, *, code: str):
-    """Extremely unsafe eval command."""
-    code = code.strip("` ")
-    result = None
-    try:
-        result = eval(code)
-        if asyncio.iscoroutine(result):
-            result = await result
-    except Exception as err:
-        await bot.say(python.format(type(err).__name__ + ": " + str(error)))
-        return
-
-    await ctx.send(f"```py\n{result}\n```")
 
 #############################################################################3
 ###333333333333333333battles###########################333
@@ -1051,7 +1011,6 @@ async def battle(ctx, user: discord.Member):
         await ctx.send(embed=embed)
         os.remove('bg1.png')
         await ctx.channel.send(f'<@{ctx.author.id} use a Move!')
-        await pconn.close()
 
 bot.run(TOKEN)
 
