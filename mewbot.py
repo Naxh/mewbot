@@ -985,7 +985,7 @@ async def battle(ctx, user: discord.Member):
 		
 @bot.command()
 async def spawn(ctx, val1):
-	if message.author.id == 358293206900670467:
+	if ctx.author.id == 358293206900670467:
 		channel = ctx.channel
 		val = val1.lower() or val1.upper() or val1.capitalize()
 		url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
