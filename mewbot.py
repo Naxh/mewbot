@@ -322,7 +322,7 @@ async def pokemon(ctx, val=None):
 		embed.add_field(name=f'{nr}', value=f'{pn}', inline=True)
 	embed.set_footer(text="Upvote the Bot!!")
 	await ctx.send(embed=embed)
-    await bot.process_commands(ctx)
+	await bot.process_commands(ctx)
 @bot.command()
 async def moves(ctx):
     pconn = await bot.db.acquire()
