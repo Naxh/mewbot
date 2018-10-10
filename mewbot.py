@@ -91,10 +91,17 @@ async def trainer(ctx, user: discord.Member=None):
     uquery = '''SELECT upvotepoints FROM users WHERE u_id = {}'''.format(ctx.author.id)
     cquery = '''SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(ctx.author.id)
     mquery = '''SELECT mewcoins FROM users WHERE u_id = {}'''.format(ctx.author.id)
+	poke = await tconn.fetchval(cquery)
+	r = requests.get('https://pokeapi.co/api/v2/pokemon/' + poke.lower() + '/')
+	rJson = r.json()
+	pid = rJson['id']
+	i = requests.get('https://pokeapi.bastionbot.org/v1/pokemon/' + pid + '/')
+	iJson = i.json()
+	icontent = iJson[0]
+	image = icontent['sprite']
     redeems = await tconn.fetchval(rquery)
     tnick = await tconn.fetchval(tquery)
     uppoints = await tconn.fetchval(uquery)
-    poke = await tconn.fetchval(cquery)
     mewcoins = await tconn.fetchval(mquery)
     embed = discord.Embed(title="{} Trainer Card".format(user.name))
     embed.add_field(name="Redeems", value=f'{redeems}')
@@ -102,6 +109,7 @@ async def trainer(ctx, user: discord.Member=None):
     embed.add_field(name="Upvote Points", value=f'{uppoints}')
     embed.add_field(name="Currently Selected Pokemon", value=f'{poke}')
     embed.add_field(name="Credits", value=f'{mewcoins}ℳ	')
+	embed.set_image(url=image)
     embed.set_thumbnail(url=user.avatar_url)
     await ctx.send(embed=embed)
    
