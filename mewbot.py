@@ -347,6 +347,7 @@ async def moves(ctx):
 @bot.command()
 async def select(ctx, val):
 	pconn = await bot.db.acquire()
+	val = int(val)
 	maxnum = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = {}".format(ctx.author.id))
 	if val > maxnum:
 		await ctx.send("That Pokemon Does not exist!<:sylveon:463817633578483723>")
