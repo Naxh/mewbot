@@ -444,20 +444,20 @@ async def info(ctx):
 		except TypeError as e:
 			await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 		pns = str(pn)
-		r = await aiohttp.get('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
-		await ctx.send('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
-		rJson = r.json()
-		types = [t['type']['name'] for t in rJson['types']]
-		tlist = ", ".join(types)
-		pAb = rJson['abilities'][0]['ability']['name']
-		pWeight = rJson['weight']/10
-		pDexnum = rJson['id']
-		pokemonSpeed = rJson['stats'][0]['base_stat']
-		pokemonSpd = rJson['stats'][1]['base_stat']
-		pokemonSpa = rJson['stats'][2]['base_stat']
-		pokemonDef = rJson['stats'][3]['base_stat']
-		pokemonAtk = rJson['stats'][4]['base_stat']
-		pokemonHp = rJson['stats'][5]['base_stat']
+		async with aiohttp.get('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/') as r:	
+			await ctx.send('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
+			rJson = r.json()
+			types = [t['type']['name'] for t in rJson['types']]
+			tlist = ", ".join(types)
+			pAb = rJson['abilities'][0]['ability']['name']
+			pWeight = rJson['weight']/10
+			pDexnum = rJson['id']
+			pokemonSpeed = rJson['stats'][0]['base_stat']
+			pokemonSpd = rJson['stats'][1]['base_stat']
+			pokemonSpa = rJson['stats'][2]['base_stat']
+			pokemonDef = rJson['stats'][3]['base_stat']
+			pokemonAtk = rJson['stats'][4]['base_stat']
+			pokemonHp = rJson['stats'][5]['base_stat']
 
 	hp = round((((2*pokemonHp+hpiv+(0/4))*plevel)/100)+plevel+10)
 	attack = round((((2*pokemonSpeed+atkiv+(0/4))*plevel)/100)+5)
@@ -586,21 +586,21 @@ async def pokedex(ctx, *, val):
 		pAb = 'Prehistoric Rain'
 		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 	else:
-		r = await aiohttp.get('http://pokeapi.co/api/v2/pokemon/' + val.lower() + '/')
-		rJson = r.json()
-		iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
-		pName = rJson['name']
-		types = [t['type']['name'] for t in rJson['types']]
-		tlist = ", ".join(types)
-		pAb = rJson['abilities'][0]['ability']['name']
-		pWeight = rJson['weight']/10
-		pDexnum = rJson['id']
-		pokemonSpeed = rJson['stats'][0]['base_stat']
-		pokemonSpd = rJson['stats'][1]['base_stat']
-		pokemonSpa = rJson['stats'][2]['base_stat']
-		pokemonDef = rJson['stats'][3]['base_stat']
-		pokemonAtk = rJson['stats'][4]['base_stat']
-		pokemonHp = rJson['stats'][5]['base_stat']
+		async with aiohttp.get('http://pokeapi.co/api/v2/pokemon/' + val.lower() + '/') as r:
+			rJson = r.json()
+			iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
+			pName = rJson['name']
+			types = [t['type']['name'] for t in rJson['types']]
+			tlist = ", ".join(types)
+			pAb = rJson['abilities'][0]['ability']['name']
+			pWeight = rJson['weight']/10
+			pDexnum = rJson['id']
+			pokemonSpeed = rJson['stats'][0]['base_stat']
+			pokemonSpd = rJson['stats'][1]['base_stat']
+			pokemonSpa = rJson['stats'][2]['base_stat']
+			pokemonDef = rJson['stats'][3]['base_stat']
+			pokemonAtk = rJson['stats'][4]['base_stat']
+			pokemonHp = rJson['stats'][5]['base_stat']
         
 	embed = discord.Embed(title=val.capitalize(), description="")
 	embed.add_field(name="Pokemon information", value=f"{pName.capitalize()} \n**Ability**: {pAb} \n**Types**: {tlist} \n**Weight**: {pWeight} Kgs \n**Pokedex Number**: {pDexnum}")
