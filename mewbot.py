@@ -228,6 +228,7 @@ async def on_message(message):
 		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, nextval('pnum_seq'), 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
 		await pconn.execute(query2, *args)
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
+		logging.INFO("Success")
 	#   db code goes here
 
 # None Pokemon Commands  ctx
@@ -295,6 +296,7 @@ async def start_journey(ctx):
 			await pconn.execute(query3, *args2)
 			await ctx.channel.send("Records successfully Added\nGoodluck!")
 			await ctx.send("<:sylveon:463817633578483723> <:jirachigif:499179583531253760> <:PikaRun:480358691405561856>")
+			logging.INFO("All went well")
 
 
 
@@ -1035,7 +1037,7 @@ async def spawn(ctx, val1):
 		try:
 			pnum + 1
 		except TypeError as e:
-			await message.channel.send("You need to Start with `start`")
+			await ctx.channel.send("You need to Start with `start`")
 		query2 = '''
 		INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, poknick, exp, nature, expcap)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
