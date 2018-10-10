@@ -306,7 +306,7 @@ async def pokemon(ctx, val=None):
 		val = 1
 	rnum = val * 30
 	pconn = await bot.db.acquire()
-	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {} LIMIT {}".format(ctx.author.id, rnum)
+	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {} ORDER BY pnum LIMIT {}".format(ctx.author.id, rnum)
 	pk1 = await pconn.fetch(nquery)
 	nrecord = [record['pokname'] for record in pk1]
 	precord = [record['pnum'] for record in pk1]
