@@ -7,3 +7,4 @@ Pillow
 Objectpath
 aiohttp
 asyncio
+dblpy
