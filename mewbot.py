@@ -92,13 +92,6 @@ async def trainer(ctx, user: discord.Member=None):
 	cquery = '''SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(ctx.author.id)
 	mquery = '''SELECT mewcoins FROM users WHERE u_id = {}'''.format(ctx.author.id)
 	poke = await tconn.fetchval(cquery)
-	r = requests.get('https://pokeapi.co/api/v2/pokemon/' + poke.lower() + '/')
-	rJson = r.json()
-	pid = rJson['id']
-	i = requests.get('https://pokeapi.bastionbot.org/v1/pokemon/' + pid + '/')
-	iJson = i.json()
-	icontent = iJson[0]
-	image = icontent['sprite']
 	redeems = await tconn.fetchval(rquery)
 	tnick = await tconn.fetchval(tquery)
 	uppoints = await tconn.fetchval(uquery)
@@ -570,7 +563,7 @@ async def info(ctx):
 	embed.add_field(name="Held Item", value=f"{hi}")
 	embed.set_image(url=irul)
 	await ctx.send(embed=embed)
-	await bot.process_commands(message)
+	await bot.process_commands(ctx)
 
 
 @bot.command()
@@ -676,7 +669,6 @@ async def redeem(ctx, val):
             args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 1, ctx.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 0, rnat, 35,'None')
             await ctx.channel.send(f"Here's your {val}!")
             await pconn.execute(query2, *args)
-            await bot.process_commands(ctx)
 
 
 
