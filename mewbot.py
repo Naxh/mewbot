@@ -600,7 +600,7 @@ async def pokedex(ctx, *, val):
 		pAb = 'Prehistoric Rain'
 		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 	else:
-		with requests.get('http://pokeapi.co/api/v2/pokemon/' + val.lower() + '/') as r:
+		with requests.get('https://pokeapi.co/api/v2/pokemon/' + val.lower() + '/') as r:
 			rJson = r.json()
 			iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
 			pName = rJson['name']
