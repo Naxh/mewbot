@@ -289,11 +289,11 @@ async def start_journey(ctx):
 		else:
 			await pconn.execute(query2, *args)
 			query3 = '''
-			INSERT INTO users (u_id, redeems, evpoints, tnick, upvotepoints)
-			VALUES ($1, $2, $3, $4, $5)
+			INSERT INTO users (u_id, redeems, evpoints, tnick, upvotepoints, mewcoins)
+			VALUES ($1, $2, $3, $4, $5, $6)
 			'''
 
-			args2 = (ctx.author.id, 0, 0, 'None', 0)
+			args2 = (ctx.author.id, 0, 0, 'None', 0, 0)
 			await pconn.execute(query3, *args2)
 			await ctx.channel.send("Records successfully Added\nGoodluck!")
 			await ctx.send("<:sylveon:463817633578483723> <:jirachigif:499179583531253760> <:PikaRun:480358691405561856>")
