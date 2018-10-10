@@ -228,7 +228,7 @@ async def on_message(message):
 		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
 		await pconn.execute(query2, *args)
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
-		await bot.process_commands(ctx)
+		await bot.process_commands(message)
 		logging.info("Success")
 	#   db code goes here
 
@@ -298,7 +298,7 @@ async def start_journey(ctx):
 			await ctx.channel.send("Records successfully Added\nGoodluck!")
 			await ctx.send("<:sylveon:463817633578483723> <:jirachigif:499179583531253760> <:PikaRun:480358691405561856>")
 			logging.info("All went well")
-			await bot.process_commands(ctx)
+			
 
 
 
@@ -322,7 +322,7 @@ async def pokemon(ctx, val=None):
 		embed.add_field(name=f'{nr}', value=f'{pn}', inline=True)
 	embed.set_footer(text="Upvote the Bot!!")
 	await ctx.send(embed=embed)
-	await bot.process_commands(ctx)
+	
 @bot.command()
 async def moves(ctx):
     pconn = await bot.db.acquire()
@@ -342,7 +342,7 @@ async def moves(ctx):
     
     embed.add_field(name='**Move 4**:', value=f'{m4}')
     await ctx.send(embed=embed)
-    await bot.process_commands(ctx)
+    
     
 @bot.command()
 async def select(ctx, val):
@@ -358,7 +358,7 @@ async def select(ctx, val):
 		pnum = await pconn.execute(pque)
 		await ctx.send("You have successfully selected your No. {0} Pokemon".format(val))
 		await ctx.send("<a:jirachigif:499179583531253760>")
-		await bot.process_commands(ctx)
+		
 
 @bot.command()
 async def test(ctx):
@@ -565,8 +565,7 @@ async def info(ctx):
 	embed.add_field(name="Held Item", value=f"{hi}")
 	embed.set_image(url=irul)
 	await ctx.send(embed=embed)
-	await bot.process_commands(ctx)
-
+	
 
 @bot.command()
 async def pokedex(ctx, *, val):
@@ -626,7 +625,7 @@ async def pokedex(ctx, *, val):
 	embed.set_image(url=iurl)
 
 	await ctx.send(embed=embed)
-	await bot.process_commands(ctx)
+	
 
 @bot.listen()
 async def on_guild_join(guild):
