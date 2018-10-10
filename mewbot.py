@@ -214,7 +214,7 @@ async def on_message(message):
 		plevel = random.randint(1, 100)
 		nature = random.choice(natlist)
 		expc = (plevel ** 3)
-		pque = '''SELECT MAX(pnum) + 1 FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
+		pque = '''SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {}'''.format(msg.author.id)
 		pnum = await pconn.fetchval(pque)
 		try:
 			pnum + 1
@@ -225,7 +225,7 @@ async def on_message(message):
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
 		'''
 
-		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, nextval('pnum_seq'), 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
+		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
 		await pconn.execute(query2, *args)
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
 		logging.INFO("Success")
