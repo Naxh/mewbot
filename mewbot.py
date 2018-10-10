@@ -101,7 +101,7 @@ async def trainer(ctx, user: discord.Member=None):
     embed.add_field(name="Trainer Nick", value=f'{tnick}')
     embed.add_field(name="Upvote Points", value=f'{uppoints}')
     embed.add_field(name="Currently Selected Pokemon", value=f'{poke}')
-    embed.add_field(name="Mewcoins", value=f'{mewcoins}')
+    embed.add_field(name="Credits", value=f'{mewcoins}ℳ	')
     embed.set_thumbnail(url=user.avatar_url)
     await ctx.send(embed=embed)
    
