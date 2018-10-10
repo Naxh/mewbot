@@ -346,11 +346,16 @@ async def moves(ctx):
 @bot.command()
 async def select(ctx, val):
     pconn = await bot.db.acquire()
-    await pconn.execute("UPDATE pokes SET selected = 0 WHERE selected = 1 AND ownerid = {0}".format(ctx.author.id, val))
-    pque = '''UPDATE pokes SET selected = 1 WHERE ownerid = {0} and pnum = {1}'''.format(ctx.author.id, val)
-    pnum = await pconn.execute(pque)
-    await ctx.send("You have successfully selected your No. {0} Pokemon".format(val))
-    await ctx.send("<a:jirachigif:499179583531253760>")
+	maxnum = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = {}".format(ctx.author.id))
+	if val > maxnum:
+		await ctx.send("That Pokemon Does not exist!<:sylveon:463817633578483723>")
+		return;
+	else:
+		await pconn.execute("UPDATE pokes SET selected = 0 WHERE selected = 1 AND ownerid = {0}".format(ctx.author.id, val))
+		pque = '''UPDATE pokes SET selected = 1 WHERE ownerid = {0} and pnum = {1}'''.format(ctx.author.id, val)
+		pnum = await pconn.execute(pque)
+		await ctx.send("You have successfully selected your No. {0} Pokemon".format(val))
+		await ctx.send("<a:jirachigif:499179583531253760>")
 
 @bot.command()
 async def test(ctx):
