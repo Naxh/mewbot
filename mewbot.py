@@ -444,7 +444,7 @@ async def info(ctx):
 		except TypeError as e:
 			await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 		pns = str(pn)
-		r = requests.get('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
+		r = await aiohttp.get('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
 		await ctx.send('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
 		rJson = r.json()
 		types = [t['type']['name'] for t in rJson['types']]
@@ -586,7 +586,7 @@ async def pokedex(ctx, *, val):
 		pAb = 'Prehistoric Rain'
 		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 	else:
-		r = requests.get('http://pokeapi.co/api/v2/pokemon/' + val.lower() + '/')
+		r = await aiohttp.get('http://pokeapi.co/api/v2/pokemon/' + val.lower() + '/')
 		rJson = r.json()
 		iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
 		pName = rJson['name']
@@ -765,7 +765,7 @@ async def battle(ctx, user: discord.Member):
         plevel = await pconn.fetchval(plquery)
         hpiv = await pconn.fetchval(hpquery)
         hi = await pconn.fetchval(hiquery)
-        r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pn + '/')
+        r = await aiohttp.get('http://pokeapi.co/api/v2/pokemon/' + pn + '/')
         rJson = r.json()
         types = [t['type']['name'] for t in rJson['types']]
         tlist = ", ".join(types)
@@ -871,7 +871,7 @@ async def battle(ctx, user: discord.Member):
         plevel = await pconn.fetchval(plquery)
         hpiv = await pconn.fetchval(hpquery)
         hi = await pconn.fetchval(hiquery)
-        r = requests.get('http://pokeapi.co/api/v2/pokemon/' + upn + '/')
+        r = await aiohttp.get('http://pokeapi.co/api/v2/pokemon/' + upn + '/')
         rJson = r.json()
         utypes = [t['type']['name'] for t in rJson['types']]
         tlist = ", ".join(types)
@@ -957,9 +957,9 @@ async def battle(ctx, user: discord.Member):
         colorTable[0] = 0 #anything black (0) will be made transparent
         desired_size = 288
 
-        pBack = requests.get('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/' + pDexnum + '.png')
+        pBack = await aiohttp.get('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/' + pDexnum + '.png')
 
-        pFront = requests.get('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + upDexnum + '.png')
+        pFront = await aiohttp.get('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + upDexnum + '.png')
         s = i.open(BytesIO(pBack.content))
 
         g = i.open(BytesIO(pFront.content))
@@ -1064,7 +1064,7 @@ async def addredeems(ctx, val, user: discord.Member):
 async def tms(ctx):
 	pconn = await bot.db.acquire()
 	pokname = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = {} AND selected = 1".format(ctx.author.id))
-	r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pokname.lower() + '/')
+	r = await aiohttp.get('http://pokeapi.co/api/v2/pokemon/' + pokname.lower() + '/')
 	rJson = r.json()
 	tlink = [t['type']['url'] for t in rJson['types']]
 	tlink1 = tlink[0]
