@@ -302,19 +302,23 @@ async def start_journey(ctx):
 
 
 @bot.command()
-async def pokemon(ctx, val=None):
+async def pokemon(ctx, int: val=None):
 	if val is None:
 		val = 1
 	rnum = val * 30
+	if val == 1:
+		enum = 1
+	else:
+		enum = (rnum/val)
 	pconn = await bot.db.acquire()
-	nquery = "SELECT pokname, pnum FROM pokes WHERE ownerid = {} ORDER BY pnum LIMIT {}".format(ctx.author.id, rnum)
+	nquery = f"SELECT pokname, pnum FROM pokes WHERE ownerid = {ctx.author.id} AND pnum BETWEEN {enum} AND {rnum} ORDER BY pnum"
 	pk1 = await pconn.fetch(nquery)
 	nrecord = [record['pokname'] for record in pk1]
 	precord = [record['pnum'] for record in pk1]
 	embed = discord.Embed(title='Your Pokemon List')
 	for pn in precord:
 		nr = nrecord[pn-1]
-		embed.add_field(name=f'{nr}', value=f'{pn}', inline=False)
+		embed.add_field(name=f'{nr}', value=f'{pn}', inline=True)
 	embed.set_footer(text="Upvote the Bot!!")
 	await ctx.send(embed=embed)
     
