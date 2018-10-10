@@ -83,14 +83,14 @@ async def ping(ctx):
 
 @bot.command()
 async def trainer(ctx, user: discord.Member=None):
-    tconn = await bot.db.acquire()
-    if user is None:
-        user = ctx.author
-    rquery = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
-    tquery = '''SELECT tnick FROM users WHERE u_id = {}'''.format(ctx.author.id)
-    uquery = '''SELECT upvotepoints FROM users WHERE u_id = {}'''.format(ctx.author.id)
-    cquery = '''SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(ctx.author.id)
-    mquery = '''SELECT mewcoins FROM users WHERE u_id = {}'''.format(ctx.author.id)
+	tconn = await bot.db.acquire()
+	if user is None:
+		user = ctx.author
+	rquery = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
+	tquery = '''SELECT tnick FROM users WHERE u_id = {}'''.format(ctx.author.id)
+	uquery = '''SELECT upvotepoints FROM users WHERE u_id = {}'''.format(ctx.author.id)
+	cquery = '''SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(ctx.author.id)
+	mquery = '''SELECT mewcoins FROM users WHERE u_id = {}'''.format(ctx.author.id)
 	poke = await tconn.fetchval(cquery)
 	r = requests.get('https://pokeapi.co/api/v2/pokemon/' + poke.lower() + '/')
 	rJson = r.json()
@@ -99,19 +99,19 @@ async def trainer(ctx, user: discord.Member=None):
 	iJson = i.json()
 	icontent = iJson[0]
 	image = icontent['sprite']
-    redeems = await tconn.fetchval(rquery)
-    tnick = await tconn.fetchval(tquery)
-    uppoints = await tconn.fetchval(uquery)
-    mewcoins = await tconn.fetchval(mquery)
-    embed = discord.Embed(title="{} Trainer Card".format(user.name))
-    embed.add_field(name="Redeems", value=f'{redeems}')
-    embed.add_field(name="Trainer Nick", value=f'{tnick}')
-    embed.add_field(name="Upvote Points", value=f'{uppoints}')
-    embed.add_field(name="Currently Selected Pokemon", value=f'{poke}')
-    embed.add_field(name="Credits", value=f'{mewcoins}ℳ	')
+	redeems = await tconn.fetchval(rquery)
+	tnick = await tconn.fetchval(tquery)
+	uppoints = await tconn.fetchval(uquery)
+	mewcoins = await tconn.fetchval(mquery)
+	embed = discord.Embed(title="{} Trainer Card".format(user.name))
+	embed.add_field(name="Redeems", value=f'{redeems}')
+	embed.add_field(name="Trainer Nick", value=f'{tnick}')
+	embed.add_field(name="Upvote Points", value=f'{uppoints}')
+	embed.add_field(name="Currently Selected Pokemon", value=f'{poke}')
+	embed.add_field(name="Credits", value=f'{mewcoins}ℳ	')
 	embed.set_image(url=image)
-    embed.set_thumbnail(url=user.avatar_url)
-    await ctx.send(embed=embed)
+	embed.set_thumbnail(url=user.avatar_url)
+	await ctx.send(embed=embed)
    
 	
 ########################################################################################################33
