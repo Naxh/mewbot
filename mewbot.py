@@ -194,7 +194,10 @@ async def on_message(message):
 		url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
 		embed = discord.Embed(title="A Pokemon has spawned, say it's name it to catch it!")
 		embed.set_image(url=url)
-		await channel.send(embed=embed)
+		try:
+			await message.channel.send(embed=embed)
+		except Exception as e:
+			await print("	Error in sending embed")
 		def check(m):
 			return m.content == val and m.channel == channel
 		msg = await bot.wait_for('message', check=check)
