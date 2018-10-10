@@ -426,6 +426,7 @@ async def info(ctx):
 	expcap = await pconn.fetchval(expcque)
 	
 	if pn == 'Flowing':
+		tlist = 'Grass'
 		pokemonSpeed = 73
 		pokemonAtk = 99
 		pokemonDef = 79
@@ -435,6 +436,7 @@ async def info(ctx):
 		pAb = 'Sizzling Growth'
 		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
 	elif pn == 'Flire':
+		tlist = 'Fire'
 		pokemonSpeed = 110
 		pokemonAtk = 120
 		pokemonDef = 95
@@ -444,6 +446,7 @@ async def info(ctx):
 		pAb = 'Scorched feet'
 		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
 	elif pn == 'Aquino':
+		tlist = 'Water'
 		pokemonSpeed = 95
 		pokemonAtk = 79
 		pokemonDef = 120
