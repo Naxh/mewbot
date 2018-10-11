@@ -337,22 +337,38 @@ async def pokemon(ctx, val=None):
 	
 @bot.command()
 async def moves(ctx):
-    pconn = await bot.db.acquire()
-    m1query = "SELECT move1 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-    m2query = "SELECT move2 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-    m3query = "SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-    m4query = "SELECT move4 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-    m1 = await pconn.fetchval(m1query)
-    m2 = await pconn.fetchval(m2query)
-    m3 = await pconn.fetchval(m3query)
-    m4 = await pconn.fetchval(m4query)
-    embed = discord.Embed(title='Moves')
-    embed.add_field(name='**Move 1**:', value=f'{m1}')
-    embed.add_field(name='**Move 2**:', value=f'{m2}')
-    
-    embed.add_field(name='**Move 3**:', value=f'{m3}')
-    
-    embed.add_field(name='**Move 4**:', value=f'{m4}')
+	pconn = await bot.db.acquire()
+	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id))
+	m1query = "SELECT move1 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+	m2query = "SELECT move2 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+	m3query = "SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+	m4query = "SELECT move4 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+	m1 = await pconn.fetchval(m1query)
+	m2 = await pconn.fetchval(m2query)
+	m3 = await pconn.fetchval(m3query)
+	m4 = await pconn.fetchval(m4query)
+	embed = discord.Embed(title='Moves')
+	embed.add_field(name='**Move 1**:', value=f'{m1}')
+	embed.add_field(name='**Move 2**:', value=f'{m2}')
+
+	embed.add_field(name='**Move 3**:', value=f'{m3}')
+
+	embed.add_field(name='**Move 4**:', value=f'{m4}')
+	with open ('moves.json') as f:
+    	moves = json.load(f)
+	with open('pokemon') as fp:
+    moveids = json.load(fp)
+
+	with requests.get('https://pokeapi.co/api/v2/pokemon/'+pokename.lower()'/') as r:
+    rj = r.json()
+    pDexnum = rj['id']
+	move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pDexnum]
+	move_names = [d["identifier"] for d in pkmns if d["type_id"] == 2]
+
+	for m_id in move_id:
+		move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
+		moves = ", ".join(move_names)
+		embed.add_field(name=f";learn {move_name}", value="to learn that move")
     await ctx.send(embed=embed)
     
     
