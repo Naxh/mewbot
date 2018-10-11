@@ -781,10 +781,12 @@ async def reward(ctx):
 	if rj['voted'] == 1:
 		try:
 			coins+=350
+			upoints += 1
 		except Exception as e:
 			await ctx.send("You have not upvoted the bot yet or you have not started with `;start`")
-		pconn.execute(f"UPDATE users SET mewcoins = {coins} WHERE u_id = {id}")
-		embed = discord.Embed(title="Successfully claimed Upvote Points!")
+		pconn.execute(f"UPDATE users SET mewcoins = {coins} WHERE u_id = {ctx.author.id}")
+		pconn.execute(f"UPDATE users SET upvotepoints = {upoints} WHERE u_id = {ctx.author.id}")
+		embed = discord.Embed(title="Successfully claimed Upvote Points! and Credits")
 		embed.add_field(name="Get 10 Upvote Points for a 5 Redeems!")
 		embed.set_thumbnail(url=ctx.avatar_url)
 		await ctx.send(embed=embed)
