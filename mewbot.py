@@ -250,7 +250,7 @@ async def start_journey(ctx):
 	embed.add_field(name="...", value="You've been hypnotized by Mew, and instead of the normal starters, you are forced to pick between \n-Flowin, the Grass type fakemon, \n-Flire the fire type fakemon and \n-Aquino, the water type.")
 	embed.set_thumbnail(url="https://nerdist.com/wp-content/uploads/2016/02/Screen-Shot-2016-02-02-at-12.05.40-PM-615x346.png")
 	embed.set_image(url="https://pm1.narvii.com/6252/3746bb43045886ce9ec8498a6f7d96f520ed6341_hq.jpg") # you cannot set two images. either put one as a thumbnail or remove it
-	embed.add_field(name="__React__to Pick a Starter!", value="...")
+	embed.add_field(name="__React__ to Pick a Starter!", value="...")
 	start_msg = await ctx.send(embed=embed)
 	for r in react_to_starter:
 		await start_msg.add_reaction(r)
@@ -468,7 +468,6 @@ async def info(ctx):
 			await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 		pns = str(pn)
 		with requests.get('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/') as r:	
-			await ctx.send('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/')
 			rJson = r.json()
 			types = [t['type']['name'] for t in rJson['types']]
 			tlist = ", ".join(types)
