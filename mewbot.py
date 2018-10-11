@@ -356,7 +356,7 @@ async def moves(ctx):
 	embed.add_field(name='**Move 4**:', value=f'{m4}')
 	with open ('moves.json') as f:
     		moves = json.load(f)
-	with open('pokemon') as fp:
+	with open('pokemon (2).json') as fp:
 		moveids = json.load(fp)
 
 	with requests.get('https://pokeapi.co/api/v2/pokemon/'+pokename.lower()+'/') as r:
