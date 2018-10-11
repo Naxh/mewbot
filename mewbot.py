@@ -760,7 +760,9 @@ async def addredeems(ctx, val, user: discord.Member):
 		await pconn.execute(rquery)
 	else:
 		await ctx.send("Only Dylee can use this command")
+
 		
+@bot.command()
 @commands.cooldown(1, 43200, commands.BucketType.user)
 async def reward(ctx):
 	pconn = await bot.db.acquire()
