@@ -761,7 +761,7 @@ async def addredeems(ctx, val, user: discord.Member):
 	else:
 		await ctx.send("Only Dylee can use this command")
 		
-@bot.command()
+@commands.cooldown(1, 43200, commands.BucketType.user)
 async def reward(ctx):
 	pconn = await bot.db.acquire()
 	id = ctx.author.id
@@ -790,8 +790,8 @@ async def reward(ctx):
 		embed = discord.Embed(title="Upvote the Bot Here!")
 		embed.add_field(name="You haven't upvoted!", value="Turns out you have not upvoted")
 		embed.add_field(name="Upvote Mewbot Here!", value="[Upvote MewBot](https://discordbots.org/bot/493045795445276682/vote)")
-	asyncio.sleep(43200)
-	
+		await ctx.send(embed=embed)
+		
 bot.run(TOKEN)
 
 			
