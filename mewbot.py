@@ -812,7 +812,7 @@ async def upvote(ctx):
 	await ctx.send(emoji)
 	
 @bot.command()
-async def trade(ctx, user: discord.Member, creds, poke):
+async def trade(ctx, user: discord.Member, creds: int, poke: int):
     pconn = await bot.db.acquire()
     if user is None:
         await ctx.send("You cannot trade with yourself")
