@@ -767,6 +767,7 @@ async def reward(ctx):
 	id = ctx.author.id
 	id = str(id)
 	base_url = ('https://discordbots.org/api/bots/493045795445276682/votes/check?userId=' + id)
+	await ctx.send(base_url)
 	passwd = str(dbltoken)
 	header = {'Authorization': passwd}
 	r = requests.get(base_url, headers=header)
