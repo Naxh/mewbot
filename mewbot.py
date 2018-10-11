@@ -369,7 +369,7 @@ async def moves(ctx):
 		move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
 		moves = ", ".join(move_names)
 		embed.add_field(name=f";learn {move_name}", value="to learn that move")
-    	await ctx.send(embed=embed)
+	await ctx.send(embed=embed)
     
     
 @bot.command()
