@@ -355,13 +355,13 @@ async def moves(ctx):
 
 	embed.add_field(name='**Move 4**:', value=f'{m4}')
 	with open ('moves.json') as f:
-    	moves = json.load(f)
+    		moves = json.load(f)
 	with open('pokemon') as fp:
 		moveids = json.load(fp)
 
 	with requests.get('https://pokeapi.co/api/v2/pokemon/'+pokename.lower()'/') as r:
-    rj = r.json()
-    pDexnum = rj['id']
+    		rj = r.json()
+    	pDexnum = rj['id']
 	move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pDexnum]
 	move_names = [d["identifier"] for d in pkmns if d["type_id"] == 2]
 
@@ -369,7 +369,7 @@ async def moves(ctx):
 		move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
 		moves = ", ".join(move_names)
 		embed.add_field(name=f";learn {move_name}", value="to learn that move")
-    await ctx.send(embed=embed)
+    	await ctx.send(embed=embed)
     
     
 @bot.command()
