@@ -230,7 +230,10 @@ async def on_message(message):
 		'''
 
 		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
-		await pconn.execute(query2, *args)
+		try:
+			await pconn.execute(query2, *args)
+		except asyncpg.exceptions.NotNullViolationError as e:
+			await ctx.send("You need to Register with `;start` first")
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
 		await bot.process_commands(message)
 		logging.info("Success")
@@ -826,7 +829,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
     else:
         offering = await pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {ctx.author.id}")
         ccreds = await pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {user.id}")
-        if creds < offering:
+        if creds > offering:
             await ctx.send(f"You do not have {creds} ℳ")
             return
         pokename = await pconn.fetchval(f"SELECT pokname FROM pokes WHERE pnum = {poke} AND ownerid = {user.id}")
