@@ -767,16 +767,13 @@ async def reward(ctx):
 	id = ctx.author.id
 	id = str(id)
 	base_url = ('https://discordbots.org/api/bots/493045795445276682/check?userId=' + id)
-	await ctx.send(base_url)
 	passwd = str(dbltoken)
 	header = {'Authorization': passwd}
 	r = requests.get(base_url, headers=header)
 	rj = r.json()
 	coins = await pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {ctx.author.id}")
 	upoints = await pconn.fetchval(f"SELECT upvotepoints FROM users WHERE u_id = {ctx.author.id}")
-	await ctx.send(rj)
 	voted = rj["voted"]
-	await ctx.send(voted)
 	if voted == 1:
 		try:
 			coins+=350
@@ -787,7 +784,7 @@ async def reward(ctx):
 		await pconn.execute(f"UPDATE users SET upvotepoints = {upoints} WHERE u_id = {ctx.author.id}")
 		embed = discord.Embed(title="Successfully claimed Upvote Points! and Credits")
 		embed.add_field(name="Upvoted!", value="Get 10 Upvote Points for a 5 Redeems!")
-		embed.set_thumbnail(url=ctx.avatar_url)
+		embed.set_thumbnail(url=ctx.author.avatar_url)
 		await ctx.send(embed=embed)
 	else:
 		embed = discord.Embed(title="Upvote the Bot Here!")
