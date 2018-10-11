@@ -766,7 +766,7 @@ async def reward(ctx):
 	pconn = await bot.db.acquire()
 	id = ctx.author.id
 	id = str(id)
-	base_url = ('https://discordbots.org/api/bots/493045795445276682/votes/check?userId=' + id)
+	base_url = ('https://discordbots.org/api/bots/493045795445276682/check?userId=' + id)
 	await ctx.send(base_url)
 	passwd = str(dbltoken)
 	header = {'Authorization': passwd}
@@ -786,11 +786,13 @@ async def reward(ctx):
 		await pconn.execute(f"UPDATE users SET mewcoins = {coins} WHERE u_id = {ctx.author.id}")
 		await pconn.execute(f"UPDATE users SET upvotepoints = {upoints} WHERE u_id = {ctx.author.id}")
 		embed = discord.Embed(title="Successfully claimed Upvote Points! and Credits")
-		embed.add_field(name="Get 10 Upvote Points for a 5 Redeems!")
+		embed.add_field(name="Upvoted!", value="Get 10 Upvote Points for a 5 Redeems!")
 		embed.set_thumbnail(url=ctx.avatar_url)
 		await ctx.send(embed=embed)
 	else:
-		await ctx.send("You did not Upvote the bot")
+		embed = discord.Embed(title="Upvote the Bot Here!")
+		embed.add_field(name="You haven't upvoted!", value="Turns out you have not upvoted")
+		embed.add_field(name="Upvote Mewbot Here!", value="[Upvote MewBot](https://discordbots.org/bot/493045795445276682/vote)")
 	asyncio.sleep(43200)
 	
 bot.run(TOKEN)
