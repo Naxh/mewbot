@@ -774,7 +774,7 @@ async def reward(ctx):
 	base_url = ('https://discordbots.org/api/bots/493045795445276682/votes/check?userId=' + id)
 	passwd = str(dbltoken)
 	header = {'Authorization': passwd}
-	r = requests.get(url, headers=header)
+	r = requests.get(base_url, headers=header)
 	rj = r.json()
 	coins = pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {ctx.author.id}")
 	upoints = pconn.fetchval(f"SELECT upvotepoints FROM users WHERE u_id = {ctx.author.id}")
