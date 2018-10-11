@@ -802,8 +802,9 @@ async def reward(ctx):
 @bot.command(aliases=["vote"])
 async def upvote(ctx):
 	embed = discord.Embed(title="Upvote the Bot Here!")
-	embed.add_field(name="You haven't upvoted!", value="Turns out you have not upvoted")
-	embed.add_field(name="Upvote Mewbot Here! ", value="[Upvote MewBot] (https://discordbots.org/bot/493045795445276682/vote)")
+	embed.add_field(name="You haven't upvoted?", value="If you have not upvoted")
+	embed.add_field(name="Upvote Mewbot Here! ", value="[Upvote MewBot](https://discordbots.org/bot/493045795445276682/vote)")
+	embed.set_footer(text="**NOTE**: ONLY USE `reward` WHEN YOU HAVE UPVOTED")
 	await ctx.send(embed=embed)
 bot.run(TOKEN)
 
