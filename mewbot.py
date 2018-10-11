@@ -357,7 +357,7 @@ async def moves(ctx):
 	with open ('moves.json') as f:
     	moves = json.load(f)
 	with open('pokemon') as fp:
-    moveids = json.load(fp)
+		moveids = json.load(fp)
 
 	with requests.get('https://pokeapi.co/api/v2/pokemon/'+pokename.lower()'/') as r:
     rj = r.json()
