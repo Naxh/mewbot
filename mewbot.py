@@ -769,7 +769,9 @@ async def addredeems(ctx, val, user: discord.Member):
 @bot.command()
 async def reward(ctx):
 	pconn = await bot.db.acquire()
-	base_url = ('https://discordbots.org/api/bots/493045795445276682/votes/check?userId=' + ctx.author.id)
+	id = ctx.author.id
+	id = str(id)
+	base_url = ('https://discordbots.org/api/bots/493045795445276682/votes/check?userId=' + id)
 	passwd = str(dbltoken)
 	header = {'Authorization': passwd}
 	r = requests.get(url, headers=header)
