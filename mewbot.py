@@ -34,6 +34,7 @@ version = ("0.0.5c Beta Build")
 
 TOKEN = os.environ['TOKEN']
 dburl = os.environ['DATABASE_URL']
+dbltoken = os.environ['dbltoken']
 
 bot.remove_command('help')
 #db connect
@@ -614,7 +615,7 @@ async def pokedex(ctx, *, val):
 				rJson = r.json()
 			except Exception as e:
 				await ctx.send(f"Error while performing the command-: {e}")
-				return;
+				return
 			iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
 			pName = rJson['name']
 			types = [t['type']['name'] for t in rJson['types']]
@@ -698,51 +699,6 @@ async def redeem(ctx, val):
 ##########################################################################
 #________________________________________________________________________#
 ##########################################################################
-@bot.command()
-async def trade(ctx, user: discord.Member):
-    pconn = await bot.db.acquire()
-    await ctx.channel.send(f"<@{ctx.author.id}> has began a trade with <@{user.id}>.")
-    await ctx.channel.send (f"Trade between {ctx.author.name} and {user.name}, {user.name} type `;accept trade` to accept")
-    emsg = await ctx.send(f"{ctx.author.name} is offering: \n{user.name} is offering: \nUse ``;addc credit amount>`` for credits and ``;addp poke number`` for pokemon")
-    def check(c, u):
-        return cauthor.id == ctx.author.id and uauthor.id == user.id
-    msg = await bot.wait_for('message', check=check, timeout=30)
-    if msg.startswith.startswith(';accept trade') or msg.content.startswith(';accept'):
-        def pred(c, u):
-            return cauthor.id == cauthor.id and uauthor.id == uauthor.id
-        tmsg = await bot.wait_for('message', check=pred)
-        if tmsg.content.startswith(';addc'):
-            cred = tmsg.split()
-            credamt = int(cred[1])
-            adderc = await pconn.fetchval(f'SELECT credits FROM trainers WHERE u_id = {msg.author.id}')
-            getterc = await pconn.fetchval(f'SELECT credits FROM trainers WHERE u_id = {uauthor.id}')
-            if adderc < credamt: 
-                return;
-            acred = acred - credamt
-            ncred = ncred + credamt
-            acquery = f"UPDATE users SET credits = {acred} WHERE u_id = {tmsg.author.id}"
-            gcquery = f"UPDATE users SET credits = {ncred} WHERE u_id = {uauthor.id}"
-            emsg.edit(content=f"{tmsg.author.name} has added:**_{credamt}__** Credits")
-            ccquery = f"UPDATE users SET credits = "
-        elif msg.content.startswith(';addp'):
-            pdat = tmsg.split()
-            pnumber = tmsg[1]
-            query = f"SELECT pokename FROM pokes WHERE pnum = {pnumber} AND ownerid = {tmsg.author.id}"
-            pnames = await pconn.fetchval(query)
-            query2 = f"SELECT pokelevel FROM pokes WHERE pnum = {pnumber} AND ownerid = {tmsg.author.id}"
-            plevel = await pconn.fetchval(query2)
-            emsg.edit(content=f"{msg.author.name} has added a :**_Level {plevel}{pnames}__**")
-            cquery = f"UPDATE pokes SET ownerid = {uauthor.id} WHERE pnum = {pnumber} AND ownerid = {tmsg.author.id}"
-            def ccheck(c, r):
-                return confirmer == cauthor.id and receiver == uauthor.id
-            cmsg = await bot.wait_for('message', check=ccheck, timeout=65)
-            if cmsg == ';confirm' and cmsg.author.id == cauthor.id and uauthor.id:
-                await pconn.execute(acquery)
-                await pconn.execute(gcquery)
-                await pconn.execute(cquery)
-    elif msg.content.startswith(';deny'):
-        await msg.channel.send(f"<@{msg.author.id}> has cancelled the trade")
-        return
 
 
 
@@ -754,282 +710,6 @@ async def trade(ctx, user: discord.Member):
 #############################################################################3
 ###333333333333333333battles###########################333
 #####################33333333nothing goes here
-@bot.command()
-async def battle(ctx, user: discord.Member):
-    pconn = await bot.db.acquire()
-    if user == None:
-            await ctx.channel.send("You can not battle yourself")
-            return
-    await ctx.channel.send(f"<@{user.id}>, you're being challenged by <@{ctx.author.id}>, type `;accept` to accept")
-    def check(m):
-            return m.channel == ctx.channel and m.user == user.id
-    msg = await bot.wait_for('message', check=check, timeout=30)
-    if msg != ';accept':
-        await ctx.channel.send("Battle Rejected")
-    elif msg == ';accept':
-                ######################################################3
-                #ctx stats
-        pquery = "SELECT pokname FROM pokes WHERE selected = 1 ownerid = {}".format(ctx.author.id)
-        atquery = "SELECT atkiv FROM pokes WHERE selected = 1 ownerid = {}".format(ctx.author.id)
-        dequery = "SELECT defiv FROM pokes WHERE selected = 1 ownerid = {}".format(ctx.author.id)
-        spaquery = "SELECT spatkiv FROM pokes WHERE selected = 1 ownerid = {}".format(ctx.author.id)
-        spdquery = "SELECT spdefiv FROM pokes WHERE selected = 1 ownerid = {}".format(ctx.author.id)
-        spequery = "SELECT speediv FROM pokes WHERE selected = 1 ownerid = {}".format(ctx.author.id)
-        plquery = "SELECT pokelevel FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-        pnquery = "SELECT poknick FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-        hiquery = "SELECT hitem FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-        hpquery = "SELECT hpiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-        natque = "SELECT nature FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-
-        nature = await pconn.fetchval(natque)
-        pn = await pconn.fetchval(pquery)
-        atkiv = await pconn.fetchval(atquery)
-        defiv = await pconn.fetchval(dequery)
-        spatkiv = await pconn.fetchval(spaquery)
-        spdefiv = await pconn.fetchval(spdquery)
-        speediv= await pconn.fetchval(spequery)
-        pnick = await pconn.fetchval(pnquery)
-        plevel = await pconn.fetchval(plquery)
-        hpiv = await pconn.fetchval(hpquery)
-        hi = await pconn.fetchval(hiquery)
-        r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pn + '/')
-        rJson = r.json()
-        types = [t['type']['name'] for t in rJson['types']]
-        tlist = ", ".join(types)
-        pAb = rJson['abilities'][0]['ability']['name']
-        pWeight = rJson['weight']/10
-        pDexnum = rJson['id']
-        pokemonSpeed = rJson['stats'][0]['base_stat']
-        pokemonSpd = rJson['stats'][1]['base_stat']
-        pokemonSpa = rJson['stats'][2]['base_stat']
-        pokemonDef = rJson['stats'][3]['base_stat']
-        pokemonAtk = rJson['stats'][4]['base_stat']
-        pokemonHp = rJson['stats'][5]['base_stat']
-
-        hp = ((((2*pokemonHp+hpiv+(0/4))*plevel)/100)+plevel+10)
-        attack = ((((2*pokemonSpeed+atkiv+(0/4))*plevel)/100)+5)
-        defense = ((((2*pokemonDef+defiv+(0/4))*plevel)/100)+5)
-        specialattack = ((((2*pokemonSpa+spatkiv+(0/4))*plevel)/100)+5)
-        specialdefense = ((((2*pokemonSpd+spdefiv+(0/4))*plevel)/100)+5)
-        speed = ((((2*pokemonSpeed+speediv+(0/4))*plevel)/100)+5)
-
-        if nature == 'Adamant':
-                attack = attack*1.1
-                specialattack *= 0.9
-        elif nature == 'Bold':
-                defense *= 1.1
-                attack *= 0.9
-        elif nature == 'Brave':
-                attack *= 1.1
-                speed *= 0.9
-        elif nature == 'Calm':
-                specialdefense *= 1.1
-                attack *= 0.9
-        elif nature == 'careful':
-                specialdefense *= 1.1
-                specialattack *= 0.9
-        elif nature == 'Gentle':
-                specialdefense *= 1.1
-                defense *= 0.9
-        elif nature == 'Hasty':
-                speed *= 1.1
-                defense *= 0.9
-        elif nature == 'Impish':
-                defense *= 1.1
-                specialattack *= 0.9
-        elif nature == 'Jolly':
-                speed *= 1.1
-                specialattack *= 0.9
-        elif nature == 'Lax':
-                defense *= 1.1
-                specialdefense *= 0.9
-        elif nature == 'Lonely':
-                attack *= 1.1
-                defense *= 0.9
-        elif nature == 'Mild':
-                specialattack *= 1.1
-                defense *= 0.9
-        elif nature == 'Modest':
-                specialattack *= 1.1
-                attack *= 0.9
-        elif nature == 'Naive':
-                speed *= 1.1
-                specialdefense *= 0.9
-        elif nature == 'Naughty':
-                attack *= 1.1
-                specialdefense *= 0.9
-        elif nature == 'Quiet':
-                specialattack *= 1.1
-                speed *= 0.9
-        elif nature == 'Rash':
-                specialattack *= 1.1
-                specialdefense *= 0.9
-        elif nature == 'Relaxed':
-                defense *= 1.1
-                speed *= 0.9
-        elif nature == 'Sassy':
-                specialdefense *= 1.1
-                speed *= 0.9
-        elif nature == 'Tired':
-                speed *= 1.1
-                attack *= 0.9
-                #######################################################
-                ######################################################################################user stats
-        pquery = "SELECT pokname FROM pokes WHERE selected = 1 ownerid = {}".format(user.id)
-        atquery = "SELECT atkiv FROM pokes WHERE selected = 1 ownerid = {}".format(user.id)
-        dequery = "SELECT defiv FROM pokes WHERE selected = 1 ownerid = {}".format(user.id)
-        spaquery = "SELECT spatkiv FROM pokes WHERE selected = 1 ownerid = {}".format(user.id)
-        spdquery = "SELECT spdefiv FROM pokes WHERE selected = 1 ownerid = {}".format(user.id)
-        spequery = "SELECT speediv FROM pokes WHERE selected = 1 ownerid = {}".format(user.id)
-        plquery = "SELECT pokelevel FROM pokes WHERE selected = 1 AND ownerid = {}".format(user.id)
-        pnquery = "SELECT poknick FROM pokes WHERE selected = 1 AND ownerid = {}".format(user.id)
-        hiquery = "SELECT hitem FROM pokes WHERE selected = 1 AND ownerid = {}".format(user.id)
-        hpquery = "SELECT hpiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(user.id)
-        natque = "SELECT nature FROM pokes WHERE selected = 1 AND ownerid = {}".format(user.id)
-
-        nature = await pconn.fetchval(natque)
-        upn = await pconn.fetchval(pquery)
-        atkiv = await pconn.fetchval(atquery)
-        defiv = await pconn.fetchval(dequery)
-        spatkiv = await pconn.fetchval(spaquery)
-        spdefiv = await pconn.fetchval(spdquery)
-        speediv= await pconn.fetchval(spequery)
-        pnick = await pconn.fetchval(pnquery)
-        plevel = await pconn.fetchval(plquery)
-        hpiv = await pconn.fetchval(hpquery)
-        hi = await pconn.fetchval(hiquery)
-        r = requests.get('http://pokeapi.co/api/v2/pokemon/' + upn + '/')
-        rJson = r.json()
-        utypes = [t['type']['name'] for t in rJson['types']]
-        tlist = ", ".join(types)
-        pAb = rJson['abilities'][0]['ability']['name']
-        pWeight = rJson['weight']/10
-        upDexnum = rJson['id']
-        pokemonSpeed = rJson['stats'][0]['base_stat']
-        pokemonSpd = rJson['stats'][1]['base_stat']
-        pokemonSpa = rJson['stats'][2]['base_stat']
-        pokemonDef = rJson['stats'][3]['base_stat']
-        pokemonAtk = rJson['stats'][4]['base_stat']
-        pokemonHp = rJson['stats'][5]['base_stat']
-
-        uhp = ((((2*pokemonHp+hpiv+(0/4))*plevel)/100)+plevel+10)
-        uattack = ((((2*pokemonSpeed+atkiv+(0/4))*plevel)/100)+5)
-        udefense = ((((2*pokemonDef+defiv+(0/4))*plevel)/100)+5)
-        uspecialattack = ((((2*pokemonSpa+spatkiv+(0/4))*plevel)/100)+5)
-        uspecialdefense = ((((2*pokemonSpd+spdefiv+(0/4))*plevel)/100)+5)
-        uspeed = ((((2*pokemonSpeed+speediv+(0/4))*plevel)/100)+5)
-
-        if nature == 'Adamant':
-                uattack = attack*1.1
-                uspecialattack *= 0.9
-        elif nature == 'Bold':
-                udefense *= 1.1
-                uattack *= 0.9
-        elif nature == 'Brave':
-                uattack *= 1.1
-                uspeed *= 0.9
-        elif nature == 'Calm':
-                uspecialdefense *= 1.1
-                uattack *= 0.9
-        elif nature == 'careful':
-                uspecialdefense *= 1.1
-                uspecialattack *= 0.9
-        elif nature == 'Gentle':
-                uspecialdefense *= 1.1
-                udefense *= 0.9
-        elif nature == 'Hasty':
-                uspeed *= 1.1
-                udefense *= 0.9
-        elif nature == 'Impish':
-                udefense *= 1.1
-                uspecialattack *= 0.9
-        elif nature == 'Jolly':
-                uspeed *= 1.1
-                uspecialattack *= 0.9
-        elif nature == 'Lax':
-                udefense *= 1.1
-                uspecialdefense *= 0.9
-        elif nature == 'Lonely':
-                uattack *= 1.1
-                udefense *= 0.9
-        elif nature == 'Mild':
-                uspecialattack *= 1.1
-                udefense *= 0.9
-        elif nature == 'Modest':
-                uspecialattack *= 1.1
-                uattack *= 0.9
-        elif nature == 'Naive':
-                uspeed *= 1.1
-                uspecialdefense *= 0.9
-        elif nature == 'Naughty':
-                uattack *= 1.1
-                uspecialdefense *= 0.9
-        elif nature == 'Quiet':
-                uspecialattack *= 1.1
-                uspeed *= 0.9
-        elif nature == 'Rash':
-                uspecialattack *= 1.1
-                uspecialdefense *= 0.9
-        elif nature == 'Relaxed':
-                udefense *= 1.1
-                uspeed *= 0.9
-        elif nature == 'Sassy':
-                uspecialdefense *= 1.1
-                uspeed *= 0.9
-        elif nature == 'Tired':
-                uspeed *= 1.1
-                uattack *= 0.9
-
-        colorTable = [255]*256
-        colorTable[0] = 0 #anything black (0) will be made transparent
-        desired_size = 288
-
-        pBack = requests.get('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/' + pDexnum + '.png')
-
-        pFront = requests.get('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + upDexnum + '.png')
-        s = i.open(BytesIO(pBack.content))
-
-        g = i.open(BytesIO(pFront.content))
-
-        bg = i.open("./pkbg2.png")
-
-        swidth, sheight = s.size
-        print("Size of Mewback = {} {}".format(swidth, sheight))
-        gwidth, gheight = g.size
-        print("Size of mewfront = {} {}".format(gwidth, gheight))
-        bgw, bgh = bg.size
-        print("Size of Bgfront = {} {}".format(bgw, bgh))
-        #perfect back = 35, 81
-
-        basewidth = 300
-
-        wpercent = (basewidth/float(s.size[0]))
-
-        hsize = int((float(s.size[1])*float(wpercent)))
-
-        s = s.resize((basewidth, hsize), i.ANTIALIAS)
-
-        g = g.resize((basewidth, hsize), i.ANTIALIAS)
-
-
-        area = (510, 100)
-
-        mask = g.point (colorTable, '1')
-        bg.paste(g, area, mask)
-
-        mask = s.point (colorTable, '1')
-
-        area2 = (170, 290)
-        bg.paste(s, area2, mask)
-
-        bg.save('./bg1', 'png')
-        embed=discord.Embed(title=f"Battle Between {p1} and {p2}")
-        embed.set_image('bg1.png')
-        await ctx.send(embed=embed)
-        os.remove('bg1.png')
-        await ctx.channel.send(f'<@{ctx.author.id} use a Move!')
-
-		
 		
 @bot.command()
 async def spawn(ctx, val1):
@@ -1086,38 +766,27 @@ async def addredeems(ctx, val, user: discord.Member):
 	else:
 		await ctx.send("Only Dylee can use this command")
 		
-		
 @bot.command()
-async def tms(ctx):
+async def reward(ctx):
 	pconn = await bot.db.acquire()
-	pokname = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = {} AND selected = 1".format(ctx.author.id))
-	r = requests.get('http://pokeapi.co/api/v2/pokemon/' + pokname.lower() + '/')
-	rJson = r.json()
-	tlink = [t['type']['url'] for t in rJson['types']]
-	tlink1 = tlink[0]
-	t_id = tlink1.replace("http://pokeapi.co/api/v2/type/", "")
-	t_id = t_id.replace("/", "")
-	tlink2 = tlink[1]
-	t2_id = tlink2.replace("https://pokeapi.co/api/v2/type/", "")
-	t2_id = t_id.replace("/", "")
-	line_count = 0
-	for row in csv_reader:
-		if line_count == 0:
-			line_count += 1
-		if row["type_id"] == t_id:
-			await ctx.send((row["identifier"]).capitalize())
-		if row["type_id"] == t2_id:
-			await ctx.channel.send((row["identifier"]).capitalize())
-			
-	
-	
-	
-
-@bot.listen()
-async def on_ready():
-	r = requests.get('https://discordbots.org/api/bots/493045795445276682/votes')
-	
-	
+	base_url = ('https://discordbots.org/api/bots/493045795445276682/votes/check?userId=' + ctx.author.id)
+	passwd = str(dbltoken)
+	header = {'Authorization': passwd}
+	r = requests.get(url, headers=header)
+	rj = r.json()
+	coins = pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {ctx.author.id}")
+	upoints = pconn.fetchval(f"SELECT upvotepoints FROM users WHERE u_id = {ctx.author.id}")
+	if rj['voted'] == 1:
+		try:
+			coins+=350
+		except Exception as e:
+			await ctx.send("You have not upvoted the bot yet or you have not started with `;start`")
+		pconn.execute(f"UPDATE users SET mewcoins = {coins} WHERE u_id = {id}")
+		embed = discord.Embed(title="Successfully claimed Upvote Points!")
+		embed.add_field(name="Get 10 Upvote Points for a 5 Redeems!")
+		embed.set_thumbnail(url=ctx.avatar_url)
+		await ctx.send(embed=embed)
+	asyncio.sleep(43200)
 	
 bot.run(TOKEN)
 
