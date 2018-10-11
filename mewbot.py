@@ -260,12 +260,12 @@ async def start_journey(ctx):
 		ucheck = (u == ctx.author)
 		return mcheck and rcheck and ucheck
 	try:
-	    reaction, user = await bot.wait_for("reaction_add", check=check, timeout=1234) # some timeout in seconds
+		reaction, user = await bot.wait_for("reaction_add", check=check, timeout=1234) # some timeout in seconds
 	except asyncio.TimeoutError:
-        await ctx.send('You took too long!', delete_after=15)
-    return
-	await ctx.send(f"You have selected {react_to_starter[reaction.emoji]} as your starter!")
-	await ctx.send(react_to_starter[reaction.emoji])
+		await ctx.send('You took too long!', delete_after=15)
+		return
+		await ctx.send(f"You have selected {react_to_starter[reaction.emoji]} as your starter!")
+		await ctx.send(react_to_starter[reaction.emoji])
 	def pred(m):
 		return m.author == message.author and m.channel == message.channel
 	answer1 = (react_to_starter[reaction.emoji])
