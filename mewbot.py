@@ -765,33 +765,38 @@ async def addredeems(ctx, val, user: discord.Member):
 @bot.command()
 @commands.cooldown(1, 43200, commands.BucketType.user)
 async def reward(ctx):
-	pconn = await bot.db.acquire()
-	id = ctx.author.id
-	id = str(id)
-	base_url = ('https://discordbots.org/api/bots/493045795445276682/check?userId=' + id)
-	passwd = str(dbltoken)
-	header = {'Authorization': passwd}
-	r = requests.get(base_url, headers=header)
-	rj = r.json()
-	coins = await pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {ctx.author.id}")
-	upoints = await pconn.fetchval(f"SELECT upvotepoints FROM users WHERE u_id = {ctx.author.id}")
-	voted = rj["voted"]
-	if voted == 1:
-		try:
-			coins+=350
-			upoints += 1
-		except Exception as e:
-			await ctx.send("You have not upvoted the bot yet or you have not started with `;start`")
-		await pconn.execute(f"UPDATE users SET mewcoins = {coins} WHERE u_id = {ctx.author.id}")
-		await pconn.execute(f"UPDATE users SET upvotepoints = {upoints} WHERE u_id = {ctx.author.id}")
-		embed = discord.Embed(title="Successfully claimed Upvote Points! and Credits")
-		embed.add_field(name="Upvoted!", value="Get 10 Upvote Points for a 5 Redeems!")
-		embed.set_thumbnail(url=ctx.author.avatar_url)
-		await ctx.send(embed=embed)
-	else:
-		embed = discord.Embed(title="Upvote the Bot Here!")
-		embed.add_field(name="You haven't upvoted!", value="Turns out you have not upvoted")
-		embed.add_field(name="Upvote Mewbot Here!", value="[Upvote MewBot](https://discordbots.org/bot/493045795445276682/vote)")
+	try:
+		pconn = await bot.db.acquire()
+		id = ctx.author.id
+		id = str(id)
+		base_url = ('https://discordbots.org/api/bots/493045795445276682/check?userId=' + id)
+		passwd = str(dbltoken)
+		header = {'Authorization': passwd}
+		r = requests.get(base_url, headers=header)
+		rj = r.json()
+		coins = await pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {ctx.author.id}")
+		upoints = await pconn.fetchval(f"SELECT upvotepoints FROM users WHERE u_id = {ctx.author.id}")
+		voted = rj["voted"]
+		if voted == 1:
+			try:
+				coins+=350
+				upoints += 1
+			except Exception as e:
+				await ctx.send("You have not upvoted the bot yet or you have not started with `;start`")
+			await pconn.execute(f"UPDATE users SET mewcoins = {coins} WHERE u_id = {ctx.author.id}")
+			await pconn.execute(f"UPDATE users SET upvotepoints = {upoints} WHERE u_id = {ctx.author.id}")
+			embed = discord.Embed(title="Successfully claimed Upvote Points! and Credits")
+			embed.add_field(name="Upvoted!", value="Get 10 Upvote Points for a 5 Redeems!")
+			embed.set_thumbnail(url=ctx.author.avatar_url)
+			await ctx.send(embed=embed)
+		else:
+			embed = discord.Embed(title="Upvote the Bot Here!")
+			embed.add_field(name="You haven't upvoted!", value="Turns out you have not upvoted")
+			embed.add_field(name="Upvote Mewbot Here!", value="[Upvote MewBot](https://discordbots.org/bot/493045795445276682/vote)")
+			await ctx.send(embed=embed)
+	except Exception as e:
+		embed = discord.Embed(title="You have already Upvoted")
+		embed.add_field(name="Already Upvoted the Bot", value=f"{e}")
 		await ctx.send(embed=embed)
 		
 bot.run(TOKEN)
