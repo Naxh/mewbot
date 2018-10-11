@@ -183,7 +183,7 @@ async def status(ctx):
 #plevel = random.randint(1, 100)
 @bot.listen()
 async def on_message(message):
-	if message.guild.id == 264445053596991498:
+	if message.guild and message.guild.id == 264445053596991498:
 		return
 	vowels = ['a', 'k', 'e', 't', 'u', 'i', 'o', 'l', 'o', 'm', 'y', 'i', 'e', 'z', 'x', 'b', 'g', 'l', 'a', 'w', 'q']
 	vl = random.choice(vowels)
@@ -259,7 +259,11 @@ async def start_journey(ctx):
 		rcheck = (r.emoji in react_to_starter)
 		ucheck = (u == ctx.author)
 		return mcheck and rcheck and ucheck
-	reaction, user = await bot.wait_for("reaction_add", check=check, timeout=1234) # some timeout in seconds
+    try:
+	    reaction, user = await bot.wait_for("reaction_add", check=check, timeout=1234) # some timeout in seconds
+    except asyncio.TimeoutError:
+    await ctx.send('You took too long!', delete_after=15)
+    return
 	await ctx.send(f"You have selected {react_to_starter[reaction.emoji]} as your starter!")
 	await ctx.send(react_to_starter[reaction.emoji])
 	def pred(m):
@@ -288,7 +292,7 @@ async def start_journey(ctx):
 		nrecord = [record['u_id'] for record in pk1]
 		if ctx.author.id in nrecord:
 			await ctx.send('you have already registered')
-			return;
+			return
 		else:
 			await pconn.execute(query2, *args)
 			query3 = '''
@@ -1107,6 +1111,12 @@ async def tms(ctx):
 			await ctx.channel.send((row["identifier"]).capitalize())
 			
 	
+	
+	
+
+@bot.listen()
+async def on_ready():
+	r = requests.get('https://discordbots.org/api/bots/493045795445276682/votes')
 	
 	
 	
