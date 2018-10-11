@@ -262,7 +262,7 @@ async def start_journey(ctx):
     try:
 	    reaction, user = await bot.wait_for("reaction_add", check=check, timeout=1234) # some timeout in seconds
     except asyncio.TimeoutError:
-    await ctx.send('You took too long!', delete_after=15)
+        await ctx.send('You took too long!', delete_after=15)
     return
 	await ctx.send(f"You have selected {react_to_starter[reaction.emoji]} as your starter!")
 	await ctx.send(react_to_starter[reaction.emoji])
