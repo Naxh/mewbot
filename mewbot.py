@@ -361,7 +361,7 @@ async def moves(ctx):
 
 	with requests.get('https://pokeapi.co/api/v2/pokemon/'+pokename.lower()+'/') as r:
     		rj = r.json()
-    	pDexnum = rj['id']
+	pDexnum = rj['id']
 	move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pDexnum]
 	move_names = [d["identifier"] for d in pkmns if d["type_id"] == 2]
 
