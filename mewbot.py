@@ -359,7 +359,7 @@ async def moves(ctx):
 	with open('pokemon') as fp:
 		moveids = json.load(fp)
 
-	with requests.get('https://pokeapi.co/api/v2/pokemon/'+pokename.lower()'/') as r:
+	with requests.get('https://pokeapi.co/api/v2/pokemon/'+pokename.lower()+'/') as r:
     		rj = r.json()
     	pDexnum = rj['id']
 	move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pDexnum]
