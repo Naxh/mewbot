@@ -366,11 +366,6 @@ async def select(ctx, val):
 		pnum = await pconn.execute(pque)
 		await ctx.send("You have successfully selected your No. {0} Pokemon".format(val))
 		await ctx.send("<a:jirachigif:499179583531253760>")
-		
-
-@bot.command()
-async def test(ctx):
-    await ctx.send("<a:sylveon:463817633578483723>")
 
 @bot.command(pass_context=True)
 async def shutdown(ctx):
@@ -778,7 +773,9 @@ async def reward(ctx):
 	rj = r.json()
 	coins = await pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {ctx.author.id}")
 	upoints = await pconn.fetchval(f"SELECT upvotepoints FROM users WHERE u_id = {ctx.author.id}")
+	await ctx.send(rj)
 	voted = rj["voted"]
+	await ctx.send(voted)
 	if voted == 1:
 		try:
 			coins+=350
