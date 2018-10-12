@@ -391,6 +391,7 @@ async def tms(ctx):
 	pokename = pokename.lower()
 	pkid = [i['id'] for i in pkids if i['identifier'] == pokename]
 	
+	embed = discord.Embed(title="Learnable Move List")
 	for pk_id in pkid:
 		move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pk_id]
 		move_names = [d["identifier"] for d in pkmns if d["id"] == move_id]
