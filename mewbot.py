@@ -630,6 +630,8 @@ async def pokedex(ctx, *, val):
 	val = val.capitalize()
 	if ' ' in val:
 		val = val.replace(' ', '-')
+	if '-mane' in val:
+		val = val.replace('-mane', ' mane')
 	if val == 'Flowing':
 		
 		pokemonSpeed = 73
