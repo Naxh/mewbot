@@ -651,19 +651,19 @@ async def pokedex(ctx, *, val):
 			t_ids = json.load(f)
 		iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
 		pkid = [i['id'] for i in forms if i['identifier'] == val.lower()]
-		tids = [1['type_id'] for i in t_ids[pkid]]
-		type1 = [i['identifier'] for i in types if i['id'] == tids[0]]
-		type2 = [i['identifier'] for i in types if i['id'] == tids[1]]
 		
 		for p_id in pkid:
 			p_id = str(p_id)
 			b = [1['base_stat'] for i in stats[p_id]]
+			tids = [1['type_id'] for i in t_ids[p_id]]
 			pokemonSpeed = (b[5])
 			pokemonSpd = (b[4])
 			pokemonSpa = (b[3])
 			pokemonDef = (b[2])
 			pokemonAtk = (b[1])
 			pokemonHp = (b[0])
+			type1 = tids[0]
+			type2 = tids[1]
         
 	embed = discord.Embed(title=val.capitalize(), description="")
 	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}**Types**: {type1}, {type2}\n**Pokedex Number**: {pkid}")
