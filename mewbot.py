@@ -316,10 +316,11 @@ async def start_journey(ctx):
 
 @bot.command()
 async def pokemon(ctx, val=None):
-	val = int(val)
+	
 	if val is None:
 		val = 1
-	rnum = val * 10
+	
+	rnum = int(val) * 10
 	if val == 1:
 		enum = 1
 	else:
