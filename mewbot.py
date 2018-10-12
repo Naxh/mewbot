@@ -326,6 +326,7 @@ async def pokemon(ctx, val=None):
 		enum = 1
 		snum = 1
 	else:
+		val = int(val)
 		enum = (rnum/int(val))
 		snum = ((10*val)-9)
 	pconn = await bot.db.acquire()
