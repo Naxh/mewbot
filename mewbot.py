@@ -663,7 +663,7 @@ async def pokedex(ctx, *, val):
 			pokemonAtk = (b[1])
 			pokemonHp = (b[0])
 			type1 = [i['identifier'] for i in types if i['id'] == tids[0]]
-			for tid in tids
+			for tid in tids:
 				id = [i['identifier'] for i in types if i['id'] == tid]
 				type = ", ".join(id)
 
