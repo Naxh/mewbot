@@ -653,9 +653,9 @@ async def pokedex(ctx, *, val):
 		pkid = [i['id'] for i in forms if i['identifier'] == val.lower()]
 		
 		for p_id in pkid:
-			p_id = str(p_id)
-			b = [1['base_stat'] for i in stats[p_id]]
-			tids = [1['type_id'] for i in t_ids[p_id]]
+			pk_id = str(p_id)
+			b = [1['base_stat'] for i in stats[pk_id]]
+			tids = [1['type_id'] for i in t_ids[pk_id]]
 			pokemonSpeed = (b[5])
 			pokemonSpd = (b[4])
 			pokemonSpa = (b[3])
