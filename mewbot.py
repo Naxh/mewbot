@@ -631,7 +631,7 @@ async def pokedex(ctx, *, val):
 	if ' ' in val:
 		val = val.replace(' ', '-')
 	if '-mane' in val:
-		val = val.replace('-mane', ' mane')
+		val = val.replace('-mane', '')
 	if val == 'Flowing':
 		
 		pokemonSpeed = 73
@@ -672,7 +672,12 @@ async def pokedex(ctx, *, val):
 			types = json.load(f)
 		with open('ptypes.json') as f:
 			t_ids = json.load(f)
-		iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
+		if '-dawn' in val:
+			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
+		elif '-mane' in val:
+			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
+		else:
+			iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
 		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == val.lower()]
 		
 		for p_id in pkid:
