@@ -530,9 +530,9 @@ async def info(ctx):
 			types = json.load(f)
 		with open('ptypes.json') as f:
 			t_ids = json.load(f)
-		if '-dawn' in val:
+		if '-dawn' in pn:
 			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-		elif '-mane' in val:
+		elif '-mane' in pn:
 			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 		else:
 			iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
