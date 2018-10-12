@@ -354,6 +354,12 @@ async def moves(ctx):
 	embed.add_field(name='**Move 3**:', value=f'{m3}')
 
 	embed.add_field(name='**Move 4**:', value=f'{m4}')
+	await ctx.send(embed=embed)
+	
+@bot.command()
+async def tms(ctx):
+	pconn = await bot.db.acquire()
+	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id))
 	with open ('moves.json') as f:
 		pkmns = json.load(f)
 		
@@ -367,7 +373,8 @@ async def moves(ctx):
 		
 	move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pDexnum]
 	move_names = [d["identifier"] for d in pkmns if d["type_id"] == 2]
-
+	
+	embed = discord.Embed(title="Learnable Moves!")
 	for m_id in move_id:
 		move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
 		embed.add_field(name=f"{move_names}", value="\n")
