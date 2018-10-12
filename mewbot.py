@@ -834,7 +834,7 @@ async def upvote(ctx):
 	embed = discord.Embed(title="Upvote the Bot Here!")
 	embed.add_field(name="You haven't upvoted?", value="If you have not upvoted")
 	embed.add_field(name="Upvote Mewbot Here! ", value="[Upvote MewBot](https://discordbots.org/bot/493045795445276682/vote)")
-	embed.set_footer(text="**NOTE**: ONLY USE `reward` WHEN YOU HAVE UPVOTED")
+	embed.set_footer(text="NOTE: ONLY USE ;reward WHEN YOU HAVE UPVOTED")
 	await ctx.send(embed=embed)
 	emoji = random.choice(emotes)
 	await ctx.send(emoji)
@@ -861,10 +861,10 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
 
         pid = await pconn.fetchval(f"SELECT  id FROM pokes WHERE pnum = {poke}")
         e = discord.Embed(title="Current Trade")
-        e.add_field(name=f"<@{ctx.author.id}>", value=f"is Offering {creds} for ")
-        e.add_field(name=f"<@{user.id}>'s", value=f"{pokename}")
-        e.add_field(name=f"Do you both", value=f"Accept the trade?")
-        e.set_footer(text="Say `;accept` to accept")
+        e.add_field(name=f"<@{ctx.author.id}> ", value=f"is Offering {creds} for \n")
+        e.add_field(name=f"<@{user.id}>'s ", value=f"{pokename} \n")
+        e.add_field(name=f"Do you both ", value=f"Accept the trade?\n")
+        e.set_footer(text="Say Yes to accept")
         await ctx.send(embed=e)
         def check(m):
             return m.content == ';accept' and m.author == ctx.author.id and m.user == user.id
