@@ -865,7 +865,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         e.add_field(name=f"<@{user.id}>'s", value=f"{pokename}")
         e.add_field(name=f"Do you both", value=f"Accept the trade?")
         e.set_footer(text="Say `;accept` to accept")
-	await ctx.send(embed=e)
+        await ctx.send(embed=e)
         def check(m):
             return m.content == ';accept' and m.author == ctx.author.id and m.user == user.id
         try:
