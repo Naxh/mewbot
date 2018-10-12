@@ -663,8 +663,9 @@ async def pokedex(ctx, *, val):
 			pokemonAtk = (b[1])
 			pokemonHp = (b[0])
 			type1 = [i['identifier'] for i in types if i['id'] == tids[0]]
-			id = [i['identifier'] for i in types if i['id'] == tid]
-			type = ", ".join(id)
+			for tid in tids
+				id = [i['identifier'] for i in types if i['id'] == tid]
+				type = ", ".join(id)
 
         
 	embed = discord.Embed(title=val.capitalize(), description="")
