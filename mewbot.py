@@ -316,6 +316,7 @@ async def start_journey(ctx):
 
 @bot.command()
 async def pokemon(ctx, val=None):
+	val = int(val)
 	if val is None:
 		val = 1
 	rnum = val * 10
@@ -380,7 +381,7 @@ async def tms(ctx):
 			move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
 			for name in move_names:
 				embed.add_field(name=f";learn {name}", value="to learn this move")
-				await ctx.send(embed=embed)
+	await ctx.send(embed=embed)
     
     
 @bot.command()
