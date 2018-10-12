@@ -866,7 +866,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         e.add_field(name=f"Do you both", value=f"Accept the trade?")
         e.set_footer(text="Say `;accept` to accept")
         def check(m):
-            return m.confirm == ';accept' and m.confirmer == ctx.author.id and m.accepter == user.id
+            return m.content == ';accept' and m.confirmer == ctx.author.id and m.accepter == user.id
         try:
             msg = await bot.wait_for('message', check=check, timeout=30)
         except asyncio.TimeoutError:
