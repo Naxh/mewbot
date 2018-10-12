@@ -382,7 +382,7 @@ async def tms(ctx):
 			move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
 			for name in move_names:
 				embed.add_field(name=f";learn {name}", value="to learn this move")
-		await ctx.send(embed=embed)
+			await ctx.send(embed=embed)
     
     
 @bot.command()
