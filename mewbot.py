@@ -649,11 +649,6 @@ async def pokedex(ctx, *, val):
 			types = json.load(f)
 		with open('ptypes.json') as f:
 			t_ids = json.load(f)
-		try:
-			rJson = r.json()
-		except Exception as e:
-			await ctx.send(f"Error while performing the command-: {e}")
-			return
 		iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
 		pkid = [i['id'] for i in forms if i['identifier'] == val.lower()]
 		tids = [1['type_id'] for i in t_ids[pid]]
@@ -671,7 +666,7 @@ async def pokedex(ctx, *, val):
 			pokemonHp = (b[0])
         
 	embed = discord.Embed(title=val.capitalize(), description="")
-	embed.add_field(name="Pokemon information", value=f"{pName.capitalize()} \n**Ability**: {pAb} \n**Types**: {tlist} \n**Weight**: {pWeight} Kgs \n**Pokedex Number**: {pDexnum}")
+	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}**Types**: {type1}, {type2}\n**Pokedex Number**: {pkid}")
 	embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk} \nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
 	embed.set_image(url=iurl)
 
