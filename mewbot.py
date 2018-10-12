@@ -639,25 +639,36 @@ async def pokedex(ctx, *, val):
 		pAb = 'Prehistoric Rain'
 		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 	else:
-		with requests.get('https://pokeapi.co/api/v2/pokemon/' + val.lower() + '/') as r:
-			try:
-				rJson = r.json()
-			except Exception as e:
-				await ctx.send(f"Error while performing the command-: {e}")
-				return
-			iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
-			pName = rJson['name']
-			types = [t['type']['name'] for t in rJson['types']]
-			tlist = ", ".join(types)
-			pAb = rJson['abilities'][0]['ability']['name']
-			pWeight = rJson['weight']/10
-			pDexnum = rJson['id']
-			pokemonSpeed = rJson['stats'][0]['base_stat']
-			pokemonSpd = rJson['stats'][1]['base_stat']
-			pokemonSpa = rJson['stats'][2]['base_stat']
-			pokemonDef = rJson['stats'][3]['base_stat']
-			pokemonAtk = rJson['stats'][4]['base_stat']
-			pokemonHp = rJson['stats'][5]['base_stat']
+		with open ('statfile') as f:
+			stats = json.load(f)
+		with open('pokemonfile.json') as f:
+			pkids = json.load(f)
+		with open('forms.json') as f:
+			forms = json.load(f)
+		with open('types.json') as f:
+			types = json.load(f)
+		with open('ptypes.json') as f:
+			t_ids = json.load(f)
+		try:
+			rJson = r.json()
+		except Exception as e:
+			await ctx.send(f"Error while performing the command-: {e}")
+			return
+		iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
+		pkid = [i['id'] for i in forms if i['identifier'] == val.lower()]
+		tids = [1['type_id'] for i in t_ids[pid]]
+		type1 = [i['identifier'] for i in types if i['id'] == tids[0]]
+		type2 = [i['identifier'] for i in types if i['id'] == tids[1]]
+		
+		for p_id in pkid:
+			p_id = str(p_id)
+			b = [1['base_stat'] for i in stats[p_id]]
+			pokemonSpeed = (b[5])
+			pokemonSpd = (b[4])
+			pokemonSpa = (b[3])
+			pokemonDef = (b[2])
+			pokemonAtk = (b[1])
+			pokemonHp = (b[0])
         
 	embed = discord.Embed(title=val.capitalize(), description="")
 	embed.add_field(name="Pokemon information", value=f"{pName.capitalize()} \n**Ability**: {pAb} \n**Types**: {tlist} \n**Weight**: {pWeight} Kgs \n**Pokedex Number**: {pDexnum}")
