@@ -233,7 +233,7 @@ async def on_message(message):
 		try:
 			await pconn.execute(query2, *args)
 		except asyncpg.exceptions.NotNullViolationError as e:
-			await ctx.send("You need to Register with `;start` first")
+			await channel.send("You need to Register with `;start` first")
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
 		await bot.process_commands(message)
 		logging.info("Success")
