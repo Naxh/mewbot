@@ -363,10 +363,9 @@ async def moves(ctx):
     		rj = r.json()
 	pDexnum = rj['id']
 	move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pDexnum]
-	move_names = [d["identifier"] for d in pkmns if d["type_id"] == 2]
 
 	for m_id in move_id:
-		move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
+		move_names = [d["identifier"] for d in moves if d["id"] == m_id]
 		moves = ", ".join(move_names)
 		embed.add_field(name=f";learn {move_name}", value="to learn that move")
 	await ctx.send(embed=embed)
