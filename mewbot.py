@@ -367,7 +367,7 @@ async def moves(ctx):
 	for m_id in move_id:
 		move_names = [d["identifier"] for d in moves if d["id"] == m_id]
 		moves = ", ".join(move_names)
-		embed.add_field(name=f";learn {move_name}", value="to learn that move")
+		await ctx.send(f";learn {move_name}to learn that move")
 	await ctx.send(embed=embed)
     
     
