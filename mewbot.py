@@ -520,19 +520,44 @@ async def info(ctx):
 		except Exception as e:
 			await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 		pns = str(pn)
-		with requests.get('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/') as r:	
-			rJson = r.json()
-			types = [t['type']['name'] for t in rJson['types']]
-			tlist = ", ".join(types)
-			pAb = rJson['abilities'][0]['ability']['name']
-			pWeight = rJson['weight']/10
-			pDexnum = rJson['id']
-			pokemonSpeed = rJson['stats'][0]['base_stat']
-			pokemonSpd = rJson['stats'][1]['base_stat']
-			pokemonSpa = rJson['stats'][2]['base_stat']
-			pokemonDef = rJson['stats'][3]['base_stat']
-			pokemonAtk = rJson['stats'][4]['base_stat']
-			pokemonHp = rJson['stats'][5]['base_stat']
+		with open ('statfile') as f:
+			stats = json.load(f)
+		with open('pokemonfile.json') as f:
+			pkids = json.load(f)
+		with open('forms.json') as f:
+			forms = json.load(f)
+		with open('types.json') as f:
+			types = json.load(f)
+		with open('ptypes.json') as f:
+			t_ids = json.load(f)
+		if '-dawn' in val:
+			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
+		elif '-mane' in val:
+			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
+		else:
+			iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
+		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
+		
+		for p_id in pkid:
+			pk_id = str(p_id)
+			b = [i['base_stat'] for i in stats[pk_id]]
+			tids = [i['type_id'] for i in t_ids[pk_id]]
+			pokemonSpeed = (b[5])
+			pokemonSpd = (b[4])
+			pokemonSpa = (b[3])
+			pokemonDef = (b[2])
+			pokemonAtk = (b[1])
+			pokemonHp = (b[0])
+			if len(tids) is 2:
+				id1 = [i['identifier'] for i in types if i['id'] == tids[0]]
+				id2 = [i['identifier'] for i in types if i['id'] == tids[1]]
+				types = id1 + id2
+				tlist = ", ".join(types)
+			else:
+				id1 = [i['identifier'] for i in types if i['id'] == tids[0]]
+
+				tlist = id1[0]']
+			
 
 	hp = round((((2*pokemonHp+hpiv+(0/4))*plevel)/100)+plevel+10)
 	attack = round((((2*pokemonSpeed+atkiv+(0/4))*plevel)/100)+5)
