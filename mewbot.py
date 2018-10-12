@@ -874,9 +874,9 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
             await ctx.send("Trade cancelled, took too long to confirm")
         offering -= creds
         ccreds += offering
-        nquery = f"UPDATE pokes SET ownerid = {m.confirmer} WHERE id = {pid}"
-        cquery = f"UPDATE users SET mewcoins = {offering} WHERE u_id = {m.confirmer}"
-        gquery = f"UPDATE users SET mewcoins = {ccreds} WHERE u_id = {m.accepter}"
+        nquery = f"UPDATE pokes SET ownerid = {m.author} WHERE id = {pid}"
+        cquery = f"UPDATE users SET mewcoins = {offering} WHERE u_id = {m.author}"
+        gquery = f"UPDATE users SET mewcoins = {ccreds} WHERE u_id = {m.user}"
         await pconn.execute(nquery)
         await pconn.execute(cquery)
         await pconn.execute(gquery)
