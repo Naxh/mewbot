@@ -556,7 +556,7 @@ async def info(ctx):
 			else:
 				id1 = [i['identifier'] for i in types if i['id'] == tids[0]]
 
-				tlist = id1[0]']
+				tlist = id1[0]
 			
 
 	hp = round((((2*pokemonHp+hpiv+(0/4))*plevel)/100)+plevel+10)
