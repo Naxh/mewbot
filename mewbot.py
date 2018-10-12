@@ -873,9 +873,9 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
             msg = await bot.wait_for('message', check=check, timeout=30)
         except asyncio.TimeoutError:
             await ctx.send("Trade cancelled, took too long to confirm")
-	if m.content == 'no' or 'No':
-		await ctx.send("Trade rejected")
-		return
+        if m.content == 'no' or 'No':
+                await ctx.send("Trade rejected")
+                return
         offering -= creds
         ccreds += offering
 	mnum = await pconn.fetchval(f"SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {ctx.author.id}")
