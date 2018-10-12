@@ -662,11 +662,12 @@ async def pokedex(ctx, *, val):
 			pokemonDef = (b[2])
 			pokemonAtk = (b[1])
 			pokemonHp = (b[0])
-			type1 = tids[0]
-			type2 = tids[1]
+			type1 = [i['identifier'] for i in types if i['id'] == tids[0]]
+			type2 = [i['identifier'] for i in types if i['id'] == tids[1]]
+
         
 	embed = discord.Embed(title=val.capitalize(), description="")
-	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}**Types**: {type1}, {type2}\n**Pokedex Number**: {pkid}")
+	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}\n**Types**: {type1}, {type2}\n**Pokedex Number**: {pkid}")
 	embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk} \nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
 	embed.set_image(url=iurl)
 
