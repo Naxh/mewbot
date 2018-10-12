@@ -318,7 +318,7 @@ async def start_journey(ctx):
 async def pokemon(ctx, val=None):
 	if val is None:
 		val = 1
-	rnum = val * 30
+	rnum = val * 10
 	if val == 1:
 		enum = 1
 	else:
@@ -371,8 +371,9 @@ async def tms(ctx):
 
 	pokename = pokename.lower()
 	pkid = [i['id'] for i in pkids if i['identifier'] == pokename]
-	embed=discord.Embed(title="Learnable Move List")
+	
 	for pk_id in pkid:
+		embed=discord.Embed(title="Learnable Move List")
 		move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pk_id]
 		move_names = [d["identifier"] for d in pkmns if d["id"] == move_id]
 		for m_id in move_id:
