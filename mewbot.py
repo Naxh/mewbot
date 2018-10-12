@@ -517,7 +517,7 @@ async def info(ctx):
 	else:
 		try:
 			irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
-		except TypeError as e:
+		except Exception as e:
 			await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
 		pns = str(pn)
 		with requests.get('https://pokeapi.co/api/v2/pokemon/' + pns.lower() + '/') as r:	
