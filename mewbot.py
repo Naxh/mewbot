@@ -53,11 +53,13 @@ async def on_ready():
     print('-------------')
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def mew(ctx):
     """Makes MewBot respond"""
     await ctx.send("Ping, latency: {}ms".format(int(bot.latency * 1000)))
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def dping(ctx):
     """This contains more details about the bots condition"""
     # Time the time required to send a message first.
@@ -76,6 +78,7 @@ async def dping(ctx):
     await msg.edit(content=f'Heartbeat: {heartbeat:,.2f}ms\tACK: {millis:,.2f}ms.')
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def ping(ctx):
     start = time.monotonic()
     embed = discord.Embed(title="Pong!")
@@ -83,6 +86,7 @@ async def ping(ctx):
     await ctx.send(embed=embed)
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def trainer(ctx, user: discord.Member=None):
 	tconn = await bot.db.acquire()
 	if user is None:
@@ -112,6 +116,7 @@ async def trainer(ctx, user: discord.Member=None):
 			
 ############################################################################################################			
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def help(ctx):
     embed = discord.Embed(title="MewBot commands", description="The pokemon discord utility bot made for you!!!", color=0xeee657)
     embed.add_field(name="Ping", value="Pings the bot and shows it's latency")
@@ -124,6 +129,7 @@ async def help(ctx):
     await ctx.send(embed=embed)
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def botinfo(ctx):
     embed = discord.Embed(title="MewBot information", description="Bot information", color=0xeee657)
 
@@ -146,6 +152,7 @@ async def botinfo(ctx):
     await ctx.send(embed=embed)
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def invite(ctx):
     embed = discord.Embed(title="Invite Me", description="The invite link for MewBot")
 
@@ -155,6 +162,7 @@ async def invite(ctx):
     await ctx.send(embed=embed)
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def status(ctx):
     embed = discord.Embed(title="Bot development Status", description="information on the development of MewBot")
 
@@ -183,6 +191,7 @@ async def status(ctx):
 #speiv = random.randint(1, 31)
 #plevel = random.randint(1, 100)
 @bot.listen()
+
 async def on_message(message):
 	if message.guild and message.guild.id == 264445053596991498:
 		return
@@ -249,6 +258,7 @@ react_to_starter = {
     # do this thing for the three starters and their emoji
 }
 @bot.command(name="start")
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def start_journey(ctx):
 	embed = discord.Embed(title="Select a Starter!", description="Choose any of the Starters!")
 	embed.add_field(name="...", value="You've been hypnotized by Mew, and instead of the normal starters, you are forced to pick between \n-Flowin, the Grass type fakemon, \n-Flire the fire type fakemon and \n-Aquino, the water type.")
@@ -315,6 +325,7 @@ async def start_journey(ctx):
 
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def pokemon(ctx, val=None):
 	
 	if val is None:
@@ -342,6 +353,7 @@ async def pokemon(ctx, val=None):
 	await ctx.send(embed=embed)
 	
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def moves(ctx):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id))
@@ -363,6 +375,7 @@ async def moves(ctx):
 	await ctx.send(embed=embed)
 	
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def tms(ctx):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id))
@@ -382,14 +395,14 @@ async def tms(ctx):
 		move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pk_id]
 		move_names = [d["identifier"] for d in pkmns if d["id"] == move_id]
 		for m_id in move_id:
-			embed=discord.Embed(title="Learnable Move List")
 			move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
 			for name in move_names:
 				embed.add_field(name=f";learn {name}", value="to learn this move")
-			await ctx.send(embed=embed)
+		await ctx.send(embed=embed)
     
     
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def select(ctx, val):
 	pconn = await bot.db.acquire()
 	val = int(val)
@@ -428,6 +441,7 @@ async def cp(ctx, *, presence):
 
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def inspire(ctx):
     iE = discord.Embed(title="Inspire Me", description="...")
     iE.add_field(name="Here it is", value="you don't understand something unless you know how it works on one level of abstraction lower than you need to know to use it")
@@ -435,6 +449,7 @@ async def inspire(ctx):
     await ctx.send(embed=iE)
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def info(ctx):
 	pconn = await bot.db.acquire()
 	pquery = "SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
@@ -608,6 +623,7 @@ async def info(ctx):
 	
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def pokedex(ctx, *, val):
 	
 	val = val.capitalize()
@@ -666,14 +682,20 @@ async def pokedex(ctx, *, val):
 			pokemonDef = (b[2])
 			pokemonAtk = (b[1])
 			pokemonHp = (b[0])
-			type1 = [i['identifier'] for i in types if i['id'] == tids[0]]
-			for tid in tids:
-				id = [i['identifier'] for i in types if i['id'] == tid]
-				type = ", ".join(id)
+			if len(tids) is 2:
+				id1 = [i['identifier'] for i in types if i['id'] == tids[0]]
+				id2 = [i['identifier'] for i in types if i['id'] == tids[1]]
+				types = id1 + id2
+				tlist = ", ".join(types)
+			else:
+				id1 = [i['identifier'] for i in types if i['id'] == tids[0]]
+
+				tlist = id1[0]
+			
 
         
 	embed = discord.Embed(title=val.capitalize(), description="")
-	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}\n**Types**: {type}\n**Pokedex Number**: {pkid}")
+	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}\n**Types**: {tlist}\n**Pokedex Number**: {pkid}")
 	embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk} \nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
 	embed.set_image(url=iurl)
 
@@ -697,6 +719,7 @@ async def on_guild_remove(guild):
     await guild.owner.send("Goodbye to 10 Redeems :cry:")
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def redeem(ctx, val):
     val = val.capitalize()
     if val in pList:
@@ -754,6 +777,7 @@ async def redeem(ctx, val):
 #####################33333333nothing goes here
 		
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def spawn(ctx, val1):
 	if ctx.author.id == 358293206900670467:
 		channel = ctx.channel
@@ -800,6 +824,7 @@ async def spawn(ctx, val1):
 		await ctx.send("Only Dylee can use this command")
 		
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def addredeems(ctx, val, user: discord.Member):
 	if ctx.author.id == 358293206900670467:
 		pconn = await bot.db.acquire()
@@ -847,6 +872,7 @@ async def reward(ctx):
 		await ctx.send(embed=embed)
 		
 @bot.command(aliases=["vote"])
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def upvote(ctx):
 	embed = discord.Embed(title="Upvote the Bot Here!")
 	embed.add_field(name="You haven't upvoted?", value="If you have not upvoted")
@@ -857,6 +883,7 @@ async def upvote(ctx):
 	await ctx.send(emoji)
 	
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def trade(ctx, user: discord.Member, creds: int, poke: int):
     pconn = await bot.db.acquire()
     if user is None:
