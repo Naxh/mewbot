@@ -868,12 +868,12 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         e.set_footer(text="Say Yes to accept")
         await ctx.send(embed=e)
         def check(m):
-            return m.content == 'yes' and m.author == ctx.author.id and m.user == user.id
+            m.author == ctx.author.id and m.user == user.id
         try:
             msg = await bot.wait_for('message', check=check, timeout=30)
         except asyncio.TimeoutError:
             await ctx.send("Trade cancelled, took too long to confirm")
-        if m.content == 'no' or 'No':
+        if msg == 'no' or 'No':
                 await ctx.send("Trade rejected")
                 return
         offering -= creds
