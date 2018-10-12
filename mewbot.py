@@ -651,7 +651,7 @@ async def pokedex(ctx, *, val):
 			t_ids = json.load(f)
 		iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
 		pkid = [i['id'] for i in forms if i['identifier'] == val.lower()]
-		tids = [1['type_id'] for i in t_ids[pid]]
+		tids = [1['type_id'] for i in t_ids[pkid]]
 		type1 = [i['identifier'] for i in types if i['id'] == tids[0]]
 		type2 = [i['identifier'] for i in types if i['id'] == tids[1]]
 		
