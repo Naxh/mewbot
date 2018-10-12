@@ -370,7 +370,7 @@ async def moves(ctx):
 
 	for m_id in move_id:
 		move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
-		embed.add_field(name=f"{move_names}, value="\n ")
+		embed.add_field(name=f"{move_names}, value=" \n")
 	await ctx.send(embed=embed)
     
     
