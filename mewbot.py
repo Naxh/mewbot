@@ -861,9 +861,9 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
 
         pid = await pconn.fetchval(f"SELECT  id FROM pokes WHERE pnum = {poke}")
         e = discord.Embed(title="Current Trade")
-        e.add_field(name=f"<@{ctx.author.id}> ", value=f"is Offering {creds} for \n")
-        e.add_field(name=f"<@{user.id}>'s ", value=f"{pokename} \n")
-        e.add_field(name=f"Do you both ", value=f"Accept the trade?\n")
+        e.add_field(name=f"\n<@{ctx.author.name}> ", value=f"is Offering {creds} for \n")
+        e.add_field(name=f"\n<@{user.name}>'s ", value=f"{pokename} \n")
+        e.add_field(name=f"\nDo you both ", value=f"Accept the trade?\n")
         e.set_footer(text="Say Yes to accept")
         await ctx.send(embed=e)
         def check(m):
@@ -874,9 +874,9 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
             await ctx.send("Trade cancelled, took too long to confirm")
         offering -= creds
         ccreds += offering
-        nquery = f"UPDATE pokes SET ownerid = {m.author} WHERE id = {pid}"
-        cquery = f"UPDATE users SET mewcoins = {offering} WHERE u_id = {m.author}"
-        gquery = f"UPDATE users SET mewcoins = {ccreds} WHERE u_id = {m.user}"
+        nquery = f"UPDATE pokes SET ownerid = {ctx.author.id} WHERE id = {pid}"
+        cquery = f"UPDATE users SET mewcoins = {offering} WHERE u_id = {ctx.author.id}"
+        gquery = f"UPDATE users SET mewcoins = {ccreds} WHERE u_id = {user.id}"
         await pconn.execute(nquery)
         await pconn.execute(cquery)
         await pconn.execute(gquery)
