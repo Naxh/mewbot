@@ -362,22 +362,23 @@ async def tms(ctx):
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id))
 	with open ('moves.json') as f:
 		pkmns = json.load(f)
-		
+
 	with open('pokemon (2).json') as fp:
 		moveids = json.load(fp)
 
-	
-	with requests.get('https://pokeapi.co/api/v2/pokemon/'+pokename.lower()+'/') as r:
-		rj = r.json()
-		pDexnum = rj['id']
-		
-	move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pDexnum]
-	move_names = [d["identifier"] for d in pkmns if d["type_id"] == 2]
-	
-	embed = discord.Embed(title="Learnable Moves!")
-	for m_id in move_id:
-		move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
-		embed.add_field(name=f"{move_names}", value="\n")
+	with open('pokemonfile.json') as r:
+		pkids = json.load(r)
+
+	pokename = pokename.lower()
+	pkid = [i['id'] for i in pkids if i['identifier'] == pokename]
+	embed=discord.Embed(title="Learnable Move List")
+	for pk_id in pkid:
+		move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pk_id]
+		move_names = [d["identifier"] for d in pkmns if d["id"] == move_id]
+		for m_id in move_id:
+			move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
+			for name in move_names:
+				embed.add_field(name=f";learn {name}", value="to learn this move")
 	await ctx.send(embed=embed)
     
     
@@ -867,14 +868,18 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         e.set_footer(text="Say Yes to accept")
         await ctx.send(embed=e)
         def check(m):
-            return m.content == ';accept' and m.author == ctx.author.id and m.user == user.id
+            return m.content == 'yes' and m.author == ctx.author.id and m.user == user.id
         try:
             msg = await bot.wait_for('message', check=check, timeout=30)
         except asyncio.TimeoutError:
             await ctx.send("Trade cancelled, took too long to confirm")
+	if m.content == 'no' or 'No':
+		await ctx.send("Trade rejected")
+		return
         offering -= creds
         ccreds += offering
-        nquery = f"UPDATE pokes SET ownerid = {ctx.author.id} WHERE id = {pid}"
+	mnum = await pconn.fetchval(f"SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {ctx.author.id}")
+        nquery = f"UPDATE pokes SET ownerid = {ctx.author.id} AND pnum = {mnum} WHERE id = {pid}"
         cquery = f"UPDATE users SET mewcoins = {offering} WHERE u_id = {ctx.author.id}"
         gquery = f"UPDATE users SET mewcoins = {ccreds} WHERE u_id = {user.id}"
         await pconn.execute(nquery)
