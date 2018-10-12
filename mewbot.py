@@ -650,7 +650,7 @@ async def pokedex(ctx, *, val):
 		with open('ptypes.json') as f:
 			t_ids = json.load(f)
 		iurl = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
-		pkid = [i['id'] for i in forms if i['identifier'] == val.lower()]
+		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == val.lower()]
 		
 		for p_id in pkid:
 			pk_id = str(p_id)
