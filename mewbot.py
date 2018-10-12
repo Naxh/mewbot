@@ -375,10 +375,10 @@ async def tms(ctx):
 	pkid = [i['id'] for i in pkids if i['identifier'] == pokename]
 	
 	for pk_id in pkid:
-		embed=discord.Embed(title="Learnable Move List")
 		move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pk_id]
 		move_names = [d["identifier"] for d in pkmns if d["id"] == move_id]
 		for m_id in move_id:
+			embed=discord.Embed(title="Learnable Move List")
 			move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
 			for name in move_names:
 				embed.add_field(name=f";learn {name}", value="to learn this move")
