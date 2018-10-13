@@ -1019,7 +1019,32 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         await bot.db.release(pconn)
 
 	
-	
+@bot.command()
+async def giveredeem(ctx, user: discord.Member, val):
+	pconn = await bot.db.acquire()
+	if user is None:
+		await ctx.send("Please tag a User")
+		return
+	else:
+		redeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", ctx.author.id)
+		getr = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", user.id)
+		if val > redeems:
+			await ctx.send("You don't have that much Redeems Friend")
+			return
+		elif getr is None:
+			await ctx.send(f"<@{user.id}> has not started")
+			return
+		elif redeems is None:
+			await ctx.send(f"<@{ctx.author.id}> has not started")
+			return
+		giver = redeems - val
+		rcvr = redeems + val
+		await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", giver, ctx.author.id)
+		await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", rcvr, user.id)
+		await ctx.send(f"<@{ctx.author.id}> has given <@{user.id}> {val} redeems")
+		await bot.db.release(pconn)
+		
+			
 bot.run(TOKEN)
 
 			
