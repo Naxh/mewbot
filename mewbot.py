@@ -951,7 +951,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         e.set_footer(text="Say Yes to accept")
         await ctx.send(embed=e)
         def check(m):
-            m.author == ctx.author.id and m.user == user.id
+            m.user == user.id
         try:
             msg = await bot.wait_for('message', check=check, timeout=30)
         except asyncio.TimeoutError:
@@ -959,6 +959,8 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         if msg == 'no' or 'No':
                 await ctx.send("Trade rejected")
                 return
+	elif msg == 'Yes' or 'yes':
+		await ctx.send("Trade has been approved!")
         offering -= creds
         ccreds += offering
         mnum = await pconn.fetchval(f"SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {ctx.author.id}")
