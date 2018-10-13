@@ -136,7 +136,7 @@ async def help(ctx, val=None):
 		e.add_field(name="`;trade`", value="`;trade @User <credits_amount> <their_pokemon_number>`")
 		e.add_field(name="`;gift` to give someone credits", value="`;gift @User <credit_amount>`")
 		e.add_field(name="`;give` to give someone a Pokemon", value="`;give @User <your_pokemon_number>`")
-		e.add_field(name="`;giveredeem` to give someone redeems!, value="`;giveredeem @User <number_of_redeems>`")
+		e.add_field(name="`;giveredeem` to give someone redeems!", value="`;giveredeem @User <number_of_redeems>`")
 		await ctx.send(embed=e)
 
 @bot.command()
