@@ -537,6 +537,7 @@ async def info(ctx):
 		else:
 			iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
+		await ctx.send(pkid)
 		
 		for p_id in pkid:
 			pk_id = str(p_id)
