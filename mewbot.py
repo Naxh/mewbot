@@ -401,7 +401,7 @@ async def tms(ctx):
 	move = [m['move']['name'] for m in r['moves']]
 	e = discord.Embed(title="Learnable Move List")
 	for move in move:
-		e.add_field(name=f"{move}", value=f";learn __{move}__ to learn it!")
+		e.add_field(name=f"{move}", value=f";learn <move>")
 	await ctx.send(embed=e)
 			    
     
