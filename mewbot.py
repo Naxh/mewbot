@@ -541,9 +541,11 @@ async def info(ctx):
 			iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 		if pn.lower() == 'deoxys':
 			pn = 'deoxys-normal'
-		await ctx.send(pn)
+		if pn.lower() == 'xerneas':
+			pn = 'xerneas-active'
+		
 		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
-		await ctx.send(pkid)
+		
 		
 		for p_id in pkid:
 			pk_id = str(p_id)
