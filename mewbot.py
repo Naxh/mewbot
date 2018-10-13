@@ -422,7 +422,7 @@ async def tms(ctx, val=None):
 	e = discord.Embed(title="Learnable Move List")
 	for move in move[snum:val]:
 		e.add_field(name=f"{move}", value=f";learn <move>")
-	await e.set_footer(text=f"Showing a few of {len(move)} Moves learnable by {pokename}")
+	e.set_footer(text=f"Showing {val} of {move} Moves learnable by {pokename}")
 	await ctx.send(embed=e)
 	await bot.db.release(pconn)
 			    
