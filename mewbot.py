@@ -349,7 +349,7 @@ async def pokemon(ctx, val=None):
 	for pn in precord:
 		nr = nrecord[pn-snum]
 		embed.add_field(name=f'{nr}', value=f'{pn}', inline=True)
-	embed.set_footer(text="Upvote the Bot!!")
+	embed.set_footer(text="Upvote the Bot!! Open the next page with ;pokemon <page_number>")
 	await ctx.send(embed=embed)
 	
 @bot.command()
@@ -389,6 +389,8 @@ async def tms(ctx):
 		pkids = json.load(r)
 
 	pokename = pokename.lower()
+	if pokename == 'deoxys':
+		pokename = 'deoxys-normal'
 	pkid = [i['id'] for i in pkids if i['identifier'] == pokename]
 	
 	embed = discord.Embed(title="Learnable Move List")
