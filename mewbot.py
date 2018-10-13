@@ -386,30 +386,23 @@ async def moves(ctx):
 async def tms(ctx):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id))
-	with open ('moves.json') as f:
-		pkmns = json.load(f)
-
-	with open('pokemon (2).json') as fp:
-		moveids = json.load(fp)
-
-	with open('pokemonfile.json') as r:
-		pkids = json.load(r)
-
+	if ' ' in pokename:
+		pokename = pokename.replace(' ', '-')
+	with open('forms.json') as f:
+		forms = json.load(f)
 	pokename = pokename.lower()
 	if pokename == 'deoxys':
 		pokename = 'deoxys-normal'
-	pkid = [i['id'] for i in pkids if i['identifier'] == pokename]
-	
-	embed = discord.Embed(title="Learnable Move List")
-	counter = 0
-	for pk_id in pkid:
-		move_id = [m["move_id"] for m in moveids if m["pokemon_id"] == pk_id]
-		move_names = [d["identifier"] for d in pkmns if d["id"] == move_id]
-		for m_id in move_id:
-			move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
-			for name in move_names:
-				embed.add_field(name=f";learn {name}", value="to learn this move")
-	await ctx.send(embed=embed)
+	pkid = [i['id'] for i in forms if i['identifier'] == pokename]
+	for p_id in pkid:
+		r = requests.get('https://pokeapi.co/api/v2/pokemon/'+p_id+'/')
+		r = r.json()
+	move = [m['move']['name'] for m in r['moves']]
+	e = discord.Embed(title="Learnable Move List")
+	for move in moves:
+		e.add_field(name=f"To learn this move use", value=";learn {move}\n")
+	await ctx.send(embed=e)
+			    
     
     
 @bot.command()
