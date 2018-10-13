@@ -401,9 +401,7 @@ async def tms(ctx):
 		for m_id in move_id:
 			move_names = [d["identifier"] for d in pkmns if d["id"] == m_id]
 			for name in move_names:
-				while counter < 20:
-					counter+=1
-					embed.add_field(name=f";learn {name}", value="to learn this move")
+				embed.add_field(name=f";learn {name}", value="to learn this move")
 	await ctx.send(embed=embed)
     
     
