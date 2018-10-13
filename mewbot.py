@@ -50,7 +50,7 @@ async def on_ready():
 @bot.listen()
 async def on_ready():
 	if not hasattr(bot, 'db'):
-		bot.db = await asyncpg.create_pool(dburl, min_size=5, max_size=20)
+		bot.db = await asyncpg.create_pool(dburl, min_size=5, max_size=50)
 
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
