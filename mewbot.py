@@ -38,11 +38,6 @@ dbltoken = os.environ['dbltoken']
 
 bot.remove_command('help')
 #db connect
-
-@bot.listen()
-async def on_connect():
-	if not hasattr(bot, 'db'):
-		bot.db = await asyncpg.create_pool(dburl, min_size=20, max_size=20)
 		
 @bot.listen()
 async def on_ready():
@@ -51,6 +46,11 @@ async def on_ready():
     print(bot.user.id)
     print(version)
     print('-------------')
+
+@bot.listen()
+async def on_ready():
+	if not hasattr(bot, 'db'):
+		bot.db = await asyncpg.create_pool(dburl, min_size=5, max_size=20)
 
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
