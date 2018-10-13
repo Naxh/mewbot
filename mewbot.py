@@ -782,6 +782,8 @@ async def on_guild_join(guild):
 	if len(guild.members) >= 50:
 		pconn = await bot.db.acquire()
 		credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1, guild.owner.id")
+	else: 
+		return
 	if credeems is None:
 		await guild.owner.send("You have 50+ Members and you should Have 10 Redeems but you Have not started, Please start with `;start` DM Dylee to claim it!")
 		await guild.owner.send("<a:jirachigif:499179583531253760>")
@@ -790,8 +792,6 @@ async def on_guild_join(guild):
 	await pconn.execute('UPDATE users SET redeems = $1 WHERE u_id = $2', credeems, guild.owner.id)
 	await guild.owner.send("You have Received 10 Redeems for Adding me :smile:!,.. but remove me and it's gone :cry:")
 	await bot.db.release(pconn)
-	else:
-		return
 @bot.listen()
 async def on_guild_remove(guild):
     pconn = await bot.db.acquire()
