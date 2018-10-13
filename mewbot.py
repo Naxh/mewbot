@@ -815,7 +815,7 @@ async def redeem(ctx, val):
             args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, 1, ctx.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 0, rnat, 35,'None')
             await ctx.channel.send(f"Here's your {val}!")
             await pconn.execute(query2, *args)
-			await bot.db.release(pconn)
+            await bot.db.release(pconn)
 
 
 
@@ -897,7 +897,7 @@ async def spawn(ctx, val1):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def addredeems(ctx, val, user: discord.Member):
-	if ctx.author.id == 358293206900670467:
+	if ctx.author.id is 358293206900670467:
 		pconn = await bot.db.acquire()
 		rquery = f"UPDATE users SET redeems = {val} WHERE u_id = {user.id}"
 		await pconn.execute(rquery)
