@@ -135,7 +135,8 @@ async def help(ctx, val=None):
 		e = discord.Embed(title="Trading Tutorial")
 		e.add_field(name="`;trade`", value="`;trade @User <credits_amount> <their_pokemon_number>`")
 		e.add_field(name="`;gift` to give someone credits", value="`;gift @User <credit_amount>`")
-		e.add_field(name="`;give` to give someone a Pokemon", value="`;give @User <your_pokemon_number`")
+		e.add_field(name="`;give` to give someone a Pokemon", value="`;give @User <your_pokemon_number>`")
+		e.add_field(name="`;giveredeem` to give someone redeems!, value="`;giveredeem @User <number_of_redeems>`")
 		await ctx.send(embed=e)
 
 @bot.command()
@@ -1022,6 +1023,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
 @bot.command()
 async def giveredeem(ctx, user: discord.Member, val):
 	pconn = await bot.db.acquire()
+	val = int(val)
 	if user is None:
 		await ctx.send("Please tag a User")
 		return
@@ -1042,6 +1044,52 @@ async def giveredeem(ctx, user: discord.Member, val):
 		await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", giver, ctx.author.id)
 		await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", rcvr, user.id)
 		await ctx.send(f"<@{ctx.author.id}> has given <@{user.id}> {val} redeems")
+		await bot.db.release(pconn)
+		
+@bot.command()
+async def gift(ctx, user: discord.Member, val):
+	pconn = await bot.db.acquire()
+	val = int(val)
+	if user is None:
+		await ctx.send("Please tag a User")
+		return
+	else:
+		redeems = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", ctx.author.id)
+		getr = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", user.id)
+		if val > redeems:
+			await ctx.send("You don't have that much Credits Friend")
+			return
+		elif getr is None:
+			await ctx.send(f"<@{user.id}> has not started")
+			return
+		elif redeems is None:
+			await ctx.send(f"<@{ctx.author.id}> has not started")
+			return
+		giver = redeems - val
+		rcvr = redeems + val
+		await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", giver, ctx.author.id)
+		await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", rcvr, user.id)
+		await ctx.send(f"<@{ctx.author.id}> has given <@{user.id}> {val}ℳ")
+		await bot.db.release(pconn)
+
+@bot.command()
+async def give(ctx, user: discord.Member, val):
+	pconn = await bot.db.acquire()
+	val = int(val)
+	if user is None:
+		await ctx.send("Please tag a User")
+		return
+	else:
+		poke = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1", ctx.author.id)
+		maxnum = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = $1", user.id)
+		if maxnum is None:
+			await ctx.send(f"<@{user.id}> has not started")
+			return
+		elif poke is None:
+			await ctx.send(f"<@{ctx.author.id}> has not started or you dont have that poke")
+			return
+		await pconn.execute("UPDATE pokes SET ownerid = $1 AND pnum = maxnum WHERE ownerid = $2 AND pnum = $1", user.id, ctx.author.id, gpnum)
+		await ctx.send(f"<@{ctx.author.id}> has given <@{user.id}> A {poke}")
 		await bot.db.release(pconn)
 		
 			
