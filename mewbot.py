@@ -538,6 +538,7 @@ async def info(ctx):
 			iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 		if pn == 'deoxys':
 			pn = 'deoxys-normal'
+		await ctx.send(pn)
 		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
 		await ctx.send(pkid)
 		
