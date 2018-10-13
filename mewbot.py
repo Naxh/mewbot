@@ -781,8 +781,7 @@ async def pokedex(ctx, *, val):
 async def on_guild_join(guild):
     if len(guild.members) >= 50:
         pconn = await bot.db.acquire()
-        query = '''UPDATE users SET redeems = 10 WHERE u_id = $1''', guild.owner.id)
-        await pconn.execute(query)
+        await pconn.execute('UPDATE users SET redeems = 10 WHERE u_id = $1', guild.owner.id)
         await guild.owner.send("You have Received 10 Redeems for Adding me :smile:!,.. but remove me and it's gone :cry:")
         await bot.db.release(pconn)
     else:
@@ -790,8 +789,7 @@ async def on_guild_join(guild):
 @bot.listen()
 async def on_guild_remove(guild):
     pconn = await bot.db.acquire()
-    query = '''UPDATE users SET redeems = 0 WHERE u_id = $1''', guild.owner.id)
-    await pconn.execute(query)
+    await pconn.execute('UPDATE users SET redeems = 0 WHERE u_id = $1', guild.owner.id)
     await bot.db.release(pconn)
     await guild.owner.send("Goodbye to 10 Redeems :cry:")
 
