@@ -395,6 +395,11 @@ async def tms(ctx, val=None):
 		val = int(val)
 		val = 25
 		snum = 25*2
+	elif val is None:
+		val = 1
+		val = int(val)
+		val = val*25
+		snum = val-25
 	else:
 		val = int(val)
 		val = val*25
