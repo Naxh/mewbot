@@ -849,7 +849,7 @@ async def redeem(ctx, val):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def spawn(ctx, val1):
-	if ctx.author.id == 358293206900670467:
+	if ctx.author.id is 358293206900670467:
 		channel = ctx.channel
 		val = val1.lower() or val1.upper() or val1.capitalize()
 		url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
