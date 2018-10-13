@@ -117,16 +117,23 @@ async def trainer(ctx, user: discord.Member=None):
 ############################################################################################################			
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def help(ctx):
-    embed = discord.Embed(title="MewBot commands", description="The pokemon discord utility bot made for you!!!", color=0xeee657)
-    embed.add_field(name="Ping", value="Pings the bot and shows it's latency")
-    embed.add_field(name="Mew", value="A simple Ping, just responds with Mew!")
-    embed.add_field(name="trainer", value="Displays your Trainer Card and other information")
-    embed.add_field(name="start", value="Start Playing Mewbot!!")
-    embed.add_field(name="trade", value="Trade Items, Redeems, Pokemon, and Credits!")
-    embed.add_field(name="shop", value="Buy TMs, Held Items, Evolution Items & More!")
-    embed.set_thumbnail(url='http://pm1.narvii.com/5848/b18cd35647528a7bdffc8e4b8e4d6a1465fc5253_00.jpg')
-    await ctx.send(embed=embed)
+async def help(ctx, val=None):
+	if val is None:
+		embed = discord.Embed(title="MewBot commands", description="The pokemon discord utility bot made for you!!!", color=0xeee657)
+		embed.add_field(name="Ping", value="Pings the bot and shows it's latency")
+		embed.add_field(name="Mew", value="A simple Ping, just responds with Mew!")
+		embed.add_field(name="trainer", value="Displays your Trainer Card and other information")
+		embed.add_field(name="start", value="Start Playing Mewbot!!")
+		embed.add_field(name="trade", value="Trade Items, Redeems, Pokemon, and Credits!")
+		embed.add_field(name="shop", value="Buy TMs, Held Items, Evolution Items & More!")
+		embed.set_thumbnail(url='http://pm1.narvii.com/5848/b18cd35647528a7bdffc8e4b8e4d6a1465fc5253_00.jpg')
+		await ctx.send(embed=embed)
+	elif val == 'trading':
+		e = discord.Embed(title="Trading Tutorial")
+		e.add_field(name="`;trade`", value="`;trade @User <credits_amount> <their_pokemon_number>`")
+		e.add_field(name="`;gift` to give someone credits", value="`;gift @User <credit_amount>`")
+		e.add_field(name="`;give` to give someone a Pokemon", value="`;give @User <your_pokemon_number`")
+		await ctx.send(embed=e)
 
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
