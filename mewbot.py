@@ -391,14 +391,16 @@ async def moves(ctx):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def tms(ctx, val=None):
-	val = int(val)
+	
 	if val is None:
 		val = 0
 		snum = 25
 	elif val is 2:
+		val = int(val)
 		val = 25
 		snum = 25*2
 	else:
+		val = int(val)
 		val = val*25
 		snum = val-25
 	
@@ -420,7 +422,7 @@ async def tms(ctx, val=None):
 	e = discord.Embed(title="Learnable Move List")
 	for move in move:
 		e.add_field(name=f"{move}", value=f";learn <move>")
-	await e.set_footer(title=f"Showing a few of {len(move)} Moves learnable by {pokename}")
+	await e.set_footer(text=f"Showing a few of {len(move)} Moves learnable by {pokename}")
 	await ctx.send(embed=e)
 	await bot.db.release(pconn)
 			    
