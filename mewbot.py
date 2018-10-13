@@ -652,7 +652,7 @@ async def info(ctx):
 	embed.add_field(name="Defense", value=f"{round(defense)} |- {defiv} IVs")
 	embed.add_field(name="Special Attack", value=f"{round(specialattack)} |- {spatkiv} IVs")
 	embed.add_field(name="Special Defense", value=f"{round(specialdefense)} |- {spdefiv} IVs")
-	embed.add_field(name="Speed", value=f"{speed} |- {speed:.0f} IV")
+	embed.add_field(name="Speed", value=f"{speed:.0f} |- {speediv} IVs")
 	embed.add_field(name="Held Item", value=f"{hi}")
 	embed.set_image(url=irul)
 	await ctx.send(embed=embed)
