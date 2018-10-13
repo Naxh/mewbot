@@ -424,6 +424,7 @@ async def select(ctx, val):
 		await ctx.send("You have successfully selected your No. {0} Pokemon".format(val))
 		emoji = random.choice(emotes)
 		await ctx.send(emoji)
+		logging.basicConfig(level="INFO")
 
 @bot.command(pass_context=True)
 async def shutdown(ctx):
@@ -658,6 +659,7 @@ async def info(ctx):
 	embed.add_field(name="Held Item", value=f"{hi}")
 	embed.set_image(url=irul)
 	await ctx.send(embed=embed)
+	logging.basicConfig(level="INFO")
 	
 
 @bot.command()
