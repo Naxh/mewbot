@@ -109,6 +109,7 @@ async def trainer(ctx, user: discord.Member=None):
 	embed.add_field(name="Credits", value=f'{mewcoins}ℳ	')
 	embed.set_thumbnail(url=user.avatar_url)
 	await ctx.send(embed=embed)
+	await bot.db.release(tconn)
    
 	
 ########################################################################################################33
@@ -152,7 +153,7 @@ async def botinfo(ctx):
 
     embed.add_field(name="Discord Version", value=discord.__version__)
     mem = psutil.virtual_memory()
-    cmem = (mem.available/1000000000)
+    cmem = (mem.available/10000000000)
 
     embed.add_field(name="CPU Statistics", value=f"\nCPU Count **{psutil.cpu_count()}**\nRAM **{cmem} GB**")
     # give users a link to invite thsi bot to their server
@@ -255,6 +256,7 @@ async def on_message(message):
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
 		await bot.process_commands(message)
 		logging.info("Success")
+		await bot.db.release(pconn)
 	#   db code goes here
 
 # None Pokemon Commands  ctx
@@ -329,6 +331,7 @@ async def start_journey(ctx):
 			emoji = random.choice(emotes)
 			await ctx.send(emoji)
 			logging.info("All went well")
+			await bot.db.release(pconn)
 			
 
 
@@ -360,6 +363,7 @@ async def pokemon(ctx, val=None):
 		embed.add_field(name=f'{nr}', value=f'{pn}', inline=True)
 	embed.set_footer(text="Upvote the Bot!! Open the next page with ;pokemon <page_number>")
 	await ctx.send(embed=embed)
+	await bot.db.release(pconn)
 	
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
@@ -382,10 +386,22 @@ async def moves(ctx):
 
 	embed.add_field(name='**Move 4**:', value=f'{m4}')
 	await ctx.send(embed=embed)
+	await bot.db.release(pconn)
 	
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def tms(ctx):
+async def tms(ctx, val=None):
+	val = int(val)
+	if val is None:
+		val = 0
+		snum = 25
+	elif val is 2:
+		val = 25
+		snum = 25*2
+	else:
+		val = val*25
+		snum = val-25
+	
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id))
 	if ' ' in pokename:
@@ -396,7 +412,7 @@ async def tms(ctx):
 	if pokename == 'deoxys':
 		pokename = 'deoxys-normal'
 	pkid = [i['id'] for i in forms if i['identifier'] == pokename]
-	for p_id in pkid:
+	for p_id in pkid[snum:val]:
 		p_id = str(p_id)
 		r = requests.get('https://pokeapi.co/api/v2/pokemon/'+p_id+'/')
 		r = r.json()
@@ -404,7 +420,9 @@ async def tms(ctx):
 	e = discord.Embed(title="Learnable Move List")
 	for move in move:
 		e.add_field(name=f"{move}", value=f";learn <move>")
+	await e.set_footer(title=f"Showing a few of {len(move)} Moves learnable by {pokename}")
 	await ctx.send(embed=e)
+	await bot.db.release(pconn)
 			    
     
     
@@ -425,6 +443,7 @@ async def select(ctx, val):
 		emoji = random.choice(emotes)
 		await ctx.send(emoji)
 		logging.basicConfig(level="INFO")
+		await bot.db.release(pconn)
 
 @bot.command(pass_context=True)
 async def shutdown(ctx):
@@ -659,6 +678,7 @@ async def info(ctx):
 	embed.add_field(name="Held Item", value=f"{hi}")
 	embed.set_image(url=irul)
 	await ctx.send(embed=embed)
+	await bot.db.release(pconn)
 	logging.basicConfig(level="INFO")
 	
 
@@ -756,6 +776,7 @@ async def on_guild_join(guild):
         query = '''UPDATE users SET redeems = 10 WHERE u_id = {}'''.format(guild.owner.id)
         await tconn.execute(query)
         await ctx.guild.owner.send("You have Received 10 Redeems for Adding me :smile:!,.. but remove me and it's gone :cry:")
+	await bot.db.release(pconn)
     else:
         return
 @bot.listen()
@@ -866,6 +887,7 @@ async def spawn(ctx, val1):
 		args = (val, hpiv, atkiv, defiv, spaiv, spdiv, speiv, 0, 0, 0, 0, 0, 0, plevel, msg.author.id, pnum, 0, 'tackle', 'tackle', 'tackle', 'tackle', 'None', 1, nature, expc)
 		await pconn.execute(query2, *args)
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
+		await bot.db.release(pconn)
 	#   db code goes here
 	else:
 		await ctx.send("Only Dylee can use this command")
@@ -877,6 +899,7 @@ async def addredeems(ctx, val, user: discord.Member):
 		pconn = await bot.db.acquire()
 		rquery = f"UPDATE users SET redeems = {val} WHERE u_id = {user.id}"
 		await pconn.execute(rquery)
+		await bot.db.release(pconn)
 	else:
 		await ctx.send("Only Dylee can use this command")
 
@@ -913,6 +936,7 @@ async def reward(ctx):
 			embed.add_field(name="You haven't upvoted!", value="Turns out you have not upvoted")
 			embed.add_field(name="Upvote Mewbot Here!", value="[Upvote MewBot](https://discordbots.org/bot/493045795445276682/vote)")
 			await ctx.send(embed=embed)
+			await bot.db.release(pconn)
 	except Exception as e:
 		embed = discord.Embed(title="You have already Upvoted")
 		embed.add_field(name="Already Upvoted the Bot", value=f"{e}")
@@ -982,6 +1006,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         await ctx.send(gif)
         await ctx.author.send(f"You completed a Trade with {user.name}")
         await user.send(f"You completed a Trade with {ctx.name}")
+	await bot.db.release(pconn)
 
 	
 	
