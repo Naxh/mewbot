@@ -458,7 +458,7 @@ async def learn(ctx, val, slot: int):
 		await ctx.send(f"Your {pokename} can not learn that Move")
 		return
 	await pconn.execute(f"UPDATE pokes SET move{slot} = $1 WHERE ownerid = $2 AND selected = 1", val, ctx.author.id)
-	await ctx.send("You have successfully learnt {val} as your Number {slot} Move")
+	await ctx.send(f"You have successfully learnt {val} as your Number {slot} Move")
 	await bot.db.release(pconn)
 	
     
