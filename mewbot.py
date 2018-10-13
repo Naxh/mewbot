@@ -129,6 +129,8 @@ async def help(ctx, val=None):
 		embed.add_field(name="shop", value="Buy TMs, Held Items, Evolution Items & More!")
 		embed.add_field(name="reward", value="Get Upvote Rewards! NOTE: Only Use this command WHEN you have Upvoted!")
 		embed.add_field(name="upvote", value="Upvote the Bot for rewards!!")
+		embed.add_field(name"moves", value="See your current move count!")
+		embed.add_field(name"learn", value="Learn a Move! But use `;tms <page_number>` to see the Move list!")
 		embed.set_thumbnail(url='http://pm1.narvii.com/5848/b18cd35647528a7bdffc8e4b8e4d6a1465fc5253_00.jpg')
 		await ctx.send(embed=embed)
 	elif val == 'trading':
@@ -432,7 +434,30 @@ async def tms(ctx, val=None):
 	await ctx.send(embed=e)
 	await bot.db.release(pconn)
 			    
-    
+@bot.command()
+async def learn(ctx, val, slot: int):
+	pconn = await bot.db.acquire()
+	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
+	if ' ' in pokename:
+		pokename = pokename.replace(' ', '-')
+	with open('forms.json') as f:
+		forms = json.load(f)
+	pokename = pokename.lower()
+	if pokename == 'deoxys':
+		pokename = 'deoxys-normal'
+	pkid = [i['id'] for i in forms if i['identifier'] == pokename]
+	for p_id in pkid:
+		p_id = str(p_id)
+		r = requests.get('https://pokeapi.co/api/v2/pokemon/'+p_id+'/')
+		r = r.json()
+	move = [m['move']['name'] for m in r['moves']]
+	if not val in move:
+		await ctx.send(f"Your {pokename} can not learn that Move")
+		return
+	await pconn.execute(f"UPDATE pokes SET move{slot} = $1 WHERE ownerid = $2 AND selected = 1", val, ctx.author.id)
+	await ctx.send("You have successfully learnt {val} as your Number {slot} Move")
+	await bot.db.release(pconn)
+	
     
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
