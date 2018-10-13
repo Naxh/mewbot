@@ -795,11 +795,11 @@ async def on_guild_join(guild):
 @bot.listen()
 async def on_guild_remove(guild):
     pconn = await bot.db.acquire()
-    credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1, guild.owner.id")
+    credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", guild.owner.id)
     if credeems is None:
         return
     credeems-=10
-    await pconn.execute('UPDATE users SET redeems = $1 WHERE u_id = $2", credeems, guild.owner.id)
+    await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", credeems, guild.owner.id)
     await bot.db.release(pconn)
     await guild.owner.send("Goodbye to 10 Redeems :cry:")
 
