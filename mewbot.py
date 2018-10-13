@@ -414,13 +414,13 @@ async def tms(ctx, val=None):
 	if pokename == 'deoxys':
 		pokename = 'deoxys-normal'
 	pkid = [i['id'] for i in forms if i['identifier'] == pokename]
-	for p_id in pkid[snum:val]:
+	for p_id in pkid:
 		p_id = str(p_id)
 		r = requests.get('https://pokeapi.co/api/v2/pokemon/'+p_id+'/')
 		r = r.json()
 	move = [m['move']['name'] for m in r['moves']]
 	e = discord.Embed(title="Learnable Move List")
-	for move in move:
+	for move in move[snum:val]:
 		e.add_field(name=f"{move}", value=f";learn <move>")
 	await e.set_footer(text=f"Showing a few of {len(move)} Moves learnable by {pokename}")
 	await ctx.send(embed=e)
