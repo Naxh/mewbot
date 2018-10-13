@@ -35,8 +35,6 @@ version = ("0.0.5c Beta Build")
 TOKEN = os.environ['TOKEN']
 dburl = os.environ['DATABASE_URL']
 dbltoken = os.environ['dbltoken']
-paypal_client = os.environ['PaypalClientID']
-paypal_secret = os.environ['PaypalSecret']
 
 bot.remove_command('help')
 #db connect
