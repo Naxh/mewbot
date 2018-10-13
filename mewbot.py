@@ -420,10 +420,14 @@ async def tms(ctx, val=None):
 		r = requests.get('https://pokeapi.co/api/v2/pokemon/'+p_id+'/')
 		r = r.json()
 	move = [m['move']['name'] for m in r['moves']]
+	moves = len(move)
 	e = discord.Embed(title="Learnable Move List")
 	for move in move[snum:val]:
+		if '-' in move:
+			move = move.replace('-', ' ')
+			move = move.capitalize()
 		e.add_field(name=f"{move}", value=f";learn <move>")
-	e.set_footer(text=f"Showing {val} of {len(move)} Moves learnable by {pokename}")
+	e.set_footer(text=f"Showing {val} of {moves} Moves learnable by {pokename}")
 	await ctx.send(embed=e)
 	await bot.db.release(pconn)
 			    
