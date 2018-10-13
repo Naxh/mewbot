@@ -425,11 +425,11 @@ async def select(ctx, val):
 @bot.command(pass_context=True)
 async def shutdown(ctx):
     user = ctx.author
-    if user.name == "Dylee":
+    if user.id == 358293206900670467:
         msg = await ctx.send("shutting down...")
         await msg.edit(content="Shutdown Complete, goodbye Dylee!")
         await bot.close()
-    elif user.name != 'Dylee':
+    elif user.id != 358293206900670467:
         await ctx.send("you are not the fucking owner")
     else:
         return
@@ -532,7 +532,7 @@ async def info(ctx):
 			t_ids = json.load(f)
 		if '-dawn' in pn:
 			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-		elif '-mane' in pn:
+		elif '-dusk' in pn:
 			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 		else:
 			iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
