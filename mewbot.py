@@ -776,7 +776,7 @@ async def on_guild_join(guild):
         query = '''UPDATE users SET redeems = 10 WHERE u_id = {}'''.format(guild.owner.id)
         await pconn.execute(query)
         await ctx.guild.owner.send("You have Received 10 Redeems for Adding me :smile:!,.. but remove me and it's gone :cry:")
-		await bot.db.release(pconn)
+        await bot.db.release(pconn)
     else:
         return
 @bot.listen()
@@ -784,7 +784,7 @@ async def on_guild_remove(guild):
     pconn = await bot.db.acquire()
     query = '''UPDATE users SET redeems = 0 WHERE u_id = {}'''.format(guild.owner.id)
     await pconn.execute(query)
-	await bot.db.release(pconn)
+    await bot.db.release(pconn)
     await guild.owner.send("Goodbye to 10 Redeems :cry:")
 
 @bot.command()
@@ -1009,7 +1009,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         await ctx.send(gif)
         await ctx.author.send(f"You completed a Trade with {user.name}")
         await user.send(f"You completed a Trade with {ctx.name}")
-		await bot.db.release(pconn)
+        await bot.db.release(pconn)
 
 	
 	
