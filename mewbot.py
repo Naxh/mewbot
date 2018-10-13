@@ -1038,14 +1038,14 @@ async def giveredeem(ctx, user: discord.Member, val):
 	else:
 		redeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", ctx.author.id)
 		getr = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", user.id)
-		if val > redeems:
-			await ctx.send("You don't have that much Redeems Friend")
+		if redeems is None:
+			await ctx.send(f"<@{ctx.author.id}> has not started")
 			return
 		elif getr is None:
 			await ctx.send(f"<@{user.id}> has not started")
 			return
-		elif redeems is None:
-			await ctx.send(f"<@{ctx.author.id}> has not started")
+		if val > redeems:
+			await ctx.send("You don't have that much Redeems Friend")
 			return
 		giver = redeems - val
 		rcvr = redeems + val
