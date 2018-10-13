@@ -902,6 +902,7 @@ async def addredeems(ctx, val, user: discord.Member):
 		await bot.db.release(pconn)
 	else:
 		await ctx.send("Only Dylee can use this command")
+		await ctx.send(random.choice(emotes))
 
 		
 @bot.command()
