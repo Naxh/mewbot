@@ -959,8 +959,8 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         if msg == 'no' or 'No':
                 await ctx.send("Trade rejected")
                 return
-	elif msg == 'Yes' or 'yes':
-		await ctx.send("Trade has been approved!")
+        elif msg == 'Yes' or 'yes':
+                await ctx.send("Trade has been approved!")
         offering -= creds
         ccreds += offering
         mnum = await pconn.fetchval(f"SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {ctx.author.id}")
