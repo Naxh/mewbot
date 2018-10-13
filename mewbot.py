@@ -421,6 +421,7 @@ async def tms(ctx, val=None):
 		pokename = 'deoxys-normal'
 	pkid = [i['id'] for i in forms if i['identifier'] == pokename]
 	for p_id in pkid:
+		await ctx.send(p_id)
 		p_id = str(p_id)
 		r = requests.get('https://pokeapi.co/api/v2/pokemon/'+p_id+'/')
 	r = r.json()
