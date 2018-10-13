@@ -410,6 +410,8 @@ async def tms(ctx, val=None):
 	
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id))
+	if pokename is None:
+		await ctx.send("You have not selected a Pokemon")
 	if ' ' in pokename:
 		pokename = pokename.replace(' ', '-')
 	with open('forms.json') as f:
@@ -421,7 +423,7 @@ async def tms(ctx, val=None):
 	for p_id in pkid:
 		p_id = str(p_id)
 		r = requests.get('https://pokeapi.co/api/v2/pokemon/'+p_id+'/')
-		r = r.json()
+	r = r.json()
 	move = [m['move']['name'] for m in r['moves']]
 	moves = len(move)
 	e = discord.Embed(title="Learnable Move List")
