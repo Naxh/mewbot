@@ -357,7 +357,7 @@ async def pokemon(ctx, val=None):
 	else:
 		val = int(val)
 		enum = (rnum/int(val))
-		snum = ((10*val)-9)
+		snum = ((10*val)-10)
 	pconn = await bot.db.acquire()
 	nquery = f"SELECT pokname, pnum FROM pokes WHERE ownerid = {ctx.author.id} AND pnum BETWEEN {enum} AND {rnum} ORDER BY pnum"
 	pk1 = await pconn.fetch(nquery)
@@ -613,6 +613,7 @@ async def info(ctx):
 			pn = 'deoxys-normal'
 		if pn.lower() == 'xerneas':
 			pn = 'xerneas-active'
+			
 		
 		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
 		
