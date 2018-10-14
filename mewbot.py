@@ -101,11 +101,12 @@ async def trainer(ctx, user: discord.Member=None):
 	tnick = await tconn.fetchval(tquery)
 	uppoints = await tconn.fetchval(uquery)
 	mewcoins = await tconn.fetchval(mquery)
+	plev = await tconn.fetchval('SELECT pokelevel FROM pokes WHERE selected = 1 AND ownerid = $1', ctx.author.id)
 	embed = discord.Embed(title="{} Trainer Card".format(user.name))
 	embed.add_field(name="Redeems", value=f'{redeems}')
 	embed.add_field(name="Trainer Nick", value=f'{tnick}')
 	embed.add_field(name="Upvote Points", value=f'{uppoints}')
-	embed.add_field(name="Currently Selected Pokemon", value=f'{poke}')
+	embed.add_field(name="Currently Selected Pokemon", value=f'{poke} Level {plev}.')
 	embed.add_field(name="Credits", value=f'{mewcoins}ℳ	')
 	embed.set_thumbnail(url=user.avatar_url)
 	await ctx.send(embed=embed)
@@ -1203,6 +1204,10 @@ async def mega(ctx, val):
 	else:
 		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+		if not helditem is 'mega stone':
+			await ctx.send("This Pokemon Is not holding a Mega Stone!")
+			return
 		if pokename is None:
 			await ctx.send("No Pokemon Selected")
 		with open("forms.json") as f:
