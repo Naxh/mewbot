@@ -1196,7 +1196,7 @@ async def on_message(message):
     except Exception as e:
         return
     plup = await pconn.fetchval("SELECT (pokelevel)+1 FROM pokes WHERE selected = 1 AND ownerid = $1", message.author.id)
-	newcap = (plup ** 3)
+    newcap = (plup ** 3)
     try:
         await message.channel.send(plup)
     except Exception as e:
