@@ -753,7 +753,7 @@ async def pokedex(ctx, *, inp):
 		iurl = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
 		tlist = 'grass'
 		pkid = '2003'
-	elif == is 'Flire':
+	elif == 'Flire':
 		pokemonSpeed = 110
 		pokemonAtk = 120
 		pokemonDef = 95
