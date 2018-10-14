@@ -1128,7 +1128,51 @@ async def give(ctx, user: discord.Member, val):
 		await ctx.send(f"<@{ctx.author.id}> has given <@{user.id}> A {poke}")
 		await bot.db.release(pconn)
 		
-			
+
+
+@bot.command()
+async def mega(ctx, val):
+	if not val == 'evolve':
+		return
+	else:
+		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+		if pokename is None:
+			await ctx.send("No Pokemon Selected")
+		with open("forms.json") as f:
+			forms = json.load(f)
+		order = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		formnum = evo[0]
+		formnum += 1
+		pokemon = [t['identifier'] for t in forms if t['order'] == formnum]
+		megaable = [t['is_mega'] for t in forms if t['identifier'] == pokemon[0]]
+		mega = pokemon[0]
+		megaable = megaable[0]
+		if not megaable is 1:
+			await ctx.send("This Pokemon cannot Mega Evolve!")
+			return
+		await pconn.execute("UPDATE pokes SET pokename = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author,id)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 bot.run(TOKEN)
 
 			
