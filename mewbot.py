@@ -1142,7 +1142,7 @@ async def mega(ctx, val):
 		with open("forms.json") as f:
 			forms = json.load(f)
 		order = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
-		formnum = evo[0]
+		formnum = order[0]
 		formnum += 1
 		pokemon = [t['identifier'] for t in forms if t['order'] == formnum]
 		megaable = [t['is_mega'] for t in forms if t['identifier'] == pokemon[0]]
