@@ -50,8 +50,13 @@ async def on_ready():
 @bot.listen()
 async def on_ready():
 	if not hasattr(bot, 'db'):
-		bot.db = await asyncpg.create_pool(dburl, min_size=5, max_size=19)
+		bot.db = await asyncpg.create_pool(dburl, min_size=1, max_size=10)
 
+@bot.listen()
+async def on_ready():
+	if not hasattr(bot, 'ldb'):
+		bot.ldb = await asyncpg.create_pool(dburl, min_size=1, max_size=10)
+		
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def mew(ctx):
@@ -1178,7 +1183,7 @@ async def on_message(message):
         return
     if message.author.bot:
         return
-    pconn = await bot.db.acquire()
+    pconn = await bot.ldb.acquire()
     pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = $1", message.author.id)
     nrecord = [record['u_id'] for record in pk1]
     if not message.author.id in nrecord:
@@ -1213,7 +1218,7 @@ async def on_message(message):
     evo = [t['identifier'] for t in pokemon if t['evolves_from_species_id'] == preevo]
     await pconn.execute("UPDATE pokes SET pokename = $1 WHERE selected = 1 AND ownerid = $2", evo, ctx.author.id)
     await ctx.send(f"Your {pn} has evolved into a {evo}!")
-    await bot.db.release(pconn)
+    await bot.ldb.release(pconn)
 
 		
 		
