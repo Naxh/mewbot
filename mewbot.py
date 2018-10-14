@@ -224,6 +224,11 @@ async def donate(ctx):
 	e = discord.Embed(title="Want to Donate to the Bot?")
 	e.add_field(name="DM Dylee#6669 or Join the Official Server Here!", value="[Here!](https://invite.gg/pokeglobe)")
 	await ctx.send(embed=e)
+	embed = discord.Embed(title="Donation Perks")
+	embed.add_field(name="Every Dollar Donated = 2 Redeems", value="510 EV Points to Add to a Pokemon")
+	embed.add_field(name="Every Dollar Donated = 50,000ℳCredits", value="Donator Rank in the PokeGlobe Server")
+	embed.add_field(name="100 Redeems", value="Gives You a Perfect Pokemon")
+	await ctx.author.send(embed=embed)
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def invite(ctx):
