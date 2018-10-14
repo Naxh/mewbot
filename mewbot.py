@@ -113,6 +113,7 @@ async def trainer(ctx, user: discord.Member=None):
 	await bot.db.release(tconn)
    
 @bot.command()
+@commands.cooldown(1, 5, commands.BucketType.user)
 async def nick(ctx, *, val):
 	pconn = await bot.db.acquire()
 	await pconn.execute("UPDATE users SET tnick = $1 WHERE u_id = $2", val, ctx.author.id)
@@ -151,6 +152,7 @@ async def help(ctx, val=None):
 		await ctx.send(embed=e)
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def shop(ctx, val=None):
 	if val is None:
 		e = discord.Embed(title="Items you can buy in the Shop!")
@@ -216,6 +218,11 @@ async def botinfo(ctx):
 
     await ctx.send(embed=embed)
 
+@bot.command()
+async def donate(ctx):
+	e = discord.Embed(title="Want to Donate to the Bot?")
+	e.add_field(name="DM Dylee#6669 or Join the Official Server Here!", value="[Here!](https://invite.gg/pokeglobe)")
+	await ctx.send(embed=e)
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def invite(ctx):
@@ -1147,6 +1154,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
 
 	
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def giveredeem(ctx, user: discord.Member, val):
 	pconn = await bot.db.acquire()
 	val = int(val)
@@ -1173,6 +1181,7 @@ async def giveredeem(ctx, user: discord.Member, val):
 		await bot.db.release(pconn)
 		
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def gift(ctx, user: discord.Member, val):
 	pconn = await bot.db.acquire()
 	val = int(val)
@@ -1199,6 +1208,7 @@ async def gift(ctx, user: discord.Member, val):
 		await bot.db.release(pconn)
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def give(ctx, user: discord.Member, val):
 	pconn = await bot.db.acquire()
 	val = int(val)
@@ -1221,6 +1231,7 @@ async def give(ctx, user: discord.Member, val):
 
 
 @bot.command()
+@commands.cooldown(1, 3, commands.BucketType.user)
 async def mega(ctx, val):
 	if val == 'devolve':
 		pconn = await bot.db.acquire()
