@@ -111,6 +111,13 @@ async def trainer(ctx, user: discord.Member=None):
 	await ctx.send(embed=embed)
 	await bot.db.release(tconn)
    
+@bot.command()
+async def nick(ctx, *, val):
+	pconn = await bot.db.acquire()
+	await pconn.execute("UPDATE users SET tnick = $1 WHERE u_id = $2", val, ctx.author.id)
+	await ctx.send("Successfully Changed Trainer Nick")
+	await bot.db.release(pconn)
+	
 	
 ########################################################################################################33
 
