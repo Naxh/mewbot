@@ -741,7 +741,7 @@ async def pokedex(ctx, *, inp):
 		val = val.replace(' ', '-')
 	if '-mane' in val:
 		val = val.replace('-mane', '')
-	if val is 'Flowing':
+	if val == 'Flowing':
 		await ctx.send(val)
 		pokemonSpeed = 73
 		pokemonAtk = 99
@@ -750,10 +750,10 @@ async def pokedex(ctx, *, inp):
 		pokemonSpd =110
 		pokemonHp = 95
 		pAb = 'Sizzling Growth'
-		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
+		iurl = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
 		tlist = 'grass'
 		pkid = '2003'
-	elif val is 'Flire':
+	elif == is 'Flire':
 		pokemonSpeed = 110
 		pokemonAtk = 120
 		pokemonDef = 95
@@ -761,11 +761,11 @@ async def pokedex(ctx, *, inp):
 		pokemonSpd =99
 		pokemonHp = 73
 		pAb = 'Scorched feet'
-		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
+		iurl = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
 		tlist = 'fire'
 		pkid = '2001'
 
-	elif val is 'Aquino':
+	elif val == 'Aquino':
 		pokemonSpeed = 95
 		pokemonAtk = 79
 		pokemonDef = 120
@@ -773,7 +773,7 @@ async def pokedex(ctx, *, inp):
 		pokemonSpd = 110
 		pokemonHp = 99
 		pAb = 'Prehistoric Rain'
-		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
+		iurl = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 		tlist = 'water'
 		pkid = '2000'
 	else:
