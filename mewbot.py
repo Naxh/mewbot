@@ -804,7 +804,7 @@ async def pokedex(ctx, *, val):
 
         
 	embed = discord.Embed(title=val.capitalize(), description="")
-	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}\n**Types**: {tlist}\n**Pokedex Number**: {pkid}")
+	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}\n**Types**: {tlist.capitalize()}\n**Pokedex Number**: {pkid}")
 	embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk} \nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
 	embed.set_image(url=iurl)
 
