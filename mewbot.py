@@ -985,7 +985,7 @@ async def reward(ctx):
 			await ctx.send(embed=embed)
 		else:
 			embed = discord.Embed(title="Upvote the Bot Here!")
-			embed.add_field(name="You haven't upvoted!", value="Turns out you have not upvoted")
+			embed.add_field(name="You haven't upvoted!", value="Get 10 Upvote Points for 5 Redeems!")
 			embed.add_field(name="Upvote Mewbot Here!", value="[Upvote MewBot](https://discordbots.org/bot/493045795445276682/vote)")
 			await ctx.send(embed=embed)
 			await bot.db.release(pconn)
