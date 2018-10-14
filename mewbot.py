@@ -1135,6 +1135,7 @@ async def mega(ctx, val):
 	if not val == 'evolve':
 		return
 	else:
+		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 		if pokename is None:
 			await ctx.send("No Pokemon Selected")
@@ -1151,6 +1152,8 @@ async def mega(ctx, val):
 			await ctx.send("This Pokemon cannot Mega Evolve!")
 			return
 		await pconn.execute("UPDATE pokes SET pokename = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author,id)
+		await ctx.send("Your {pokename} has evolved into {mega}!")
+		await bot.db.release(pconn)
 		
 		
 		
