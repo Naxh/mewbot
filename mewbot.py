@@ -741,8 +741,8 @@ async def pokedex(ctx, *, inp):
 		val = val.replace(' ', '-')
 	if '-mane' in val:
 		val = val.replace('-mane', '')
-	if val == 'Flowing':
-		
+	if val is 'Flowing':
+		await ctx.send(val)
 		pokemonSpeed = 73
 		pokemonAtk = 99
 		pokemonDef = 79
@@ -753,7 +753,7 @@ async def pokedex(ctx, *, inp):
 		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
 		tlist = 'grass'
 		pkid = '2003'
-	elif val == 'Flire':
+	elif val is 'Flire':
 		pokemonSpeed = 110
 		pokemonAtk = 120
 		pokemonDef = 95
@@ -765,7 +765,7 @@ async def pokedex(ctx, *, inp):
 		tlist = 'fire'
 		pkid = '2001'
 
-	elif val == 'Aquino':
+	elif val is 'Aquino':
 		pokemonSpeed = 95
 		pokemonAtk = 79
 		pokemonDef = 120
@@ -818,7 +818,7 @@ async def pokedex(ctx, *, inp):
 
         
 	embed = discord.Embed(title=val.capitalize(), description="")
-	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}\n**Types**: {tlist.capitalize()}\n**Pokedex Number**: {pkid}")
+	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}\n**Types**: {tlist.capitalize()}\n**Pokedex Number**: {pkid[0]}")
 	embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk} \nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
 	embed.set_image(url=iurl)
 
