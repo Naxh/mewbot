@@ -1200,7 +1200,7 @@ async def on_message(message):
     except Exception as e:
         return
     plup = await pconn.fetchval("SELECT pokelevel FROM pokes WHERE selected = 1 AND ownerid = $1", message.author.id)
-	plup+=1
+    plup+=1
     newcap = (plup ** 3)
     if exp1 > lexp:
         await pconn.execute("UPDATE pokes SET pokelevel = $1 AND expcap = $2 WHERE selected = 1 AND ownerid = $3", plup, newcap, message.author.id)
