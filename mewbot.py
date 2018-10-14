@@ -1192,7 +1192,7 @@ async def on_message(message):
     if '-mega' in pn:
         poke = pn.replace('-mega', '')
     elif not '-mega' in pn:
-	poke = pn.lower()
+        poke = pn.lower()
     lexp = await pconn.fetchval("SELECT expcap FROM pokes WHERE ownerid = $1 AND selected = 1", message.author.id)
     exp1 = await pconn.fetchval('SELECT (exp)+25 FROM pokes WHERE selected = 1 AND ownerid = $1', message.author.id)
     try:
