@@ -1,6 +1,5 @@
 #work with python 3.7
 import discord
-from boto.s3.connection import S3Connection
 import time
 import json
 import asyncio
@@ -140,8 +139,13 @@ async def help(ctx, val=None):
 		embed.add_field(name="reward", value="Get Upvote Rewards! NOTE: Only Use this command WHEN you have Upvoted!")
 		embed.add_field(name="upvote", value="Upvote the Bot for rewards!!")
 		embed.add_field(name="moves", value="See your current move count!")
-		embed.add_field(name="learn", value="Learn a Move! But use `;tms <page_number>` to see the Move list!")
+		embed.add_field(name="learn", value="Learn a Move! `;learn <move-name> <slot_number>")
+		embed.add_field(name="tms", value="Get the entire moveset of your pokemon!")
+		embed.add_field(name="pokemon", value="View your Pokeomn List!")
+		embed.add_field(name="select", value="Select a Pokemon!")
 		embed.add_field(name="mega", value="`;mega evolve` to Mega and `;mega devolve` to unmega!")
+		embed.add_field(name="donate", value="Donate to the bot! 1 USD = 2 Redeems + 50,000ℳ")
+		embed.add_field(name="vote", value="Upvote the Bot for Rewards!, 10 Upvote Points = 5 Redeems!")
 		embed.set_thumbnail(url='http://pm1.narvii.com/5848/b18cd35647528a7bdffc8e4b8e4d6a1465fc5253_00.jpg')
 		await ctx.send(embed=embed)
 	elif val == 'trading':
@@ -399,6 +403,7 @@ async def start_journey(ctx):
 			args2 = (ctx.author.id, 0, 0, 'None', 0, 0)
 			await pconn.execute(query3, *args2)
 			await ctx.channel.send("Records successfully Added\nGoodluck!")
+			await ctx.author.send("Thank you for registering! Need an Easy way to get redeems? 10 Upvote Points = 5 Redeems!, Upvote Mewbot here!\nhttps://discordbots.org/bot/493045795445276682")
 			emoji = random.choice(emotes)
 			await ctx.send(emoji)
 			logging.info("All went well")
