@@ -1206,7 +1206,7 @@ async def on_message(message):
     plup+=1
     newcap = (plup ** 3)
     if exp1 > lexp:
-        await pconn.execute("UPDATE pokes SET pokelevel = plup AND expcap = $1 WHERE selected = 1 AND ownerid = $2", newcap, message.author.id)
+        await pconn.execute(f"UPDATE pokes SET pokelevel = {plup} AND expcap = $1 WHERE selected = 1 AND ownerid = $2", newcap, message.author.id)
         await message.channel.send(f"Congratulations!, your Pokemon has Leveled up to Level {plup}!")
     preevo = [t['id'] for t in pokemon if t['identifier'] == poke]
     min_lev = [t['minimum_level'] for t in evofile if t['id'] == preevo]
