@@ -1201,7 +1201,7 @@ async def on_message(message):
         await message.channel.send(plup)
     except Exception as e:
         return
-    if exp1 == lexp:
+    if exp1 > lexp:
         lupque = ("UPDATE pokes SET pokelevel = $1 AND expcap = $3 WHERE selected = 1 AND ownerid = $2", plup, message.author.id, newcap)
         await message.channel.send(f"Congratulations!, your Pokemon has Leveled up to Level {plup}!")
     preevo = [t['id'] for t in pokemon if t['identifier'] == poke.lower()]
