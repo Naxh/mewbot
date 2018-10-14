@@ -1173,6 +1173,9 @@ async def mega(ctx, val):
 		
 @bot.listen()
 async def on_message(message):
+    chance = random.randint(1, 10)
+    if not chance is 5:
+        return
     with open('pokemonfile.json') as f:
         pokemon = json.load(f)
     with open('evofile.json') as f:
