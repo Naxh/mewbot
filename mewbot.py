@@ -155,7 +155,7 @@ async def shop(ctx, val=None):
 	if val is None:
 		e = discord.Embed(title="Items you can buy in the Shop!")
 		e.add_field(name="shop forms", value="Want to Make your Kyogre or Groudon Primal or Deoxys/Animal Formes")
-		e.add_field(name"shop mega", value="Buy The Mega Stone to Mega your Pokemon and say `;mega evolve`!")
+		e.add_field(name="shop mega", value="Buy The Mega Stone to Mega your Pokemon and say `;mega evolve`!")
 		e.add_field(name="shop items", value="Buy Rare candies, Items to Boost Pokemnon Abilities such as Zinc e.t.c")
 		e.add_field(name="shop held items", value="Buy Held Items for your Pokemon!")
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
@@ -168,6 +168,8 @@ async def shop(ctx, val=None):
 		e.add_field(name="N-Solarizer", value="Buy the N-Solarizer to Fuse your Necrozma and a Solgaleo to Get Necrozma Dusk Forme! | 9500ℳ")
 		e.add_field(name="N-Lunarizer", value="Buy the N-Lunarizer to Fuse your Necrozma and a Lunala to get Necrozma Dawn Forme! | 9500ℳ")
 		e.add_field(name="Arceus Plates", value="Need Arceus Plates to Transform it?, just say `;shop plates`")
+		e.add_field(name="Light Stone", value="Buy this to Fuse your Kyurem with Reshiram for Kyurem-white!")
+		e.add_field(name="Dark Stone", value="Buy this to Fuse your Kyurem with Zekrom for Kyurem-black1")
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
 		await ctx.send(embed=e)
 	elif val == 'plates':
