@@ -1154,7 +1154,7 @@ async def mega(ctx, val):
 		if not megaable is 1:
 			await ctx.send("This Pokemon cannot Mega Evolve!")
 			return
-		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author,id)
+		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author.id)
 		await ctx.send("Your {pokename} has evolved into {mega}!")
 		await bot.db.release(pconn)
 		
