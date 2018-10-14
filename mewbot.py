@@ -246,6 +246,7 @@ async def on_message(message):
 			pnum + 1
 		except TypeError as e:
 			await message.channel.send("You need to Start with `;start`")
+			return
 		query2 = '''
 		INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, poknick, exp, nature, expcap)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
@@ -256,6 +257,7 @@ async def on_message(message):
 			await pconn.execute(query2, *args)
 		except asyncpg.exceptions.NotNullViolationError as e:
 			await channel.send("You need to Register with `;start` first")
+			return
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
 		await bot.process_commands(message)
 		logging.info("Success")
@@ -1155,7 +1157,7 @@ async def mega(ctx, val):
 			await ctx.send("This Pokemon cannot Mega Evolve!")
 			return
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author.id)
-		await ctx.send("Your {pokename} has evolved into {mega}!")
+		await ctx.send(f"Your {pokename} has evolved into {mega}!")
 		await bot.db.release(pconn)
 		
 		
