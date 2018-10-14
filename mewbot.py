@@ -1191,8 +1191,8 @@ async def mega(ctx, val):
 		megaable = [t['is_mega'] for t in forms if t['identifier'] == pokemon[0]]
 		mega = pokemon[0]
 		megaable = megaable[0]
-		if not megaable is 1:
-			await ctx.send("This Pokemon cannot Mega Evolve!")
+		if megaable is 1:
+			await ctx.send("This Pokemon cannot Mega Devolve!")
 			return
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author.id)
 		await ctx.send(f"Your {pokename} has devolved into {mega}!")
