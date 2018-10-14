@@ -220,7 +220,8 @@ async def on_message(message):
 		try:
 			await message.channel.send(embed=embed)
 		except Exception as e:
-			await print("	Error in sending embed")
+			print("Error in sending embed")
+			return
 		def check(m):
 			return m.content == val and m.channel == channel
 		msg = await bot.wait_for('message', check=check)
