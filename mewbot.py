@@ -677,6 +677,9 @@ async def info(ctx):
 			types = json.load(f)
 		with open('ptypes.json') as f:
 			t_ids = json.load(f)
+		if pn is None:
+			await ctx.send("You haven't selected a Pokemon Bud")
+			return
 		if '-dawn' in pn:
 			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
 		elif '-dusk' in pn:
