@@ -430,6 +430,8 @@ async def tms(ctx, val=None):
 		p_name = 'gyarados'
 	if pokename == 'xerneas':
 		p_name = 'xerneas-active'
+	if pokename == 'arceus':
+		pokename = 'arceus-normal'
 	pkid = [i['id'] for i in forms if i['identifier'] == p_name]
 	for p_id in pkid:
 		await ctx.send(p_id)
@@ -459,6 +461,15 @@ async def learn(ctx, val, slot: int):
 	pokename = pokename.lower()
 	if pokename == 'deoxys':
 		pokename = 'deoxys-normal'
+	if pokename == 'flire':
+		pokename = 'arcanine'
+	if pokename == 'flowing':
+		pokename = 'sceptile'
+	if pokename == 'aquino':
+		pokename = 'gyarados'
+	if pokename == 'arceus':
+		pokename = 'arceus-normal'
+	
 	pkid = [i['id'] for i in forms if i['identifier'] == pokename]
 	for p_id in pkid:
 		p_id = str(p_id)
@@ -613,6 +624,8 @@ async def info(ctx):
 			pn = 'deoxys-normal'
 		if pn.lower() == 'xerneas':
 			pn = 'xerneas-active'
+		if pn.lower() == 'arceus':
+			pn = 'arceus-normal'
 			
 		
 		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
