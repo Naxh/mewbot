@@ -421,8 +421,16 @@ async def tms(ctx, val=None):
 		forms = json.load(f)
 	pokename = pokename.lower()
 	if pokename == 'deoxys':
-		pokename = 'deoxys-normal'
-	pkid = [i['id'] for i in forms if i['identifier'] == pokename]
+		p_name = 'deoxys-normal'
+	if pokename == 'flire':
+		p_name = 'arcanine'
+	if pokename == 'flowing':
+		p_name = 'sceptile'
+	if pokename == 'aquino':
+		p_name = 'gyarados'
+	if pokename == 'xerneas':
+		p_name = 'xerneas-active'
+	pkid = [i['id'] for i in forms if i['identifier'] == p_name]
 	for p_id in pkid:
 		await ctx.send(p_id)
 		p_id = str(p_id)
@@ -744,6 +752,7 @@ async def pokedex(ctx, *, val):
 		pAb = 'Sizzling Growth'
 		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
 		tlist = 'grass'
+		pkid = '2003'
 	elif val == 'Flire':
 		pokemonSpeed = 110
 		pokemonAtk = 120
@@ -754,6 +763,7 @@ async def pokedex(ctx, *, val):
 		pAb = 'Scorched feet'
 		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
 		tlist = 'fire'
+		pkid = '2001'
 
 	elif val == 'Aquino':
 		pokemonSpeed = 95
@@ -765,6 +775,7 @@ async def pokedex(ctx, *, val):
 		pAb = 'Prehistoric Rain'
 		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 		tlist = 'water'
+		pkid = '2000'
 	else:
 		with open ('statfile') as f:
 			stats = json.load(f)
