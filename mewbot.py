@@ -376,6 +376,7 @@ async def pokemon(ctx, val=None):
 			nr = nrecord[pn-snum]
 		except IndexError as e:
 			await ctx.send("You do not have that much pokemon son")
+			return
 		embed.add_field(name=f'{nr}', value=f'{pn}', inline=True)
 	embed.set_footer(text="Upvote the Bot!! Open the next page with ;pokemon <page_number>")
 	await ctx.send(embed=embed)
