@@ -748,6 +748,7 @@ async def pokedex(ctx, *, val):
 		pokemonHp = 95
 		pAb = 'Sizzling Growth'
 		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
+		tlist = 'grass'
 	elif val == 'Flire':
 		pokemonSpeed = 110
 		pokemonAtk = 120
@@ -757,6 +758,7 @@ async def pokedex(ctx, *, val):
 		pokemonHp = 73
 		pAb = 'Scorched feet'
 		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
+		tlist = 'fire'
 
 	elif val == 'Aquino':
 		pokemonSpeed = 95
@@ -767,6 +769,7 @@ async def pokedex(ctx, *, val):
 		pokemonHp = 99
 		pAb = 'Prehistoric Rain'
 		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
+		tlist = 'water'
 	else:
 		with open ('statfile') as f:
 			stats = json.load(f)
