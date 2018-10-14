@@ -734,9 +734,9 @@ async def info(ctx):
 
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def pokedex(ctx, *, val):
+async def pokedex(ctx, *, inp):
 	
-	val = val.capitalize()
+	val = inp.capitalize()
 	if ' ' in val:
 		val = val.replace(' ', '-')
 	if '-mane' in val:
