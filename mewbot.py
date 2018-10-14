@@ -1191,6 +1191,7 @@ async def on_message(message):
         return
     if '-mega' in pn:
         poke = pn.replace('-mega', '')
+    poke = poke.lower()
     lexp = await pconn.fetchval("SELECT expcap FROM pokes WHERE ownerid = $1 AND selected = 1", message.author.id)
     exp1 = await pconn.fetchval('SELECT (exp)+25 FROM pokes WHERE selected = 1 AND ownerid = $1', message.author.id)
     try:
@@ -1200,9 +1201,9 @@ async def on_message(message):
     plup = await pconn.fetchval("SELECT (pokelevel)+1 FROM pokes WHERE selected = 1 AND ownerid = $1", message.author.id)
     newcap = (plup ** 3)
     if exp1 > lexp:
-        await pconn.execute("UPDATE pokes SET pokelevel = $1 AND expcap = $3 WHERE selected = 1 AND ownerid = $2", plup, message.author.id, newcap)
+        await pconn.execute("UPDATE pokes SET pokelevel = $1 AND expcap = $2 WHERE selected = 1 AND ownerid = $3", plup, newcap, message.author.id)
         await message.channel.send(f"Congratulations!, your Pokemon has Leveled up to Level {plup}!")
-    preevo = [t['id'] for t in pokemon if t['identifier'] == poke.lower()]
+    preevo = [t['id'] for t in pokemon if t['identifier'] == poke]
     min_lev = [t['minimum_level'] for t in evofile if t['id'] == preevo]
     if min_lev is None:
         return
