@@ -1170,8 +1170,6 @@ async def mega(ctx, val):
 		
 @bot.listen()
 async def on_message(message):
-    sleep = random.randint(1, 10)
-    await asyncio.sleep(sleep)
     with open('pokemonfile.json') as f:
         pokemon = json.load(f)
     with open('evofile.json') as f:
@@ -1180,7 +1178,7 @@ async def on_message(message):
         return
     if message.author.bot:
         return
-    pconn = await bot.db.acquire()
+    pconn = await asyncpg.connect(dburl)
     pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = $1", message.author.id)
     nrecord = [record['u_id'] for record in pk1]
     if not message.author.id in nrecord:
