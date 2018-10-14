@@ -1172,8 +1172,8 @@ async def mega(ctx, val):
 async def on_message(message):
     with open('pokemonfile.json') as f:
         pokemon = json.load(f)
-	with open('evofile.json') as f:
-		evofile = json.load(f)
+    with open('evofile.json') as f:
+        evofile = json.load(f)
     if message.author.id == 493045795445276682:
         return
     if message.author.bot:
@@ -1204,7 +1204,7 @@ async def on_message(message):
     if exp1 == lexp:
         lupque = ("UPDATE pokes SET pokelevel = $1 AND expcap = $3 WHERE selected = 1 AND ownerid = $2", plup, message.author.id, newcap)
         await message.channel.send(f"Congratulations!, your Pokemon has Leveled up to Level {plup}!")
-    preevo = [t['id'] for t in pokemon if t['identifier'] == pokename.lower()]
+    preevo = [t['id'] for t in pokemon if t['identifier'] == poke.lower()]
     min_lev = [t['minimum_level'] for t in evofile if t['id'] == preevo]
     if min_lev is None:
         return
@@ -1212,6 +1212,7 @@ async def on_message(message):
         return
     evo = [t['identifier'] for t in pokemon if t['evolves_from_species_id'] == preevo]
     await pconn.execute("UPDATE pokes SET pokename = $1 WHERE selected = 1 AND ownerid = $2", evo, ctx.author.id)
+	await ctx.send(f"Your {pn} has evolved into a {evo}!")
 
 		
 		
