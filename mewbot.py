@@ -1168,7 +1168,51 @@ async def mega(ctx, val):
 		
 		
 		
-		
+@bot.listen()
+async def on_message(message):
+    with open('pokemonfile.json') as f:
+        pokemon = json.load(f)
+	with open('evofile.json') as f:
+		evofile = json.load(f)
+    if message.author.id == 493045795445276682:
+        return
+    if message.author.bot:
+        return
+    pconn = await bot.db.acquire()
+    pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = $1", message.author.id)
+    nrecord = [record['u_id'] for record in pk1]
+    if not message.author.id in nrecord:
+        return
+    pn = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", message.author.id)
+    if pn is None:
+        return
+    if '-mega' in pn:
+        poke = pn.replace('-mega', '')
+    lexp = await pconn.fetchval("SELECT expcap FROM pokes WHERE ownerid = $1 AND selected = 1", message.author.id)
+    exp1 = await pconn.fetchval('SELECT (exp)+25 FROM pokes WHERE selected = 1 AND ownerid = $1', message.author.id)
+    await message.channel.send(f'current exp = {exp1} <@{message.author.id}>')
+    try:
+        await pconn.execute('UPDATE pokes SET exp = $1 WHERE selected = 1 AND ownerid = $2', exp1, message.author.id)
+    except Exception as e:
+        return
+    plup = await pconn.fetchval("SELECT (pokelevel)+1 FROM pokes WHERE selected = 1 AND ownerid = $1", message.author.id)
+	newcap = (plup ** 3)
+    try:
+        await message.channel.send(plup)
+    except Exception as e:
+        return
+    if exp1 == lexp:
+        lupque = ("UPDATE pokes SET pokelevel = $1 AND expcap = $3 WHERE selected = 1 AND ownerid = $2", plup, message.author.id, newcap)
+        await message.channel.send(f"Congratulations!, your Pokemon has Leveled up to Level {plup}!")
+    preevo = [t['id'] for t in pokemon if t['identifier'] == pokename.lower()]
+    min_lev = [t['minimum_level'] for t in evofile if t['id'] == preevo]
+    if min_lev is None:
+        return
+    if not plup == min_lev:
+        return
+    evo = [t['identifier'] for t in pokemon if t['evolves_from_species_id'] == preevo]
+    await pconn.execute("UPDATE pokes SET pokename = $1 WHERE selected = 1 AND ownerid = $2", evo, ctx.author.id)
+
 		
 		
 		
