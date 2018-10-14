@@ -466,7 +466,10 @@ async def learn(ctx, val, slot: int):
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def select(ctx, val):
 	pconn = await bot.db.acquire()
-	val = int(val)
+	try:
+		val = int(val)
+	except ValueError as e:
+		await ctx.send("That is not a Valid Pokemon Number!")
 	maxnum = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = {}".format(ctx.author.id))
 	if val > maxnum:
 		await ctx.send("That Pokemon Does not exist!")
@@ -1151,7 +1154,7 @@ async def mega(ctx, val):
 		if not megaable is 1:
 			await ctx.send("This Pokemon cannot Mega Evolve!")
 			return
-		await pconn.execute("UPDATE pokes SET pokename = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author,id)
+		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author,id)
 		await ctx.send("Your {pokename} has evolved into {mega}!")
 		await bot.db.release(pconn)
 		
