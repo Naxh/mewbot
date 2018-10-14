@@ -1212,7 +1212,7 @@ async def on_message(message):
         return
     evo = [t['identifier'] for t in pokemon if t['evolves_from_species_id'] == preevo]
     await pconn.execute("UPDATE pokes SET pokename = $1 WHERE selected = 1 AND ownerid = $2", evo, ctx.author.id)
-	await ctx.send(f"Your {pn} has evolved into a {evo}!")
+    await ctx.send(f"Your {pn} has evolved into a {evo}!")
 
 		
 		
