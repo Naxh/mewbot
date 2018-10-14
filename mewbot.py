@@ -1199,7 +1199,8 @@ async def on_message(message):
         await pconn.execute('UPDATE pokes SET exp = $1 WHERE selected = 1 AND ownerid = $2', exp1, message.author.id)
     except Exception as e:
         return
-    plup = await pconn.fetchval("SELECT (pokelevel)+1 FROM pokes WHERE selected = 1 AND ownerid = $1", message.author.id)
+    plup = await pconn.fetchval("SELECT pokelevel FROM pokes WHERE selected = 1 AND ownerid = $1", message.author.id)
+	plup+=1
     newcap = (plup ** 3)
     if exp1 > lexp:
         await pconn.execute("UPDATE pokes SET pokelevel = $1 AND expcap = $2 WHERE selected = 1 AND ownerid = $3", plup, newcap, message.author.id)
