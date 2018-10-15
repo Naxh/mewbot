@@ -458,16 +458,16 @@ async def pokemon(ctx, val=None):
 	if val == 1:
 		val = 1
 		snum = 11
-		await ctx.send(f"{val} {snum}")
+		
 	elif val is None:
-		val = 1
-		snum = 11
-		await ctx.send(f"{val} {snum}")
+		val = 10
+		snum = 0
+		
 	else:
 		val = int(val)
 		val = (val*10)
 		snum = val-10
-		await ctx.send(f"{val} {snum}")
+		
 	pconn = await bot.db.acquire()
 	nquery = f"SELECT pokname, pnum FROM pokes WHERE ownerid = {ctx.author.id} ORDER BY pnum"
 	pk1 = await pconn.fetch(nquery)
