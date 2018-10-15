@@ -1370,7 +1370,7 @@ async def form(ctx, val):
 			return
 		else:
 			return
-	if pokename in weatherevo and helditem == 'reveal-glass':
+	if pokename in weathevo and helditem == 'reveal-glass':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 		await ctx.send(f"{preformnum}")
 		preformnum = preformnum
