@@ -51,7 +51,18 @@ async def on_ready():
 async def on_ready():
 	if not hasattr(bot, 'db'):
 		bot.db = await asyncpg.create_pool(dburl, min_size=1, max_size=20)
-		
+@bot.command()
+async def load(ctx, extension_name : str):
+    if not ctx.author.id == 358293206900670467:
+        return
+    """Loads an extension."""
+    try:
+        bot.load_extension(extension_name)
+    except (AttributeError, ImportError) as e:
+        await ctx.send("```py\n{}: {}\n```".format(type(e).__name__, str(e)))
+        return
+    await ctx.send("{} loaded.".format(extension_name))		
+
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def mew(ctx):
