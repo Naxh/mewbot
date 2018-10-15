@@ -1036,7 +1036,7 @@ async def redeem(ctx, *, val=None):
             await pconn.execute(query2, *args)
             await bot.db.release(pconn)
             return
-    elif val == 'credits':
+    if val == 'credits':
         pconn = await bot.db.acquire()
         credits = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", ctx.author.id)
         redeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", ctx.author.id)
