@@ -999,7 +999,7 @@ async def on_guild_remove(guild):
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def redeem(ctx, *, val=None):
     if val is None:
-        e = discord.Embed("Redeem Options")
+        e = discord.Embed(title="Redeem Options")
         e.add_field(name="Pokemon", value="Redeeem any Pokemon of your choice!")
         e.add_field(name="Credits", value="Redeem 50,000 credits")
         e.add_field(name="EV points", value="Redeem 510 EV points then use `;add <pokemon_name> <stat>` to add it!")
