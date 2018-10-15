@@ -1369,7 +1369,8 @@ async def form(ctx, val):
 			return
 	if pokename in weathertrio and helditem == 'reveal-glass':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
-		preformnum = preformnum[0]
+		await ctx.send(f"{performnum}")
+		preformnum = preformnum
 		form = preformnum + 1
 		f_id = [t['identifier'] for t in forms if t['order'] == form]
 		form = f_id
