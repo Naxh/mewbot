@@ -121,7 +121,7 @@ async def trainer(ctx, user: discord.Member=None):
 	embed.add_field(name="Credits", value=f'{mewcoins}ℳ')
 	embed.set_thumbnail(url=user.avatar_url)
 	await ctx.send(embed=embed)
-	await bot.db.release(tconn)
+	await bot.db.release(pconn)
    
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
@@ -432,6 +432,7 @@ async def start_journey(ctx):
 		nrecord = [record['u_id'] for record in pk1]
 		if ctx.author.id in nrecord:
 			await ctx.send('you have already registered')
+			await bot.db.release(pconn)
 			return
 		else:
 			await pconn.execute(query2, *args)
@@ -479,6 +480,7 @@ async def pokemon(ctx, val=None):
 			nr = nrecord[pn-1]
 		except IndexError as e:
 			await ctx.send("You do not have that much pokemon son")
+			await bot.db.release(pconn)
 			return
 		embed.add_field(name=f'{nr.capitalize()}', value=f'{pn}', inline=True)
 	embed.set_footer(text="Upvote the Bot!! Open the next page with ;pokemon <page_number>")
@@ -727,6 +729,8 @@ async def info(ctx):
 			irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
 		except Exception as e:
 			await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
+			await bot.db.release(pconn)
+			return
 		pns = str(pn)
 		with open ('statfile') as f:
 			stats = json.load(f)
@@ -740,6 +744,7 @@ async def info(ctx):
 			t_ids = json.load(f)
 		if pn is None:
 			await ctx.send("You haven't selected a Pokemon Bud")
+			await bot.db.release(pconn)
 			return
 		if '-dawn' in pn:
 			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
@@ -992,6 +997,7 @@ async def on_guild_remove(guild):
     pconn = await bot.db.acquire()
     credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", guild.owner.id)
     if credeems is None:
+	await bot.db.release(pconn)
         return
     credeems-=10
     await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", credeems, guild.owner.id)
@@ -1008,6 +1014,7 @@ async def redeem(ctx, *, val=None):
         e.add_field(name="EV points", value="Redeem 510 EV points then use `;add <pokemon_name> <stat>` to add it!")
         e.add_field(name="Get redeems", value="Just say `;donate`")
         await ctx.send(embed=e)
+	await bot.db.release(pconn)
         return
     val = val.capitalize()
     if val in pList:
@@ -1024,6 +1031,7 @@ async def redeem(ctx, *, val=None):
         rnat = random.choice(natlist)
         if rnum is None:
                 await ctx.send("You don't have any redeems B")
+		await bot.db.release(pconn)
                 return
         if rnum >= 1:
             pnum = await pconn.fetchval(pque)
@@ -1142,6 +1150,8 @@ async def reward(ctx):
 				upoints += 1
 			except Exception as e:
 				await ctx.send("You have not upvoted the bot yet or you have not started with `;start`")
+				await bot.db.release(pconn)
+				return
 			await pconn.execute(f"UPDATE users SET mewcoins = {coins} WHERE u_id = {ctx.author.id}")
 			await pconn.execute(f"UPDATE users SET upvotepoints = {upoints} WHERE u_id = {ctx.author.id}")
 			embed = discord.Embed(title="Successfully claimed Upvote Points! and Credits", color=0xffb6c1)
@@ -1157,6 +1167,7 @@ async def reward(ctx):
 	except Exception as e:
 		embed = discord.Embed(title="You have already Upvoted")
 		embed.add_field(name="Already Upvoted the Bot", value=f"{e}")
+		await bot.db.release(pconn)
 		await ctx.send(embed=embed)
 		
 @bot.command(aliases=["vote"])
@@ -1179,9 +1190,11 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         return
     elif creds is None:
         await ctx.send("You did not specify Credits, please use `;gift` instead")
+	await bot.db.release(pconn)
         return
     elif poke is None:
         await ctx.send("You did not specify a Pokemon Please Use `give` instead")
+	await bot.db.release(pconn)
         return
     else:
         offering = await pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {ctx.author.id}")
@@ -1233,6 +1246,7 @@ async def giveredeem(ctx, user: discord.Member, val):
 	val = int(val)
 	if user is None:
 		await ctx.send("Please tag a User")
+		await bot.db.release(pconn)
 		return
 	else:
 		redeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", ctx.author.id)
@@ -1260,6 +1274,7 @@ async def gift(ctx, user: discord.Member, val):
 	val = int(val)
 	if user is None:
 		await ctx.send("Please tag a User")
+		await bot.db.release(pconn)
 		return
 	else:
 		redeems = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", ctx.author.id)
@@ -1287,6 +1302,7 @@ async def give(ctx, user: discord.Member, val):
 	val = int(val)
 	if user is None:
 		await ctx.send("Please tag a User")
+		await bot.db.release(pconn)
 		return
 	else:
 		poke = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1", ctx.author.id)
@@ -1320,6 +1336,7 @@ async def form(ctx, val):
 		return
 	if pokename is None:
 		await ctx.send("No Pokemon Selected")
+		await bot.db.release(pconn)
 		return
 	with open("forms.json")as f:
 		forms = json.load(f)
@@ -1430,6 +1447,8 @@ async def mega(ctx, val):
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 		if pokename is None:
 			await ctx.send("No Pokemon Selected")
+			await bot.db.release(pconn)
+			return
 		with open("forms.json") as f:
 			forms = json.load(f)
 		order = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
@@ -1441,6 +1460,7 @@ async def mega(ctx, val):
 		megaable = megaable[0]
 		if megaable is 1:
 			await ctx.send("This Pokemon cannot Mega Devolve!")
+			await bot.db.release(pconn)
 			return
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author.id)
 		await ctx.send(f"Your {pokename} has devolved into {mega}!")
@@ -1452,11 +1472,14 @@ async def mega(ctx, val):
 		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
-		if not helditem is 'mega stone':
+		if not helditem is 'mega-stone':
 			await ctx.send("This Pokemon Is not holding a Mega Stone!")
+			await bot.db.release(pconn)
 			return
 		if pokename is None:
 			await ctx.send("No Pokemon Selected")
+			await bot.db.release(pconn)
+			return
 		with open("forms.json") as f:
 			forms = json.load(f)
 		order = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
@@ -1468,6 +1491,7 @@ async def mega(ctx, val):
 		megaable = megaable[0]
 		if not megaable is 1:
 			await ctx.send("This Pokemon cannot Mega Evolve!")
+			await bot.db.release(pconn)
 			return
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {mega}!")
