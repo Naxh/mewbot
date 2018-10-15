@@ -454,8 +454,8 @@ async def start_journey(ctx):
 
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def pokemon(ctx, val=None):
-	if val == None:
+async def pokemon(ctx, val:int=None):
+	if val is None:
 		val = 1
 		snum = 11
 	elif val == 1:
@@ -503,7 +503,7 @@ async def moves(ctx):
 	
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def tms(ctx, val=None):
+async def tms(ctx, val: int=None):
 	if val is 2:
 		val = int(val)
 		val = 25
