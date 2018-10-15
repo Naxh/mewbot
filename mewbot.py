@@ -474,6 +474,8 @@ async def pokemon(ctx, val=None):
 	precord = [record['pnum'] for record in pk1]
 	embed = discord.Embed(title='Your Pokemon List', color=0xffb6c1)
 	for pn in precord:
+		await ctx.send(pn)
+		
 		try:
 			nr = nrecord[pn-snum]
 		except IndexError as e:
