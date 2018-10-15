@@ -173,11 +173,11 @@ async def help(ctx, val=None):
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def shop(ctx, val=None):
 	if val is None:
-		e = discord.Embed(title="Items you can buy in the Shop!", color=0xffb6c1)
-		e.add_field(name="shop forms", value="Want to Make your Kyogre or Groudon Primal or Deoxys/Arceus Formes")
-		e.add_field(name="shop mega", value="Buy The Mega Stone to Mega your Pokemon and say `;mega evolve`!")
-		e.add_field(name="shop items", value="Buy Rare candies, Items to Boost Pokemnon Abilities such as Zinc e.t.c")
-		e.add_field(name="shop held items", value="Buy Held Items for your Pokemon!")
+		e = discord.Embed(title="Items you can buy in the Shop!", description="`;shop <shop_name>`", color=0xffb6c1)
+		e.add_field(name="Forms", value="Want to Make your Kyogre or Groudon Primal or Deoxys/Arceus Formes")
+		e.add_field(name="Mega", value="Buy The Mega Stone to Mega your Pokemon and say `;mega evolve`!")
+		e.add_field(name="Items", value="Buy Rare candies, Items to Boost Pokemnon Abilities such as Zinc e.t.c")
+		e.add_field(name="Held items", value="Buy Held Items for your Pokemon!")
 		e.add_field(name="buy", value="`;buy <item_name>` to buy an item")
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
 		await ctx.send(embed=e)
@@ -225,6 +225,7 @@ async def buy(ctx, item):
 	with open("shop.json") as f:
 		items = json.load(f)
 	price = [t['price'] for t in items if t['item'] == item]
+	price = price[0]
 	if price is None:
 		await ctx.send("That Item is not in the market")
 		return
