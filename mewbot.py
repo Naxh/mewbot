@@ -158,7 +158,7 @@ async def help(ctx, val=None):
 		embed.add_field(name="mega", value="`;mega evolve` to Mega and `;mega devolve` to unmega!")
 		embed.add_field(name="donate", value="Donate to the bot! 1 USD = 2 Redeems + 50,000ℳ")
 		embed.add_field(name="vote", value="Upvote the Bot for Rewards!, 10 Upvote Points = 5 Redeems!")
-		embed.add_field(name="botinfo", value="User count, server count, CPU and Memory Status and More!"
+		embed.add_field(name="botinfo", value="User count, server count, CPU and Memory Status and More!")
 		embed.set_thumbnail(url='http://pm1.narvii.com/5848/b18cd35647528a7bdffc8e4b8e4d6a1465fc5253_00.jpg')
 		await ctx.send(embed=embed)
 	elif val == 'trading':
@@ -458,7 +458,7 @@ async def pokemon(ctx, val=None):
 	if val is None:
 		val = 1
 		snum = 11
-	eliff val == 1:
+	elif val == 1:
 		val = 1
 		snum = 11
 	else:
