@@ -1364,6 +1364,7 @@ async def form(ctx, val):
 		form = preformnum + 1
 		f_id = [t['identifier'] for t in forms if t['order'] == form]
 		form = f_id
+		await ctx.send(f"{preformnum} {form} {f_id}")
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 		await bot.db.release(pconn)
