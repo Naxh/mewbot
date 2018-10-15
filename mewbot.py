@@ -592,7 +592,7 @@ async def learn(ctx, val, slot: int):
 	if pokename == 'arceus':
 		pokename = 'arceus-normal'
 	
-	pkid = [i['id'] for i in forms if i['identifier'] == pokename]
+	pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pokename]
 	for p_id in pkid:
 		p_id = str(p_id)
 		r = requests.get('https://pokeapi.co/api/v2/pokemon/'+p_id+'/')
