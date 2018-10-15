@@ -475,9 +475,8 @@ async def pokemon(ctx, val=None):
 	embed = discord.Embed(title='Your Pokemon List', color=0xffb6c1)
 	for pn in precord[enum:snum]:
 		await ctx.send(pn)
-		
 		try:
-			nr = nrecord[pn-snum]
+			nr = nrecord[pn-1]
 		except IndexError as e:
 			await ctx.send("You do not have that much pokemon son")
 			return
