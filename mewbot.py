@@ -1308,8 +1308,7 @@ async def form(ctx, val):
 	if '-' in form:
 		form = form.replace('-', ' ')
 	form = form.split()
-	if len(form) > 2:
-		form = form[0]
+	form = form[0]
 	f_id = f_id[0]
 	form = form + '-' + val.lower()
 	pokename = pokename.lower()
