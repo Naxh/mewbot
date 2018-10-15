@@ -1014,7 +1014,7 @@ async def redeem(ctx, *, val=None):
         e.add_field(name="EV points", value="Redeem 510 EV points then use `;add <pokemon_name> <stat>` to add it!")
         e.add_field(name="Get redeems", value="Just say `;donate`")
         await ctx.send(embed=e)
-	await bot.db.release(pconn)
+        await bot.db.release(pconn)
         return
     val = val.capitalize()
     if val in pList:
