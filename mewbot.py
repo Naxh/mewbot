@@ -999,11 +999,12 @@ async def on_guild_remove(guild):
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def redeem(ctx, val):
     if val is None:
-	e = discord.Embed("Redeem Options")
-	e.add_field(name="Pokemon", value="Redeeem any Pokemon of your choice!")
+        e = discord.Embed("Redeem Options")
+        e.add_field(name="Pokemon", value="Redeeem any Pokemon of your choice!")
         e.add_field(name="Credits", value="Redeem 50,000 credits")
         e.add_field(name="EV points", value="Redeem 510 EV points then use `;add <pokemon_name> <stat>` to add it!")
         await ctx.send(embed=e)
+	return
     val = val.capitalize()
     if val in pList:
         pconn = await bot.db.acquire()
@@ -1033,6 +1034,7 @@ async def redeem(ctx, val):
             await ctx.channel.send(f"Here's your {val}!")
             await pconn.execute(query2, *args)
             await bot.db.release(pconn)
+            return
     elif val == 'credits':
         pconn = await bot.db.acquire()
         credits = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", ctx.author.id)
@@ -1043,6 +1045,7 @@ async def redeem(ctx, val):
         await pconn.execute("UPDATE users SET mewcoins = $1 WHERE u_id = $2", credits, ctx.author.id)
         await ctx.send("50,000  Has been credited to your balance!")
         await bot.db.release(pconn)
+        return
 	
 	
 
