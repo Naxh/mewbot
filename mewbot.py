@@ -1263,7 +1263,8 @@ async def form(ctx, val):
 		forms = json.load(f)
 	f_id = [t['identifier'] for t in forms if t['form_identifier'] ==val.lower()]
 	form = pokename + '-' + val.lower()
-	await ctx.send(f"uh {form} and {f_id} are different, Fix me nigga")
+	form = form.lower()
+	f_id = f_id[0]
 	if not f_id is form:
 		await ctx.send("That is not the Form for that pokemon")
 		return
@@ -1280,7 +1281,7 @@ async def form(ctx, val):
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {f_id}")
 	else:
-		await ctx.send("That form might not be in yet, Please be patient :wink:")
+		await ctx.send("You're holding the wrong item, or that form might not be in yet, Please be patient :wink:")
 		return
 	
 	
