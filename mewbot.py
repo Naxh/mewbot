@@ -174,7 +174,7 @@ async def help(ctx, val=None):
 async def shop(ctx, val=None):
 	if val is None:
 		e = discord.Embed(title="Items you can buy in the Shop!", color=0xffb6c1)
-		e.add_field(name="shop forms", value="Want to Make your Kyogre or Groudon Primal or Deoxys/Animal Formes")
+		e.add_field(name="shop forms", value="Want to Make your Kyogre or Groudon Primal or Deoxys/Arceus Formes")
 		e.add_field(name="shop mega", value="Buy The Mega Stone to Mega your Pokemon and say `;mega evolve`!")
 		e.add_field(name="shop items", value="Buy Rare candies, Items to Boost Pokemnon Abilities such as Zinc e.t.c")
 		e.add_field(name="shop held items", value="Buy Held Items for your Pokemon!")
@@ -744,6 +744,9 @@ async def info(ctx):
 			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 		else:
 			iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
+		wtrio = ['tornadus', 'landorus', 'thundurus']
+		if pn.lower() in wtrio:
+			pn = pn+'-incarnate'
 		if pn.lower() == 'deoxys':
 			pn = 'deoxys-normal'
 		if pn.lower() == 'xerneas':
