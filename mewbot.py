@@ -1306,6 +1306,7 @@ async def form(ctx, val):
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
 	helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 	weathertrio = ['landorus', 'thundurus', 'tornadus']
+	pokename = pokename.lower()
 	if pokename in weathertrio:
 		pokename = pokename+'-incarnate'
 	if helditem is None:
