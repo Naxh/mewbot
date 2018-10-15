@@ -789,7 +789,7 @@ async def info(ctx):
 	specialdefense = round((((2*pokemonSpd+spdefiv+(0/4))*plevel)/100)+5)
 	speed = round((((2*pokemonSpeed+speediv+(0/4))*plevel)/100)+5)
 	t_ivs = (hpiv+atkiv+defiv+spatkiv+spdefiv+speediv)
-	percentage = ((186/t_ivs)*100)
+	percentage = ((t_iv/186)*100)
 	
 	if nature == 'Adamant':
 		attack = attack*1.1
