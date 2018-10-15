@@ -1306,6 +1306,7 @@ async def form(ctx, val):
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
 	helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 	weathertrio = ['landorus', 'thundurus', 'tornadus']
+	weathevo = ['landorus-therian', 'tornadus-therian', 'thundurus-therian']
 	pokename = pokename.lower()
 	if pokename in weathertrio:
 		pokename = pokename+'-incarnate'
@@ -1318,6 +1319,7 @@ async def form(ctx, val):
 	with open("forms.json")as f:
 		forms = json.load(f)
 	pokename = pokename.lower()
+	await ctx.send(f"{pokename}")
 	if pokename == 'kyogre' and helditem == 'blue-orb':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 		preformnum = preformnum[0]
@@ -1368,7 +1370,7 @@ async def form(ctx, val):
 			return
 		else:
 			return
-	if pokename in weathertrio and helditem == 'reveal-glass':
+	if pokename in weatherevo and helditem == 'reveal-glass':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 		await ctx.send(f"{preformnum}")
 		preformnum = preformnum
