@@ -1315,6 +1315,7 @@ async def form(ctx, val):
 	form = pokename + '-' + val.lower()
 	form = form.lower()
 	f_id = f_id[0]
+	await ctx.send(f"I am a {pokename} and I'm holding a {helditem} but shit aint happening")
 	if not f_id == form:
 		await ctx.send("That is not the Form for that pokemon")
 		return
