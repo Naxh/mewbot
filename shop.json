@@ -1,0 +1,38 @@
+[
+{
+	"item": "blue-orb",
+	"price": 5000
+},
+{
+	"item": "meteorite",
+	"price": 7500
+},
+{
+	"item": "red-orb",
+	"price": 5000
+},
+{
+	"item": "n-lunarizer",
+	"price": 9500
+},
+{
+	"item": "n-solarizer",
+	"price": 9500
+},
+{
+	"item": "light-stone",
+	"price": 9500
+},
+{
+	"item": "dark-stone",
+	"price": 9500
+},
+{
+	"item": "reveal-glass",
+	"price": 7500
+},
+{
+	"item": "zygarde-cell",
+	"price": 2000
+}
+]
