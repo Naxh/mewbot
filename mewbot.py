@@ -147,6 +147,7 @@ async def help(ctx, val=None):
 		embed.add_field(name="start", value="Start Playing Mewbot!!")
 		embed.add_field(name="trade", value="Trade Items, Redeems, Pokemon, and Credits!")
 		embed.add_field(name="shop", value="Buy TMs, Held Items, Evolution Items & More!")
+		embed.add_field(name="buy", value="`;buy <item_name>` to buy an item")
 		embed.add_field(name="reward", value="Get Upvote Rewards! NOTE: Only Use this command WHEN you have Upvoted!")
 		embed.add_field(name="upvote", value="Upvote the Bot for rewards!!")
 		embed.add_field(name="moves", value="See your current move count!")
@@ -177,6 +178,7 @@ async def shop(ctx, val=None):
 		e.add_field(name="shop mega", value="Buy The Mega Stone to Mega your Pokemon and say `;mega evolve`!")
 		e.add_field(name="shop items", value="Buy Rare candies, Items to Boost Pokemnon Abilities such as Zinc e.t.c")
 		e.add_field(name="shop held items", value="Buy Held Items for your Pokemon!")
+		e.add_field(name="buy", value="`;buy <item_name>` to buy an item")
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
 		await ctx.send(embed=e)
 	elif val == 'forms':
@@ -189,6 +191,8 @@ async def shop(ctx, val=None):
 		e.add_field(name="Arceus Plates", value="Need Arceus Plates to Transform it?, just say `;shop plates`")
 		e.add_field(name="Light Stone", value="Buy this to Fuse your Kyurem with Reshiram for Kyurem-white! | 9500ℳ")
 		e.add_field(name="Dark Stone", value="Buy this to Fuse your Kyurem with Zekrom for Kyurem-black | 9500ℳ")
+		e.add_field(name="Reveal Glass", value="Buy this to Change the forms of the weather trio! | 7500ℳ")
+		e.add_field(name="Zygarde cell", value="Get Zygarde-complete by Buying 10 Zygarde Cells! | 15000 ℳ")
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
 		await ctx.send(embed=e)
 	elif val == 'plates':
@@ -212,6 +216,26 @@ async def shop(ctx, val=None):
 		e.add_field(name="Zap Plate", value="Changes Arceus and Judgement to the electric type")
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
 		await ctx.send(embed=e)
+@bot.command()
+async def buy(ctx, item):
+	if '-' in item:
+		item = item.replace(' ', '-')
+	item = item.lower()
+	pconn = await bot.db.acquire()
+	with open("shop.json") as f:
+		items = json.load(f)
+	price = [t['price'] for t in items if t['item'] == item]
+	if price is None:
+		await ctx.send("That Item is not in the market")
+		return
+	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+	current_creds = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", ctx.author.id)
+	if current_creds < price:
+		await ctx.send(f"You don't have {price}ℳ")
+		return
+	await pconn.execute("UPDATE pokes SET hitem = $1 WHERE selected = 1 and ownerid = $2", item, ctx.author.id)
+	await ctx.send(f"You have successfully bought the {item} for your {pokename}")
+	await bot.db.release(pconn)
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def botinfo(ctx):
