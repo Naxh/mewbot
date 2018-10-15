@@ -225,6 +225,7 @@ async def buy(ctx, item):
 	with open("shop.json") as f:
 		items = json.load(f)
 	price = [t['price'] for t in items if t['item'] == item]
+	await ctx.send(price)
 	price = price[0]
 	if price is None:
 		await ctx.send("That Item is not in the market")
