@@ -543,10 +543,8 @@ async def tms(ctx, val=None):
 		p_name = 'arceus-normal'
 	else:
 		p_name = pokename
-	await ctx.send(f"{p_name} cant be found FIX ME NIGGA @dylee#6669")
 	pkid = [i['pokemon_id'] for i in forms if i['identifier'] == p_name]
 	for p_id in pkid:
-		await ctx.send(p_id)
 		p_id = str(p_id)
 		r = requests.get('https://pokeapi.co/api/v2/pokemon/'+p_id+'/')
 	r = r.json()
@@ -554,9 +552,9 @@ async def tms(ctx, val=None):
 	moves = len(move)
 	e = discord.Embed(title="Learnable Move List", color=0xffb6c1)
 	for move in move[snum:val]:
+		move = move.capitalize()
 		if '-' in move:
 			move = move.replace('-', ' ')
-			move = move.capitalize()
 		e.add_field(name=f"{move}", value=f";learn <move>")
 	e.set_footer(text=f"Showing {val} of {moves} Moves learnable by {pokename}")
 	await ctx.send(embed=e)
