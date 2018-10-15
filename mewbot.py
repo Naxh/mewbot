@@ -217,7 +217,7 @@ async def shop(ctx, val=None):
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
 		await ctx.send(embed=e)
 @bot.command()
-async def buy(ctx, item):
+async def buy(ctx, *, item):
 	if ' ' in item:
 		item = item.replace(' ', '-')
 	item = item.lower()
