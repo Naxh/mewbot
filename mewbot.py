@@ -1027,35 +1027,24 @@ async def redeem(ctx, val):
             await ctx.channel.send(f"Here's your {val}!")
             await pconn.execute(query2, *args)
             await bot.db.release(pconn)
+    elif val == 'credits':
+		pconn = await bot.db.acquire()
+		credits = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", ctx.author.id)
+		redeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", ctx.author.id)
+		redeems = redeems - 1
+		await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", redeems, ctx.author.id)
+		credits = credits + 50000
+		await pconn.execute("UPDATE users SET mewcoins = $1 WHERE u_id = $2", credits, ctx.author.id)
+		await ctx.send("50,000  Has been credited to your balance!")
+		await bot.db.release(pconn)
+	
 
 
 
 
 
 ##############################################################################################################################################################
-#level up
-############################
 
-			
-#########################################################################
-
-
-
-
-##########################################################################
-#________________________________________________________________________#
-##########################################################################
-
-
-
-
-############################################################################
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
-##############################################################################
-
-#############################################################################3
-###333333333333333333battles###########################333
-#####################33333333nothing goes here
 		
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
