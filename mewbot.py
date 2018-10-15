@@ -1317,6 +1317,7 @@ async def form(ctx, val):
 	pokename = pokename.lower()
 	if pokename == 'kyogre' and helditem == 'blue-orb':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		preformnum = preformnum[0]
 		form = preformnum + 1
 		f_id = [t['identifier'] for t in forms if t['order'] == form]
 		form = f_id
@@ -1326,6 +1327,7 @@ async def form(ctx, val):
 		return
 	if pokename == 'groudon' and helditem == 'red-orb':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		preformnum = preformnum[0]
 		form = preformnum + 1
 		f_id = [t['identifier'] for t in forms if t['order'] == form]
 		form = f_id
@@ -1336,6 +1338,7 @@ async def form(ctx, val):
 	if 'deoxys' in pokename and helditem == 'meteorite':
 		if val == 'speed':
 			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+			pre = pre[0]
 			form = pre + 3
 			form = [t['identifier'] for t in forms if t['order'] == form]
 			await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
@@ -1344,6 +1347,7 @@ async def form(ctx, val):
 			return
 		elif val == 'defense':
 			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+			pre = pre[0]
 			form = pre + 2
 			form = [t['identifier'] for t in forms if t['order'] == form]
 			await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
@@ -1352,6 +1356,7 @@ async def form(ctx, val):
 			return
 		elif val == 'attack':
 			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+			pre = pre[0]
 			form = pre + 1
 			form = [t['identifier'] for t in forms if t['order'] == form]
 			await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
@@ -1362,6 +1367,7 @@ async def form(ctx, val):
 			return
 	if pokename in weathertrio and helditem == 'reveal-glass':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		preformnum = preformnum[0]
 		form = preformnum + 1
 		f_id = [t['identifier'] for t in forms if t['order'] == form]
 		form = f_id
