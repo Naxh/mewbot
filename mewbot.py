@@ -1312,6 +1312,7 @@ async def form(ctx, val):
 	form = form.lower()
 	f_id = f_id[0]
 	pokename = pokename.lower()
+	await ctx.send(f"uh {f_id} and {form} are different dylee .-.")
 	if not f_id == form:
 		await ctx.send("That is not the Form for that pokemon")
 		return
