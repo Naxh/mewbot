@@ -1263,7 +1263,7 @@ async def form(ctx, val):
 		forms = json.load(f)
 	f_id = [t['identifier'] for t in forms if t['form_identifier'] ==val.lower()]
 	form = pokename + '-' + val.lower()
-	await ctx.send(form, f_id)
+	await ctx.send(f"uh {form} and {f_id} are different, Fix me nigga")
 	if not f_id is form:
 		await ctx.send("That is not the Form for that pokemon")
 		return
