@@ -473,7 +473,7 @@ async def pokemon(ctx, val=None):
 	nrecord = [record['pokname'] for record in pk1]
 	precord = [record['pnum'] for record in pk1]
 	embed = discord.Embed(title='Your Pokemon List', color=0xffb6c1)
-	for pn in precord[enum:snum]:
+	for pn in precord[0:11]:
 		await ctx.send(pn)
 		try:
 			nr = nrecord[pn-1]
