@@ -234,6 +234,8 @@ async def buy(ctx, item):
 		await ctx.send(f"You don't have {price}ℳ")
 		return
 	await pconn.execute("UPDATE pokes SET hitem = $1 WHERE selected = 1 and ownerid = $2", item, ctx.author.id)
+	ncreds = current_creds - price
+	await pconn.execute("UPDATE users SET mewcoins = $1 WHERE u_id = $2, ncreds, ctx.author.id)
 	await ctx.send(f"You have successfully bought the {item} for your {pokename}")
 	await bot.db.release(pconn)
 @bot.command()
