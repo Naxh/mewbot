@@ -542,7 +542,7 @@ async def tms(ctx, val=None):
 	if pokename == 'arceus':
 		p_name = 'arceus-normal'
 	else:
-		pokename = p_name
+		pokename == p_name
 	await ctx.send(f"{p_name} cant be found FIX ME NIGGA @dylee#6669")
 	pkid = [i['id'] for i in forms if i['identifier'] == p_name]
 	for p_id in pkid:
