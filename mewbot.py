@@ -1190,17 +1190,18 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         return
     elif creds is None:
         await ctx.send("You did not specify Credits, please use `;gift` instead")
-	await bot.db.release(pconn)
+        await bot.db.release(pconn)
         return
     elif poke is None:
         await ctx.send("You did not specify a Pokemon Please Use `give` instead")
-	await bot.db.release(pconn)
+        await bot.db.release(pconn)
         return
     else:
         offering = await pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {ctx.author.id}")
         ccreds = await pconn.fetchval(f"SELECT mewcoins FROM users WHERE u_id = {user.id}")
         if creds > offering:
             await ctx.send(f"You do not have {creds} ℳ")
+            await bot.db.release(pconn)
             return
         pokename = await pconn.fetchval(f"SELECT pokname FROM pokes WHERE pnum = {poke} AND ownerid = {user.id}")
 
@@ -1531,7 +1532,7 @@ async def on_message(message):
     elif not '-mega' in pn:
         poke = pn.lower()
     lexp = await pconn.fetchval("SELECT expcap FROM pokes WHERE ownerid = $1 AND selected = 1", message.author.id)
-    exp1 = await pconn.fetchval('SELECT (exp)+25 FROM pokes WHERE selected = 1 AND ownerid = $1', message.author.id)
+    exp1 = await pconn.fetchval('SELECT (exp)+50 FROM pokes WHERE selected = 1 AND ownerid = $1', message.author.id)
     try:
         await pconn.execute('UPDATE pokes SET exp = $1 WHERE selected = 1 AND ownerid = $2', exp1, message.author.id)
     except Exception as e:
