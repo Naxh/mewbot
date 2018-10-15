@@ -524,7 +524,16 @@ async def tms(ctx, val=None):
 	e.set_footer(text=f"Showing {val} of {moves} Moves learnable by {pokename}")
 	await ctx.send(embed=e)
 	await bot.db.release(pconn)
-			    
+@bot.command()
+async def release(ctx, val: int):
+	if not val is None:
+		pconn = await bot.db.acquire()
+		await pconn.execute("DELETE FROM pokes WHERE pnum = $1 AND ownerid = $2", val, ctx.author.id)
+		await ctx.send("You have successfully released your Pokemon Number {val}")
+		await bot.db.release(pconn)
+	else:
+		await ctx.send("You dont have that Pokemon")
+	
 @bot.command()
 async def learn(ctx, val, slot: int):
 	pconn = await bot.db.acquire()
@@ -1271,17 +1280,22 @@ async def form(ctx, val):
 	if pokename == 'kyogre' and helditem == 'blue orb':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send("Your Kyogre Has evolved into Kyogre-Primal!")
+		await bot.db.release(pconn)
 	if pokename == 'groudon' and helditem == 'red orb':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {f_id}")
+		await bot.db.release(pconn)
 	if pokename == 'deoxys' and helditem == 'meteorite':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {f_id}")
+		await bot.db.release(pconn)
 	if pokename in weathertrio and helditem == 'reveal glass':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {f_id}")
+		await bot.db.release(pconn)
 	else:
 		await ctx.send("You're holding the wrong item, or that form might not be in yet, Please be patient :wink:")
+		await bot.db.release(pconn)
 		return
 	
 	
@@ -1424,7 +1438,7 @@ class DiscordBotsOrgAPI:
                 logger.info('posted server count ({})'.format(len(self.bot.guilds)))
             except Exception as e:
                 logger.exception('Failed to post server count\n{}: {}'.format(type(e).__name__, e))
-            await asyncio.sleep(900)
+            await asyncio.sleep(1800)
 
 
 def setup(bot):
@@ -1432,7 +1446,14 @@ def setup(bot):
     logger = logging.getLogger('bot')
     bot.add_cog(DiscordBotsOrgAPI(bot))
 		
-		
+
+	
+if __name__ == "__main__":
+	try:
+		bot.load_extension(DiscordBotsOrgApi)
+	except Exception as e:
+		exc = '{}: {}'.format(type(e).__name__, e)
+		print('Failed to load extension {}\n{}'.format(extension, exc))
 bot.run(TOKEN)
 
 			
