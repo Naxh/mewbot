@@ -610,6 +610,10 @@ async def select(ctx, val):
 	except ValueError as e:
 		await ctx.send("That is not a Valid Pokemon Number!")
 	maxnum = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = {}".format(ctx.author.id))
+	if maxnum is None:
+		await ctx.send("You have not Started!")
+		await bot.db.release(pconn)
+		return
 	if val > maxnum:
 		await ctx.send("That Pokemon Does not exist!")
 		return
