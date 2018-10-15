@@ -466,7 +466,7 @@ async def pokemon(ctx, val=None):
 	else:
 		val = int(val)
 		enum = (rnum/int(val))
-		snum = ((10*val)-8)
+		snum = ((10*val)-11)
 	pconn = await bot.db.acquire()
 	nquery = f"SELECT pokname, pnum FROM pokes WHERE ownerid = {ctx.author.id} AND pnum BETWEEN {enum} AND {rnum} ORDER BY pnum"
 	pk1 = await pconn.fetch(nquery)
@@ -479,7 +479,7 @@ async def pokemon(ctx, val=None):
 		except IndexError as e:
 			await ctx.send("You do not have that much pokemon son")
 			return
-		embed.add_field(name=f'{nr}', value=f'{pn}', inline=True)
+		embed.add_field(name=f'{nr.capitalize()}', value=f'{pn}', inline=True)
 	embed.set_footer(text="Upvote the Bot!! Open the next page with ;pokemon <page_number>")
 	await ctx.send(embed=embed)
 	await bot.db.release(pconn)
@@ -489,14 +489,10 @@ async def pokemon(ctx, val=None):
 async def moves(ctx):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
-	m1query = "SELECT move1 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id
-	m2query = "SELECT move2 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id
-	m3query = "SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id
-	m4query = "SELECT move4 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id
-	m1 = await pconn.fetchval(m1query)
-	m2 = await pconn.fetchval(m2query)
-	m3 = await pconn.fetchval(m3query)
-	m4 = await pconn.fetchval(m4query)
+	m1 = await pconn.fetchval("SELECT move1 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
+	m2 = await pconn.fetchval("SELECT move2 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
+	m3 = await pconn.fetchval("SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
+	m4 = await pconn.fetchval("SELECT move4 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
 	embed = discord.Embed(title='Moves', color=0xffb6c1)
 	embed.add_field(name='**Move 1**:', value=f'{m1}')
 	embed.add_field(name='**Move 2**:', value=f'{m2}')
