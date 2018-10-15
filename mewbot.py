@@ -1031,7 +1031,7 @@ async def redeem(ctx, *, val=None):
         rnat = random.choice(natlist)
         if rnum is None:
                 await ctx.send("You don't have any redeems B")
-		await bot.db.release(pconn)
+                await bot.db.release(pconn)
                 return
         if rnum >= 1:
             pnum = await pconn.fetchval(pque)
