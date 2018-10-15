@@ -1340,7 +1340,7 @@ async def form(ctx, val):
 		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 		await bot.db.release(pconn)
 		return
-	if 'deoxys' in pokename and helditem == 'meteorite':
+	if 'deoxys-normal' in pokename and helditem == 'meteorite':
 		if val == 'speed':
 			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 			pre = pre[0]
@@ -1352,6 +1352,7 @@ async def form(ctx, val):
 			return
 		elif val == 'defense':
 			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+			await ctx.send(pre)
 			pre = pre[0]
 			form = pre + 2
 			form = [t['identifier'] for t in forms if t['order'] == form]
