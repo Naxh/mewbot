@@ -1263,7 +1263,8 @@ async def form(ctx, val):
 		forms = json.load(f)
 	f_id = [t['identifier'] for t in forms if t['form_identifier'] ==val.lower()]
 	form = pokename + '-' + val.lower()
-	if not f_id == form:
+	await ctx.send(form, f_id)
+	if not f_id is form:
 		await ctx.send("That is not the Form for that pokemon")
 		return
 	if pokename == 'kyogre' and helditem == 'blue orb':
