@@ -156,6 +156,7 @@ async def help(ctx, val=None):
 		e.add_field(name="`;giveredeem` to give someone redeems!", value="`;giveredeem @User <number_of_redeems>`")
 		await ctx.send(embed=e)
 
+	
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def shop(ctx, val=None):
@@ -1246,7 +1247,42 @@ async def give(ctx, user: discord.Member, val):
 		await bot.db.release(pconn)
 		
 
-
+@bot.command()
+async def form(ctx, val):
+	pconn = await bot.db.acquire()
+	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
+	helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+	weathertrio = ['landorus', 'thundurus', 'tornadus']
+	if helditem is None:
+		await ctx.send("This Pokemon Is not Holding the required item for transformation")
+		return
+	if pokename is None:
+		await ctx.send("No Pokemon Selected")
+		return
+	with open("forms.json")as f:
+		forms = json.load(f)
+	f_id = [t['identifier'] for t in forms is t['form_identifier'] ==val.lower()]
+	form = pokename + '-' + val.lower()
+	if not f_id == form:
+		await ctx.send("That is not the Form for that pokemon")
+		return
+	if pokename == 'kyogre' and helditem == 'blue orb':
+		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+		await ctx.send("Your Kyogre Has evolved into Kyogre-Primal!")
+	if pokename == 'groudon' and helditem == 'red orb':
+		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+		await ctx.send(f"Your {pokename} has evolved into {f_id}")
+	if pokename == 'deoxys' and helditem == 'meteorite':
+		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+		await ctx.send(f"Your {pokename} has evolved into {f_id}")
+	if pokename in weathertrio and helditem == 'reveal glass':
+		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+		await ctx.send(f"Your {pokename} has evolved into {f_id}")
+	else:
+		await ctx.send("That form might not be in yet, Please be patient :wink:")
+		return
+	
+	
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def mega(ctx, val):
