@@ -117,7 +117,7 @@ async def trainer(ctx, user: discord.Member=None):
 	embed.add_field(name="Redeems", value=f'{redeems}')
 	embed.add_field(name="Trainer Nick", value=f'{tnick}')
 	embed.add_field(name="Upvote Points", value=f'{uppoints}')
-	embed.add_field(name="Currently Selected Pokemon", value=f'{poke} Level {plev}.')
+	embed.add_field(name="Currently Selected Pokemon", value=f'{poke.capitalize()} Level {plev}.')
 	embed.add_field(name="Credits", value=f'{mewcoins}ℳ')
 	embed.set_thumbnail(url=user.avatar_url)
 	await ctx.send(embed=embed)
@@ -456,11 +456,11 @@ async def start_journey(ctx):
 async def pokemon(ctx, val=None):
 	
 	if val is None:
-		val = 0
+		val = 1
 		snum = 11
 	
 	if val == 1:
-		val = 0
+		val = 1
 		snum = 11
 	else:
 		val = int(val)
