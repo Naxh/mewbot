@@ -453,12 +453,7 @@ async def start_journey(ctx):
 
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def pokemon(ctx, val=None):
-	
-	if val is None:
-		val = 1
-		snum = 11
-	
+async def pokemon(ctx, val=1):
 	if val == 1:
 		val = 1
 		snum = 11
@@ -1308,13 +1303,13 @@ async def form(ctx, val):
 	with open("forms.json")as f:
 		forms = json.load(f)
 	f_id = [t['identifier'] for t in forms if t['form_identifier'] ==val.lower()]
-	form = pokename + '-' + val.lower()
 	form = form.lower()
 	if '-' in form:
 		form = form.replace('-', ' ')
 	form = form.split()
 	form = form[0]
 	f_id = f_id[0]
+	form = form + '-' + val.lower()
 	pokename = pokename.lower()
 	await ctx.send(f"uh {f_id} and {form} are different dylee .-.")
 	if not f_id == form:
