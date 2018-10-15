@@ -1,7 +1,11 @@
 [
 {
+	"item": "mega-stone",
+	"price": 4000
+},
+{
 	"item": "blue-orb",
-	"price": 5000
+	"price": 6000
 },
 {
 	"item": "meteorite",
@@ -9,7 +13,7 @@
 },
 {
 	"item": "red-orb",
-	"price": 5000
+	"price": 6000
 },
 {
 	"item": "n-lunarizer",
@@ -33,6 +37,6 @@
 },
 {
 	"item": "zygarde-cell",
-	"price": 2000
+	"price": 15000
 }
 ]
