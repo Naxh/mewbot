@@ -1303,11 +1303,13 @@ async def form(ctx, val):
 	with open("forms.json")as f:
 		forms = json.load(f)
 	f_id = [t['identifier'] for t in forms if t['form_identifier'] ==val.lower()]
+	form = pokename + '-' + val.lower()
 	form = form.lower()
 	if '-' in form:
 		form = form.replace('-', ' ')
 	form = form.split()
-	form = form[0]
+	if len(form) > 2:
+		form = form[0]
 	f_id = f_id[0]
 	form = form + '-' + val.lower()
 	pokename = pokename.lower()
