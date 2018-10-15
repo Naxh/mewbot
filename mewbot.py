@@ -107,7 +107,7 @@ async def trainer(ctx, user: discord.Member=None):
 	embed.add_field(name="Trainer Nick", value=f'{tnick}')
 	embed.add_field(name="Upvote Points", value=f'{uppoints}')
 	embed.add_field(name="Currently Selected Pokemon", value=f'{poke} Level {plev}.')
-	embed.add_field(name="Credits", value=f'{mewcoins}ℳ	')
+	embed.add_field(name="Credits", value=f'{mewcoins}ℳ')
 	embed.set_thumbnail(url=user.avatar_url)
 	await ctx.send(embed=embed)
 	await bot.db.release(tconn)
@@ -450,10 +450,10 @@ async def pokemon(ctx, val=None):
 async def moves(ctx):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
-	m1query = ("SELECT move1 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
-	m2query = ("SELECT move2 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
-	m3query = ("SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
-	m4query = ("SELECT move4 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
+	m1query = "SELECT move1 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id
+	m2query = "SELECT move2 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id
+	m3query = "SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id
+	m4query = "SELECT move4 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id
 	m1 = await pconn.fetchval(m1query)
 	m2 = await pconn.fetchval(m2query)
 	m3 = await pconn.fetchval(m3query)
