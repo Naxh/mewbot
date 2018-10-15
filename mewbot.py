@@ -855,12 +855,12 @@ async def info(ctx):
 	info.spd = specialdefense
 	info.defense = defense
 
-	embed = discord.Embed(title=f"Your Selected {pn}", color=0xffb6c1)
+	embed = discord.Embed(title=f"Your Selected {pn.capitalize()}", color=0xffb6c1)
 
 	embed.add_field(name="Pokemon Level", value=f"{plevel}")
 	embed.add_field(name="Exp", value=f"{exp}/{expcap}")
-	embed.add_field(name="Nature: ", value=f'{nature}')
-	embed.add_field(name="Types: ", value=f'{tlist}')
+	embed.add_field(name="Nature: ", value=f'{nature.capitalize()}')
+	embed.add_field(name="Types: ", value=f'{tlist.capitalize()}')
 	embed.add_field(name="Hit Points (HP)", value=f"{hp} |- {hpiv} IVs")
 	embed.add_field(name="Attack", value=f"{round(attack)} |- {atkiv} IVs")
 	embed.add_field(name="Defense", value=f"{round(defense)} |- {defiv} IVs")
@@ -894,7 +894,7 @@ async def pokedex(ctx, *, inp):
 		pAb = 'Sizzling Growth'
 		iurl = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
 		tlist = 'grass'
-		pkid = '2003'
+		pkid = ['2003']
 	elif val == 'Flire':
 		pokemonSpeed = 110
 		pokemonAtk = 120
@@ -905,7 +905,7 @@ async def pokedex(ctx, *, inp):
 		pAb = 'Scorched feet'
 		iurl = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
 		tlist = 'fire'
-		pkid = '2001'
+		pkid = ['2001']
 
 	elif val == 'Aquino':
 		pokemonSpeed = 95
@@ -917,7 +917,7 @@ async def pokedex(ctx, *, inp):
 		pAb = 'Prehistoric Rain'
 		iurl = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 		tlist = 'water'
-		pkid = '2000'
+		pkid = ['2000']
 	else:
 		with open ('statfile') as f:
 			stats = json.load(f)
@@ -1323,18 +1323,22 @@ async def form(ctx, val):
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send("Your Kyogre Has evolved into Kyogre-Primal!")
 		await bot.db.release(pconn)
+		return
 	if pokename == 'groudon' and helditem == 'red-orb':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
-		await ctx.send(f"Your {pokename} has evolved into {f_id}")
+		await ctx.send(f"Your {pokename.capitalize()} has evolved into {f_id.capitalize()}")
 		await bot.db.release(pconn)
+		return
 	if 'deoxys' in pokename and helditem == 'meteorite':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
-		await ctx.send(f"Your {pokename} has evolved into {f_id}")
+		await ctx.send(f"Your {pokename.capitalize()} has evolved into {f_id.capitalize()}")
 		await bot.db.release(pconn)
+		return
 	if pokename in weathertrio and helditem == 'reveal-glass':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
-		await ctx.send(f"Your {pokename} has evolved into {f_id}")
+		await ctx.send(f"Your {pokename.capitalize()} has evolved into {f_id.capitalize()}")
 		await bot.db.release(pconn)
+		return
 	else:
 		await ctx.send("You're holding the wrong item, or that form might not be in yet, Please be patient :wink:")
 		await bot.db.release(pconn)
