@@ -1473,6 +1473,7 @@ async def mega(ctx, val):
 		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+		await ctx.send(helditem)
 		if not helditem is 'mega-stone':
 			await ctx.send("This Pokemon Is not holding a Mega Stone!")
 			await bot.db.release(pconn)
