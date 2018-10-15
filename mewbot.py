@@ -1318,11 +1318,11 @@ async def form(ctx, val):
 	if not f_id == form:
 		await ctx.send("That is not the Form for that pokemon")
 		return
-	if pokename == 'kyogre' and helditem == 'blue orb':
+	if pokename == 'kyogre' and helditem == 'blue-orb':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send("Your Kyogre Has evolved into Kyogre-Primal!")
 		await bot.db.release(pconn)
-	if pokename == 'groudon' and helditem == 'red orb':
+	if pokename == 'groudon' and helditem == 'red-orb':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {f_id}")
 		await bot.db.release(pconn)
@@ -1330,7 +1330,7 @@ async def form(ctx, val):
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {f_id}")
 		await bot.db.release(pconn)
-	if pokename in weathertrio and helditem == 'reveal glass':
+	if pokename in weathertrio and helditem == 'reveal-glass':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {f_id}")
 		await bot.db.release(pconn)
