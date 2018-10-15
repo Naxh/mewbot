@@ -958,9 +958,9 @@ async def redeem(ctx, val):
         rque = '''SELECT redeems FROM users WHERE u_id = {}'''.format(ctx.author.id)
         rnum = await pconn.fetchval(rque)
         rnat = random.choice(natlist)
-	if rnum is None:
-		await ctx.send("You don't have any redeems B")
-		return
+        if rnum is None:
+                await ctx.send("You don't have any redeems B")
+                return
         if rnum >= 1:
             pnum = await pconn.fetchval(pque)
             rnum1 = rnum - 1
