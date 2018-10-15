@@ -1326,7 +1326,7 @@ async def form(ctx, val):
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {f_id}")
 		await bot.db.release(pconn)
-	if pokename == 'deoxys' and helditem == 'meteorite':
+	if 'deoxys' in pokename and helditem == 'meteorite':
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {f_id}")
 		await bot.db.release(pconn)
