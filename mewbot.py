@@ -1004,7 +1004,7 @@ async def redeem(ctx, val):
         e.add_field(name="Credits", value="Redeem 50,000 credits")
         e.add_field(name="EV points", value="Redeem 510 EV points then use `;add <pokemon_name> <stat>` to add it!")
         await ctx.send(embed=e)
-	return
+        return
     val = val.capitalize()
     if val in pList:
         pconn = await bot.db.acquire()
