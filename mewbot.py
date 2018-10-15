@@ -454,7 +454,7 @@ async def start_journey(ctx):
 
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def pokemon(ctx, val=None):
+async def pokemon(ctx, val):
 	if val == 1:
 		val = 1
 		snum = 11
