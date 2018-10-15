@@ -1410,7 +1410,7 @@ async def form(ctx, val):
 		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 		await bot.db.release(pconn)
 		return
-	if pokename == 'zygarde' and helditem == 'zygarde cell':
+	if pokename == 'zygarde' and helditem == 'zygarde-cell':
 		if val == 'complete' or '100':
 			pre = [t['order'] for t in forms if t['identifier'] == 'zygarde-50']
 			pre = pre[0]
