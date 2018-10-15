@@ -456,25 +456,23 @@ async def start_journey(ctx):
 async def pokemon(ctx, val=None):
 	
 	if val is None:
-		val = 1
-		snum = 1
+		val = 0
+		snum = 11
 	
-	rnum = int(val) * 10
 	if val == 1:
-		enum = 1
-		snum = 1
+		val = 0
+		snum = 11
 	else:
 		val = int(val)
-		enum = (rnum/int(val))
-		snum = ((10*val)-9)
+		val = (val*10)+1
+		snum = val-10
 	pconn = await bot.db.acquire()
 	nquery = f"SELECT pokname, pnum FROM pokes WHERE ownerid = {ctx.author.id} AND pnum BETWEEN {enum} AND {rnum} ORDER BY pnum"
 	pk1 = await pconn.fetch(nquery)
 	nrecord = [record['pokname'] for record in pk1]
 	precord = [record['pnum'] for record in pk1]
 	embed = discord.Embed(title='Your Pokemon List', color=0xffb6c1)
-	for pn in precord[0:11]:
-		await ctx.send(pn)
+	for pn in precord[snum:val]:
 		try:
 			nr = nrecord[pn-1]
 		except IndexError as e:
