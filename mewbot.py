@@ -1380,17 +1380,39 @@ async def form(ctx, val):
 			return
 	if pokename in weathevo and helditem == 'reveal-glass':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
-		await ctx.send(f"{preformnum}")
 		preformnum = preformnum[0]
 		form = preformnum + 1
 		f_id = [t['identifier'] for t in forms if t['order'] == form]
 		form = f_id
 		form = form[0]
-		await ctx.send(f"{preformnum} {form} {f_id}")
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 		await bot.db.release(pconn)
 		return
+	if pokename == 'zygarde' and helditem == 'zygarde cells':
+		if val == 'complete' or '100':
+			pre = t['order'] for t in forms if t['identifier'] == 'zygarde-50']
+			pre = pre[0]
+			form = pre + 1
+			f_id = [t['identifier'] for t in forms if t['order'] == form]
+			form = f_id
+			form = form[0]
+			await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+			await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
+			await bot.db.release(pconn)
+			return
+		if val == '10':
+			pre = t['order'] for t in forms if t['identifier'] == 'zygarde-50']
+			pre = pre[0]
+			form = pre - 1
+			f_id = [t['identifier'] for t in forms if t['order'] == form]
+			form = f_id
+			form = form[0]
+			await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+			await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
+			await bot.db.release(pconn)
+			return
+			
 	else:
 		await ctx.send("You're holding the wrong item, or that form might not be in yet, Please be patient :wink:")
 		await bot.db.release(pconn)
