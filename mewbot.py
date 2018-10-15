@@ -1314,6 +1314,7 @@ async def form(ctx, val):
 		return
 	with open("forms.json")as f:
 		forms = json.load(f)
+	await ctx.send(f"{pokename} {val} {pconn}")
 	if pokename == 'kyogre' and helditem == 'blue-orb':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 		form = preformnum + 1
