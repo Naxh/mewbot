@@ -464,7 +464,7 @@ async def pokemon(ctx, val=None):
 		snum = 11
 	else:
 		val = int(val)
-		val = (val*10)+1
+		val = (val*10)
 		snum = val-10
 	pconn = await bot.db.acquire()
 	nquery = f"SELECT pokname, pnum FROM pokes WHERE ownerid = {ctx.author.id} ORDER BY pnum"
