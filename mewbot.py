@@ -495,12 +495,12 @@ async def moves(ctx):
 	m3 = await pconn.fetchval("SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
 	m4 = await pconn.fetchval("SELECT move4 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
 	embed = discord.Embed(title='Moves', color=0xffb6c1)
-	embed.add_field(name='**Move 1**:', value=f'{m1}')
-	embed.add_field(name='**Move 2**:', value=f'{m2}')
+	embed.add_field(name='**Move 1**:', value=f'{m1.capitalize()}')
+	embed.add_field(name='**Move 2**:', value=f'{m2.capitalize()}')
 
-	embed.add_field(name='**Move 3**:', value=f'{m3}')
+	embed.add_field(name='**Move 3**:', value=f'{m3.capitalize()}')
 
-	embed.add_field(name='**Move 4**:', value=f'{m4}')
+	embed.add_field(name='**Move 4**:', value=f'{m4.capitalize()}')
 	await ctx.send(embed=embed)
 	await bot.db.release(pconn)
 	
