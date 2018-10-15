@@ -1301,6 +1301,7 @@ async def give(ctx, user: discord.Member, val):
 
 @bot.command()
 async def form(ctx, val):
+	val = val.lower()
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
 	helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
@@ -1313,38 +1314,58 @@ async def form(ctx, val):
 		return
 	with open("forms.json")as f:
 		forms = json.load(f)
-	f_id = [t['identifier'] for t in forms if t['form_identifier'] ==val.lower()]
-	form = pokename + '-' + val.lower()
-	form = form.lower()
-	if '-' in form:
-		form = form.replace('-', ' ')
-	form = form.split()
-	form = form[0]
-	f_id = f_id[0]
-	form = form + '-' + val.lower()
-	pokename = pokename.lower()
-	await ctx.send(f"uh {f_id} and {form} are different dylee .-.")
-	if not f_id == form:
-		await ctx.send("That is not the Form for that pokemon")
-		return
 	if pokename == 'kyogre' and helditem == 'blue-orb':
+		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		form = preformnum + 1
+		f_id = [t['identifier'] for t in forms if t['order'] == form]
+		form = f_id
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
 		await ctx.send("Your Kyogre Has evolved into Kyogre-Primal!")
 		await bot.db.release(pconn)
 		return
 	if pokename == 'groudon' and helditem == 'red-orb':
+		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		form = preformnum + 1
+		f_id = [t['identifier'] for t in forms if t['order'] == form]
+		form = f_id
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
-		await ctx.send(f"Your {pokename.capitalize()} has evolved into {f_id.capitalize()}")
+		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 		await bot.db.release(pconn)
 		return
 	if 'deoxys' in pokename and helditem == 'meteorite':
-		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
-		await ctx.send(f"Your {pokename.capitalize()} has evolved into {f_id.capitalize()}")
-		await bot.db.release(pconn)
-		return
+		if val == 'speed':
+			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+			form = pre + 3
+			form = [t['identifier'] for t in forms if t['order'] == form]
+			await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+			await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
+			await bot.db.release(pconn)
+			return
+		elif val == 'defense':
+			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+			form = pre + 2
+			form = [t['identifier'] for t in forms if t['order'] == form]
+			await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+			await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
+			await bot.db.release(pconn)
+			return
+		elif val == 'attack':
+			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+			form = pre + 1
+			form = [t['identifier'] for t in forms if t['order'] == form]
+			await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+			await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
+			await bot.db.release(pconn)
+			return
+		else:
+			return
 	if pokename in weathertrio and helditem == 'reveal-glass':
+		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		form = preformnum + 1
+		f_id = [t['identifier'] for t in forms if t['order'] == form]
+		form = f_id
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
-		await ctx.send(f"Your {pokename.capitalize()} has evolved into {f_id.capitalize()}")
+		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 		await bot.db.release(pconn)
 		return
 	else:
