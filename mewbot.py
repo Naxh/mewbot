@@ -466,7 +466,7 @@ async def pokemon(ctx, val=None):
 	else:
 		val = int(val)
 		enum = (rnum/int(val))
-		snum = ((10*val)-11)
+		snum = ((10*val)-9)
 	pconn = await bot.db.acquire()
 	nquery = f"SELECT pokname, pnum FROM pokes WHERE ownerid = {ctx.author.id} AND pnum BETWEEN {enum} AND {rnum} ORDER BY pnum"
 	pk1 = await pconn.fetch(nquery)
