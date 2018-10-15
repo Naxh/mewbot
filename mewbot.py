@@ -153,7 +153,7 @@ async def help(ctx, val=None):
 		embed.add_field(name="moves", value="See your current move count!")
 		embed.add_field(name="learn", value="Learn a Move! `;learn <move-name> <slot_number>")
 		embed.add_field(name="tms", value="Get the entire moveset of your pokemon!")
-		embed.add_field(name="pokemon", value="View your Pokeomn List!")
+		embed.add_field(name="pokemon", value="View your Pokemon List!")
 		embed.add_field(name="select", value="Select a Pokemon!")
 		embed.add_field(name="mega", value="`;mega evolve` to Mega and `;mega devolve` to unmega!")
 		embed.add_field(name="donate", value="Donate to the bot! 1 USD = 2 Redeems + 50,000ℳ")
@@ -455,7 +455,7 @@ async def start_journey(ctx):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def pokemon(ctx, val=None):
-	if val is None:
+	if val == None:
 		val = 1
 		snum = 11
 	elif val == 1:
