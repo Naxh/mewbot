@@ -1028,15 +1028,15 @@ async def redeem(ctx, val):
             await pconn.execute(query2, *args)
             await bot.db.release(pconn)
     elif val == 'credits':
-		pconn = await bot.db.acquire()
-		credits = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", ctx.author.id)
-		redeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", ctx.author.id)
-		redeems = redeems - 1
-		await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", redeems, ctx.author.id)
-		credits = credits + 50000
-		await pconn.execute("UPDATE users SET mewcoins = $1 WHERE u_id = $2", credits, ctx.author.id)
-		await ctx.send("50,000  Has been credited to your balance!")
-		await bot.db.release(pconn)
+        pconn = await bot.db.acquire()
+        credits = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", ctx.author.id)
+        redeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", ctx.author.id)
+        redeems = redeems - 1
+        await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", redeems, ctx.author.id)
+        credits = credits + 50000
+        await pconn.execute("UPDATE users SET mewcoins = $1 WHERE u_id = $2", credits, ctx.author.id)
+        await ctx.send("50,000  Has been credited to your balance!")
+        await bot.db.release(pconn)
 	
 
 
@@ -1380,7 +1380,7 @@ async def form(ctx, val):
 		return
 	if pokename == 'zygarde' and helditem == 'zygarde cells':
 		if val == 'complete' or '100':
-			pre = t['order'] for t in forms if t['identifier'] == 'zygarde-50']
+			pre = [t['order'] for t in forms if t['identifier'] == 'zygarde-50']
 			pre = pre[0]
 			form = pre + 1
 			f_id = [t['identifier'] for t in forms if t['order'] == form]
@@ -1391,7 +1391,7 @@ async def form(ctx, val):
 			await bot.db.release(pconn)
 			return
 		if val == '10':
-			pre = t['order'] for t in forms if t['identifier'] == 'zygarde-50']
+			pre = [t['order'] for t in forms if t['identifier'] == 'zygarde-50']
 			pre = pre[0]
 			form = pre - 1
 			f_id = [t['identifier'] for t in forms if t['order'] == form]
