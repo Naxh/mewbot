@@ -102,7 +102,7 @@ async def trainer(ctx, user: discord.Member=None):
 	uppoints = await tconn.fetchval(uquery)
 	mewcoins = await tconn.fetchval(mquery)
 	plev = await tconn.fetchval('SELECT pokelevel FROM pokes WHERE selected = 1 AND ownerid = $1', ctx.author.id)
-	embed = discord.Embed(title="{} Trainer Card".format(user.name))
+	embed = discord.Embed(title=f"{user.name} Trainer Card", color=0xffb6c1)
 	embed.add_field(name="Redeems", value=f'{redeems}')
 	embed.add_field(name="Trainer Nick", value=f'{tnick}')
 	embed.add_field(name="Upvote Points", value=f'{uppoints}')
@@ -161,14 +161,14 @@ async def help(ctx, val=None):
 async def shop(ctx, val=None):
 	if val is None:
 		e = discord.Embed(title="Items you can buy in the Shop!")
-		e.add_field(name="shop forms", value="Want to Make your Kyogre or Groudon Primal or Deoxys/Animal Formes")
+		e.add_field(name="shop forms", value="Want to Make your Kyogre or Groudon Primal or Deoxys/Animal Formes", color=0xffb6c1)
 		e.add_field(name="shop mega", value="Buy The Mega Stone to Mega your Pokemon and say `;mega evolve`!")
 		e.add_field(name="shop items", value="Buy Rare candies, Items to Boost Pokemnon Abilities such as Zinc e.t.c")
 		e.add_field(name="shop held items", value="Buy Held Items for your Pokemon!")
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
 		await ctx.send(embed=e)
 	elif val == 'forms':
-		e = discord.Embed(title="Buy Items to change your pokemon Forms!!")
+		e = discord.Embed(title="Buy Items to change your pokemon Forms!!", color=0xffb6c1)
 		e.add_field(name="Blue orb", value="Buy the Blue Orb to make your Kyogre Primal! | 5000ℳ")
 		e.add_field(name="Red orb", value="Buy the Red Orb to make your Groudon Primal! | 5000ℳ")
 		e.add_field(name="Meteorite", value="Have your Deoxys Interact with it to Get the Forms! | 7500ℳ")
@@ -180,7 +180,7 @@ async def shop(ctx, val=None):
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
 		await ctx.send(embed=e)
 	elif val == 'plates':
-		e = discord.Embed(title="Arceus Plates!", description="say `;buy <plate_name>` to buy it")
+		e = discord.Embed(title="Arceus Plates!", description="say `;buy <plate_name>` to buy it", color=0xffb6c1)
 		e.add_field(name="Draco Plate", value="Changes Arceus and Judgement to the dragon type")
 		e.add_field(name="Dread Plate", value="Changes Arceus and Judgement to the dark type")
 		e.add_field(name="Earth Plate", value="Changes Arceus and Judgement to the earth type")
@@ -225,7 +225,7 @@ async def botinfo(ctx):
 
 @bot.command()
 async def donate(ctx):
-	e = discord.Embed(title="Want to Donate to the Bot?")
+	e = discord.Embed(title="Want to Donate to the Bot?", color=0xffb6c1)
 	e.add_field(name="DM Dylee#6669 or Join the Official Server Here!", value="[Here!](https://invite.gg/pokeglobe)")
 	await ctx.send(embed=e)
 	embed = discord.Embed(title="Donation Perks")
@@ -236,7 +236,7 @@ async def donate(ctx):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def invite(ctx):
-    embed = discord.Embed(title="Invite Me", description="The invite link for MewBot")
+    embed = discord.Embed(title="Invite Me", description="The invite link for MewBot", color=0xffb6c1)
 
     #invite link
     embed.add_field(name="Invite", value="[Invite MewBot](https://discordapp.com/api/oauth2/authorize?client_id=493045795445276682&permissions=388160&scope=bot)")
@@ -246,7 +246,7 @@ async def invite(ctx):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def status(ctx):
-    embed = discord.Embed(title="Bot development Status", description="information on the development of MewBot")
+    embed = discord.Embed(title="Bot development Status", description="information on the development of MewBot", color=0xffb6c1)
 
     #list
 
@@ -284,7 +284,7 @@ async def on_message(message):
 		val1 = random.choice(pList)
 		val = val1.lower()
 		url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
-		embed = discord.Embed(title="A Pokemon has spawned, say it's name it to catch it!")
+		embed = discord.Embed(title="A Pokemon has spawned, say it's name it to catch it!", color=0xffb6c1)
 		embed.set_image(url=url)
 		try:
 			await message.channel.send(embed=embed)
@@ -346,7 +346,7 @@ react_to_starter = {
 @bot.command(name="start")
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def start_journey(ctx):
-	embed = discord.Embed(title="Select a Starter!", description="Choose any of the Starters!")
+	embed = discord.Embed(title="Select a Starter!", description="Choose any of the Starters!", color=0xffb6c1)
 	embed.add_field(name="...", value="You've been hypnotized by Mew, and instead of the normal starters, you are forced to pick between \n-Flowin, the Grass type fakemon, \n-Flire the fire type fakemon and \n-Aquino, the water type.")
 	embed.set_thumbnail(url="https://nerdist.com/wp-content/uploads/2016/02/Screen-Shot-2016-02-02-at-12.05.40-PM-615x346.png")
 	embed.set_image(url="https://pm1.narvii.com/6252/3746bb43045886ce9ec8498a6f7d96f520ed6341_hq.jpg") # you cannot set two images. either put one as a thumbnail or remove it
@@ -433,7 +433,7 @@ async def pokemon(ctx, val=None):
 	pk1 = await pconn.fetch(nquery)
 	nrecord = [record['pokname'] for record in pk1]
 	precord = [record['pnum'] for record in pk1]
-	embed = discord.Embed(title='Your Pokemon List')
+	embed = discord.Embed(title='Your Pokemon List', color=0xffb6c1)
 	for pn in precord:
 		try:
 			nr = nrecord[pn-snum]
@@ -449,16 +449,16 @@ async def pokemon(ctx, val=None):
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def moves(ctx):
 	pconn = await bot.db.acquire()
-	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id))
-	m1query = "SELECT move1 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	m2query = "SELECT move2 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	m3query = "SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	m4query = "SELECT move4 FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
+	m1query = "SELECT move1 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
+	m2query = "SELECT move2 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
+	m3query = "SELECT move3 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
+	m4query = "SELECT move4 FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
 	m1 = await pconn.fetchval(m1query)
 	m2 = await pconn.fetchval(m2query)
 	m3 = await pconn.fetchval(m3query)
 	m4 = await pconn.fetchval(m4query)
-	embed = discord.Embed(title='Moves')
+	embed = discord.Embed(title='Moves', color=0xffb6c1)
 	embed.add_field(name='**Move 1**:', value=f'{m1}')
 	embed.add_field(name='**Move 2**:', value=f'{m2}')
 
@@ -514,7 +514,7 @@ async def tms(ctx, val=None):
 	r = r.json()
 	move = [m['move']['name'] for m in r['moves']]
 	moves = len(move)
-	e = discord.Embed(title="Learnable Move List")
+	e = discord.Embed(title="Learnable Move List", color=0xffb6c1)
 	for move in move[snum:val]:
 		if '-' in move:
 			move = move.replace('-', ' ')
@@ -804,7 +804,7 @@ async def info(ctx):
 	info.spd = specialdefense
 	info.defense = defense
 
-	embed = discord.Embed(title=f"Your Selected {pn}")
+	embed = discord.Embed(title=f"Your Selected {pn}", color=0xffb6c1)
 
 	embed.add_field(name="Pokemon Level", value=f"{plevel}")
 	embed.add_field(name="Exp", value=f"{exp}/{expcap}")
@@ -908,7 +908,7 @@ async def pokedex(ctx, *, inp):
 			
 
         
-	embed = discord.Embed(title=val.capitalize(), description="")
+	embed = discord.Embed(title=val.capitalize(), description="", color=0xffb6c1)
 	embed.add_field(name="Pokemon information", value=f"{val.capitalize()}\n**Types**: {tlist.capitalize()}\n**Pokedex Number**: {pkid[0]}")
 	embed.add_field(name="Stats", value=f"HP: {pokemonHp}\nAttack: {pokemonAtk} \nDefense: {pokemonDef}\nSpecial Attack: {pokemonSpa}\nSpecial Defense: {pokemonSpd}\nSpeed: {pokemonSpeed}")
 	embed.set_image(url=iurl)
@@ -1008,7 +1008,7 @@ async def spawn(ctx, val1):
 		channel = ctx.channel
 		val = val1.lower() or val1.upper() or val1.capitalize()
 		url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
-		embed = discord.Embed(title="A Pokemon has spawned, identify it to catch it!")
+		embed = discord.Embed(title="A Pokemon has spawned, identify it to catch it!", color=0xffb6c1)
 		embed.set_image(url=url)
 		await channel.send(embed=embed)
 		def check(m):
@@ -1085,7 +1085,7 @@ async def reward(ctx):
 				await ctx.send("You have not upvoted the bot yet or you have not started with `;start`")
 			await pconn.execute(f"UPDATE users SET mewcoins = {coins} WHERE u_id = {ctx.author.id}")
 			await pconn.execute(f"UPDATE users SET upvotepoints = {upoints} WHERE u_id = {ctx.author.id}")
-			embed = discord.Embed(title="Successfully claimed Upvote Points! and Credits")
+			embed = discord.Embed(title="Successfully claimed Upvote Points! and Credits", color=0xffb6c1)
 			embed.add_field(name="Upvoted!", value="Get 10 Upvote Points for a 5 Redeems!")
 			embed.set_thumbnail(url=ctx.author.avatar_url)
 			await ctx.send(embed=embed)
