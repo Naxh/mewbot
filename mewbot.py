@@ -218,7 +218,7 @@ async def shop(ctx, val=None):
 		await ctx.send(embed=e)
 @bot.command()
 async def buy(ctx, item):
-	if '-' in item:
+	if ' ' in item:
 		item = item.replace(' ', '-')
 	item = item.lower()
 	pconn = await bot.db.acquire()
@@ -226,7 +226,6 @@ async def buy(ctx, item):
 		items = json.load(f)
 	price = [t['price'] for t in items if t['item'] == item]
 	await ctx.send(price)
-	price = price[0]
 	if price is None:
 		await ctx.send("That Item is not in the market")
 		return
