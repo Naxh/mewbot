@@ -1310,6 +1310,8 @@ async def form(ctx, val):
 	pokename = pokename.lower()
 	if pokename in weathertrio:
 		pokename = pokename+'-incarnate'
+	if pokename == 'deoxys':
+		pokename = 'deoxys-normal'
 	if helditem is None:
 		await ctx.send("This Pokemon Is not Holding the required item for transformation")
 		return
@@ -1340,7 +1342,7 @@ async def form(ctx, val):
 		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 		await bot.db.release(pconn)
 		return
-	if 'deoxys-normal' in pokename and helditem == 'meteorite':
+	if pokename == 'deoxys-normal' and helditem == 'meteorite':
 		if val == 'speed':
 			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 			pre = pre[0]
