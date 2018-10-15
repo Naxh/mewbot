@@ -997,7 +997,7 @@ async def on_guild_remove(guild):
     pconn = await bot.db.acquire()
     credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", guild.owner.id)
     if credeems is None:
-	await bot.db.release(pconn)
+        await bot.db.release(pconn)
         return
     credeems-=10
     await pconn.execute("UPDATE users SET redeems = $1 WHERE u_id = $2", credeems, guild.owner.id)
