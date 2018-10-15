@@ -788,6 +788,8 @@ async def info(ctx):
 	specialattack = round((((2*pokemonSpa+spatkiv+(0/4))*plevel)/100)+5)
 	specialdefense = round((((2*pokemonSpd+spdefiv+(0/4))*plevel)/100)+5)
 	speed = round((((2*pokemonSpeed+speediv+(0/4))*plevel)/100)+5)
+	t_ivs = (hpiv+atkiv+defiv+spatkiv+spdefiv+speediv)
+	percentage = ((186/t_ivs)*100)
 	
 	if nature == 'Adamant':
 		attack = attack*1.1
@@ -870,6 +872,7 @@ async def info(ctx):
 	embed.add_field(name="Special Defense", value=f"{round(specialdefense)} |- {spdefiv} IVs")
 	embed.add_field(name="Speed", value=f"{speed:.0f} |- {speediv} IVs")
 	embed.add_field(name="Held Item", value=f"{hi}")
+	embed.add_field(name="IV Percentage", value=f"{percentage:.0f}%")
 	embed.set_image(url=irul)
 	await ctx.send(embed=embed)
 	await bot.db.release(pconn)
