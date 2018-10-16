@@ -1837,6 +1837,57 @@ async def give(ctx, user: discord.Member, val):
 		await ctx.send(f"<@{ctx.author.id}> has given <@{user.id}> A {poke}")
 		await bot.db.release(pconn)
 		
+@bot.command()
+async def lunarize(ctx, val):
+	pconn = await bot.db.acquire()
+	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
+	if not pokename == 'necrozma':
+		await ctx.send(f"You can not Lunarize a {pokename}")
+		await bot.db.release(pconn)
+		return
+	helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+	lunala = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND pnum = $2", ctx.author.id, val)
+	lunalev = await pconn.fetchval("SELECT pokelevel FROM pokes WHERE ownerid = $1 and pnum = $2", ctx.author.id, val)
+	if not lunala == 'lunala':
+		await ctx.send("That is not a Lunala, please use `;lunarize <lunala_number>` to Lunarize")
+		await bot.db.release(pconn)
+		return
+	if not helditem == 'n-lunarizer':
+		await ctx.send("Your Necrozma is not holding a N-lunarizer")
+		await bot.db.release(pconn)
+		return
+	msg = await ctx.send("Fusing")
+	await ctx.send(f"You have Fused your Necrozma with your Lunala Level {lunalev}")
+	await pconn.execute("UPDATE pokes SET pokname = $1 WHERE selected = 1 AND ownerid = $2", 'necrozma-dawn', ctx.author.id)
+	msg.edit(content="Fusion Complete")
+	await bot.db.release(pconn)
+
+@bot.command()
+async def solarize(ctx, val):
+	pconn = await bot.db.acquire()
+	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
+	if not pokename == 'necrozma':
+		await ctx.send(f"You can not Solarize a {pokename}")
+		await bot.db.release(pconn)
+		return
+	helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+	lunala = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND pnum = $2", ctx.author.id, val)
+	lunalev = await pconn.fetchval("SELECT pokelevel FROM pokes WHERE ownerid = $1 and pnum = $2", ctx.author.id, val)
+	if lunalev is None:
+		await ctx.send("That Pokemon Does not exist in your List")
+	if not lunala == 'solgaleo':
+		await ctx.send("That is not a Solgaleo, please use `;solarize <solgaleo_number>` to Solarize")
+		await bot.db.release(pconn)
+		return
+	if not helditem == 'n-solarizer':
+		await ctx.send("Your Necrozma is not holding a N-solarizer")
+		await bot.db.release(pconn)
+		return
+	msg = await ctx.send("Fusing")
+	await ctx.send(f"You have Fused your Necrozma with your Solgaleo Level {lunalev}")
+	await pconn.execute("UPDATE pokes SET pokname = $1 WHERE selected = 1 AND ownerid = $2", 'necrozma-dusk', ctx.author.id)
+	msg.edit(content="Fusion Complete")
+	await bot.db.release(pconn)
 
 @bot.command()
 async def form(ctx, val):
@@ -2141,7 +2192,10 @@ async def on_message(message):
         return
     if message.author.bot:
         return
-    pconn = await bot.db.acquire()
+    try:
+        pconn = await bot.db.acquire()
+    except AttributeError as e:
+        return
     pk1 = await pconn.fetch("SELECT u_id FROM users WHERE u_id = $1", message.author.id)
     nrecord = [record['u_id'] for record in pk1]
     if not message.author.id in nrecord:
@@ -2156,6 +2210,9 @@ async def on_message(message):
     elif not '-mega' in pn:
         poke = pn.lower()
     lexp = await pconn.fetchval("SELECT expcap FROM pokes WHERE ownerid = $1 AND selected = 1", message.author.id)
+    if lexp == None:
+        await bot.db.release(pconn)
+        return
     exp1 = await pconn.fetchval('SELECT (exp)+50 FROM pokes WHERE selected = 1 AND ownerid = $1', message.author.id)
     try:
         await pconn.execute('UPDATE pokes SET exp = $1 WHERE selected = 1 AND ownerid = $2', exp1, message.author.id)
