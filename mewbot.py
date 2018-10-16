@@ -798,6 +798,8 @@ async def info(ctx, val=None):
 				pn = 'arceus-normal'
 			if pn.lower() == 'shaymin':
 				pn = 'shaymin-land'
+			if pn.lower() == 'keldeo':
+				pn = 'keldeo-ordinary'
 
 
 			pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
@@ -1018,7 +1020,8 @@ async def info(ctx, val=None):
 			pn = 'arceus-normal'
 		if pn.lower() == 'shaymin':
 			pn = 'shaymin-land'
-			
+		if pn.lower() == 'keldeo':
+			pn = 'keldeo-resolute'
 		
 		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
 		
@@ -1608,7 +1611,7 @@ async def form(ctx, val):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
 	helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
-	moves = await pconn.fetch("SELECT move1, move2, move3, move4 FROM pokes WHERE ownerid = $1, AND selected = 1", ctx.author.id)
+	move = await pconn.fetch("SELECT move1 FROM pokes WHERE ownerid = $1, AND selected = 1", ctx.author.id)
 	weathertrio = ['landorus', 'thundurus', 'tornadus']
 	weathevo = ['landorus-incarnate', 'tornadus-incarnate', 'thundurus-incarnate']
 	pokename = pokename.lower()
@@ -1667,19 +1670,18 @@ async def form(ctx, val):
 		await bot.db.release(pconn)
 		return
 	if pokename == 'keldeo-ordinary':
-		for move in moves:
-			if move == 'secret-sword':
-				preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
-				preformnum = preformnum[0]
-				form = preformnum + 1
-				f_id = [t['identifier'] for t in forms if t['order'] == form]
-				form = f_id
-				form = form[0]
-				await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
-				await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
-				await bot.db.release(pconn)
-			else:
-				await ctx.send("Your Keldeo does not know Secret Sword")
+		if move == 'secret-sword':
+			preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+			preformnum = preformnum[0]
+			form = preformnum + 1
+			f_id = [t['identifier'] for t in forms if t['order'] == form]
+			form = f_id
+			form = form[0]
+			await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+			await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
+			await bot.db.release(pconn)
+		else:
+			await ctx.send("Your Keldeo does not know Secret Sword as the **First** Move")
 	if pokename == 'deoxys-normal' and helditem == 'meteorite':
 		if val == 'speed':
 			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
