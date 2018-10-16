@@ -1533,7 +1533,9 @@ async def mega(ctx, *, val):
 		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
-		if not helditem is 'mega-stone-y':
+		if '-' in helditem:
+			helditem = helditem.replace('-', ' ')
+		if not helditem == 'mega stone y':
 			await ctx.send("This Pokemon Is not holding a Mega Stone Y!")
 			await bot.db.release(pconn)
 			return
@@ -1561,7 +1563,9 @@ async def mega(ctx, *, val):
 		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
-		if not helditem is "mega-stone-x":
+		if '-' in helditem:
+			helditem = helditem.replace('-', ' ')
+		if not helditem == "mega stone x":
 			await ctx.send(helditem)
 			await ctx.send("This Pokemon Is not holding a Mega Stone X!")
 			await bot.db.release(pconn)
@@ -1591,7 +1595,9 @@ async def mega(ctx, *, val):
 		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
-		if not helditem is 'mega-stone':
+		if '-' in helditem:
+			helditem = helditem.replace('-', ' ')
+		if not helditem == 'mega stone':
 			await ctx.send("This Pokemon Is not holding a Mega Stone!")
 			await bot.db.release(pconn)
 			return
