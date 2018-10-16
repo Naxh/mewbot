@@ -332,7 +332,7 @@ async def status(ctx):
 async def on_message(message):
 	if message.guild and message.guild.id == 264445053596991498:
 		return
-	chance = random.randint(1, 7)
+	chance = random.randint(1, 16)
 	if not chance is 2:
 		return
 	else:
