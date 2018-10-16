@@ -4,6 +4,14 @@
 	"price": 6000
 },
 {
+	"item": "mega-stone-x",
+	"price": 6500
+},
+{
+	"item": "mega-stone-y",
+	"price": 6500
+},
+{
 	"item": "mega-stone",
 	"price": 4000
 },
