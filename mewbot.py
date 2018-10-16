@@ -501,7 +501,7 @@ async def pokemon(ctx, val1=None):
 			await bot.db.release(pconn)
 			return
 		embed.add_field(name=f'{nr.capitalize()}', value=f'{pn}', inline=True)
-	embed.set_footer(text="Upvote the Bot!! Open the next page with ;pokemon <page_number> | This is page {val1}")
+	embed.set_footer(text=f"Upvote the Bot!! Open the next page with ;pokemon <page_number> | This is page {val1}")
 	await ctx.send(embed=embed)
 	await bot.db.release(pconn)
 	
