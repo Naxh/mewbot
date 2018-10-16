@@ -1902,7 +1902,7 @@ async def form(ctx, val):
 		await bot.db.release(pconn)
 		return
 	if pokename == 'keldeo-ordinary':
-		moves = [t['move'] for move in moves]
+		moves = [t['move'] for t in moves]
 		if 'secret-sword' in moves:
 			preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 			preformnum = preformnum[0]
