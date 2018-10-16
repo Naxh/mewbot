@@ -1339,13 +1339,13 @@ async def rcredits(ctx):
 async def spawn(ctx, val1):
 	if ctx.author.id == 358293206900670467:
 		channel = ctx.channel
-		val = val1.lower() or val1.upper() or val1.capitalize()
-		url = "https://img.pokemondb.net/artwork/vector/large/" + val.lower() + ".png"
-		embed = discord.Embed(title="A Pokemon has spawned, identify it to catch it!", color=0xffb6c1)
+		val = val1.lower() 
+		url = "https://img.pokemondb.net/artwork/vector/large/" + val + ".png"
+		embed = discord.Embed(title="Sausage!", color=0xffb6c1)
 		embed.set_image(url=url)
 		await channel.send(embed=embed)
 		def check(m):
-			return m.content == val and m.channel == channel
+			return m.content.lower() == val and m.channel == channel
 		msg = await bot.wait_for('message', check=check, timeout=60)
 		val = val.capitalize()
 
