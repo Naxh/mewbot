@@ -1508,7 +1508,7 @@ async def redeem(ctx, *, val=None):
         e.add_field(name="Credits", value="Redeem 50,000 credits")
         e.add_field(name="EV points", value="Redeem 510 EV points then use `;add <pokemon_name> <stat>` to add it!")
         e.add_field(name="Get redeems", value="Just say `;donate`")
-	e.add_field(name="_____________", value="Redeem Credits with `;rcredits`")
+        e.add_field(name="_____________", value="Redeem Credits with `;rcredits`")
         await ctx.send(embed=e)
         return
     val = val.capitalize()
