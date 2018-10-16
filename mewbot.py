@@ -222,7 +222,6 @@ async def buy(ctx, *, item):
 	if ' ' in item:
 		item = item.replace(' ', '-')
 	item = item.lower()
-	pconn = await bot.db.acquire()
 	with open("shop.json") as f:
 		items = json.load(f)
 	price = [t['price'] for t in items if t['item'] == item]
@@ -230,10 +229,12 @@ async def buy(ctx, *, item):
 	if price is None:
 		await ctx.send("That Item is not in the market")
 		return
+	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 	current_creds = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", ctx.author.id)
 	if current_creds < price:
 		await ctx.send(f"You don't have {price}ℳ")
+		await bot.db.release(pconn)
 		return
 	await pconn.execute("UPDATE pokes SET hitem = $1 WHERE selected = 1 and ownerid = $2", item, ctx.author.id)
 	ncreds = current_creds - price
@@ -356,6 +357,7 @@ async def on_message(message):
 			pnum + 1
 		except TypeError as e:
 			await message.channel.send("You need to Start with `;start`")
+			await bot.db.release(pconn)
 			return
 		query2 = '''
 		INSERT INTO pokes (pokname, hpiv, atkiv, defiv, spatkiv, spdefiv, speediv, hpev, atkev, defev, spatkev, spdefev, speedev, pokelevel, ownerid, pnum, selected, move1, move2, move3, move4, poknick, exp, nature, expcap)
@@ -367,6 +369,7 @@ async def on_message(message):
 			await pconn.execute(query2, *args)
 		except asyncpg.exceptions.NotNullViolationError as e:
 			await channel.send("You need to Register with `;start` first")
+			await bot.db.release(pconn)
 			return
 		await channel.send(f'Congratulations <@{msg.author.id}>, you have successfully caught a {val}!')
 		await bot.process_commands(message)
@@ -600,6 +603,7 @@ async def learn(ctx, val, slot: int):
 	move = [m['move']['name'] for m in r['moves']]
 	if not val in move:
 		await ctx.send(f"Your {pokename} can not learn that Move")
+		await bot.db.release(pconn)
 		return
 	await pconn.execute(f"UPDATE pokes SET move{slot} = $1 WHERE ownerid = $2 AND selected = 1", val, ctx.author.id)
 	await ctx.send(f"You have successfully learnt {val} as your Number {slot} Move")
@@ -614,6 +618,8 @@ async def select(ctx, val):
 		val = int(val)
 	except ValueError as e:
 		await ctx.send("That is not a Valid Pokemon Number!")
+		await bot.db.release(pconn)
+		return
 	maxnum = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = {}".format(ctx.author.id))
 	if maxnum is None:
 		await ctx.send("You have not Started!")
@@ -621,6 +627,7 @@ async def select(ctx, val):
 		return
 	if val > maxnum:
 		await ctx.send("That Pokemon Does not exist!")
+		await bot.db.release(pconn)
 		return
 	else:
 		await pconn.execute("UPDATE pokes SET selected = 0 WHERE selected = 1 AND ownerid = {0}".format(ctx.author.id, val))
@@ -987,6 +994,7 @@ async def on_guild_join(guild):
 	if credeems is None:
 		await guild.owner.send("You have 50+ Members and you should Have 10 Redeems but you Have not started, Please start with `;start` DM Dylee to claim it!")
 		await guild.owner.send("<a:jirachigif:499179583531253760>")
+		await bot.db.release(pconn)
 		return
 	credeems += 10
 	await pconn.execute('UPDATE users SET redeems = $1 WHERE u_id = $2', credeems, guild.owner.id)
@@ -1169,6 +1177,7 @@ async def reward(ctx):
 		embed.add_field(name="Already Upvoted the Bot", value=f"{e}")
 		await bot.db.release(pconn)
 		await ctx.send(embed=embed)
+		return
 		
 @bot.command(aliases=["vote"])
 @commands.cooldown(1, 3, commands.BucketType.user)
@@ -1187,6 +1196,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
     pconn = await bot.db.acquire()
     if user is None:
         await ctx.send("You cannot trade with yourself")
+        await bot.db.release(pconn)
         return
     elif creds is None:
         await ctx.send("You did not specify Credits, please use `;gift` instead")
@@ -1218,8 +1228,11 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
             msg = await bot.wait_for('message', check=check, timeout=30)
         except asyncio.TimeoutError:
             await ctx.send("Trade cancelled, took too long to confirm")
+            await bot.db.release(pconn)
+            return
         if msg == 'no' or 'No':
                 await ctx.send("Trade rejected")
+                await bot.db.release(pconn)
                 return
         elif msg == 'Yes' or 'yes':
                 await ctx.send("Trade has been approved!")
@@ -1254,12 +1267,15 @@ async def giveredeem(ctx, user: discord.Member, val):
 		getr = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", user.id)
 		if redeems is None:
 			await ctx.send(f"<@{ctx.author.id}> has not started")
+			await bot.db.release(pconn)
 			return
 		elif getr is None:
 			await ctx.send(f"<@{user.id}> has not started")
+			await bot.db.release(pconn)
 			return
 		if val > redeems:
 			await ctx.send("You don't have that much Redeems Friend")
+			await bot.db.release(pconn)
 			return
 		giver = redeems - val
 		rcvr = redeems + val
@@ -1282,12 +1298,15 @@ async def gift(ctx, user: discord.Member, val):
 		getr = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", user.id)
 		if val > redeems:
 			await ctx.send("You don't have that much Credits Friend")
+			await bot.db.release(pconn)
 			return
 		elif getr is None:
 			await ctx.send(f"<@{user.id}> has not started")
+			await bot.db.release(pconn)
 			return
 		elif redeems is None:
 			await ctx.send(f"<@{ctx.author.id}> has not started")
+			await bot.db.release(pconn)
 			return
 		giver = redeems - val
 		rcvr = redeems + val
@@ -1310,9 +1329,11 @@ async def give(ctx, user: discord.Member, val):
 		maxnum = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = $1", user.id)
 		if maxnum is None:
 			await ctx.send(f"<@{user.id}> has not started")
+			await bot.db.release(pconn)
 			return
 		elif poke is None:
 			await ctx.send(f"<@{ctx.author.id}> has not started or you dont have that poke")
+			await bot.db.release(pconn)
 			return
 		await pconn.execute("UPDATE pokes SET ownerid = $1 AND pnum = maxnum WHERE ownerid = $2 AND pnum = $1", user.id, ctx.author.id, gpnum)
 		await ctx.send(f"<@{ctx.author.id}> has given <@{user.id}> A {poke}")
