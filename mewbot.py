@@ -340,7 +340,7 @@ async def on_message(message):
 		val1 = random.choice(pList)
 		val = val1.lower()
 		url = "https://img.pokemondb.net/artwork/vector/large/" + val + ".png"
-		embed = discord.Embed(title="A Pokemon has spawned, say it's name it to catch it!", color=0xffb6c1)
+		embed = discord.Embed(title="Sausage", color=0xffb6c1)
 		embed.set_image(url=url)
 		try:
 			await message.channel.send(embed=embed)
