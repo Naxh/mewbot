@@ -1902,7 +1902,11 @@ async def form(ctx, val):
 		await bot.db.release(pconn)
 		return
 	if pokename == 'keldeo-ordinary':
-		moves = [t['move'] for t in moves]
+		move1 = [t['move1'] for t in moves]
+		move2 = [t['move2'] for t in moves]
+		move3 = [t['move3'] for t in moves]
+		move4 = [t['move4'] for t in moves]
+		moves = move1+move2+move3+move4
 		if 'secret-sword' in moves:
 			preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 			preformnum = preformnum[0]
@@ -1914,7 +1918,7 @@ async def form(ctx, val):
 			await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 			await bot.db.release(pconn)
 		else:
-			await ctx.send("Your Keldeo does not know Secret Sword as the **First** Move")
+			await ctx.send("Your Keldeo does not know Secret Sword Move")
 	if pokename == 'deoxys-normal' and helditem == 'meteorite':
 		if val == 'speed':
 			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
