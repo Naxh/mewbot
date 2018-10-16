@@ -700,7 +700,7 @@ async def inspire(ctx):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def info(ctx, val=None):
-	if not val is None:
+	if type(val) is int:
 		pconn = await bot.db.acquire()
 		pquery = "SELECT pokname FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
 		atquery = "SELECT atkiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
