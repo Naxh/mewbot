@@ -335,7 +335,7 @@ async def on_message(message):
 	chance = random.randint(1, 3)
 	if not chance is 2:
 		return
-	if message.content.startswith(vl):
+	else:
 		channel = message.channel
 		val1 = random.choice(pList)
 		val = val1.lower()
