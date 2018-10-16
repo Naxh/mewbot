@@ -1867,6 +1867,7 @@ async def lunarize(ctx, val:int):
 async def solarize(ctx, val:int):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
+	pokename = pokename.lower()
 	if not pokename == 'necrozma':
 		await ctx.send(f"You can not Solarize a {pokename}")
 		await bot.db.release(pconn)
