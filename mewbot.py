@@ -699,7 +699,7 @@ async def inspire(ctx):
 
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def info(ctx, val=None):
+async def info(ctx, *, val=None):
 	if type(val) is int:
 		pconn = await bot.db.acquire()
 		pquery = "SELECT pokname FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
@@ -782,6 +782,7 @@ async def info(ctx, val=None):
 				types = json.load(f)
 			with open('ptypes.json') as f:
 				t_ids = json.load(f)
+			await ctx.send(pn)
 			if pn is None:
 				await ctx.send("You haven't selected a Pokemon Bud")
 				await bot.db.release(pconn)
@@ -1475,7 +1476,7 @@ async def pokedex(ctx, *, inp):
 async def on_guild_join(guild):
 	if len(guild.members) >= 50:
 		pconn = await bot.db.acquire()
-		credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1, guild.owner.id")
+		credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", guild.owner.id")
 	else: 
 		return
 	if credeems is None:
@@ -1861,7 +1862,7 @@ async def lunarize(ctx, val:int):
 	msg = await ctx.send("Fusing")
 	await ctx.send(f"You have Fused your Necrozma with your Lunala Level {lunalev}")
 	await pconn.execute("UPDATE pokes SET pokname = $1 WHERE selected = 1 AND ownerid = $2", 'necrozma-dawn', ctx.author.id)
-	msg.edit(content="Fusion Complete")
+	await msg.edit(content="Fusion Complete")
 	await bot.db.release(pconn)
 
 @bot.command()
