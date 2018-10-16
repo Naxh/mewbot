@@ -1580,7 +1580,7 @@ async def mega(ctx, *, val):
 		formnum = order[0]
 		formnum += 1
 		await ctx.send(formnum)
-		pokemon = [t['identifier'] for t in forms if t['form_order'] == formnum]
+		pokemon = [t['identifier'] for t in forms if t['order'] == formnum]
 		await ctx.send(pokemon)
 		megaable = [t['is_mega'] for t in forms if t['identifier'] == pokemon[0]]
 		await ctx.send(megaable)
