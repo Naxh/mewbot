@@ -1361,6 +1361,10 @@ async def form(ctx, val):
 		pokename = pokename+'-incarnate'
 	if pokename == 'deoxys':
 		pokename = 'deoxys-normal'
+	if pokename == 'shaymin':
+		pokename = 'shaymin-land'
+	if pokename == 'arceus':
+		pokename = 'arceus-normal'
 	if helditem is None:
 		await ctx.send("This Pokemon Is not Holding the required item for transformation")
 		return
@@ -1372,6 +1376,17 @@ async def form(ctx, val):
 		forms = json.load(f)
 	pokename = pokename.lower()
 	await ctx.send(f"{pokename}")
+	if pokename == 'shaymin' and helditem == 'gracidea-flower':
+		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		preformnum = preformnum[0]
+		form = preformnum + 1
+		f_id = [t['identifier'] for t in forms if t['order'] == form]
+		form = f_id
+		form = form[0]
+		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
+		await bot.db.release(pconn)
+		return
 	if pokename == 'kyogre' and helditem == 'blue-orb':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 		preformnum = preformnum[0]
