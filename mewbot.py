@@ -1841,6 +1841,7 @@ async def give(ctx, user: discord.Member, val):
 async def lunarize(ctx, val):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
+	pokename = pokename.lower()
 	if not pokename == 'necrozma':
 		await ctx.send(f"You can not Lunarize a {pokename}")
 		await bot.db.release(pconn)
