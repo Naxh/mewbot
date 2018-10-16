@@ -140,7 +140,7 @@ async def nick(ctx, *, val):
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def help(ctx, val=None):
 	if val is None:
-		embed = discord.Embed(title="MewBot commands", description="The pokemon discord utility bot made for you!!!", color=0xeee657)
+		embed = discord.Embed(title="MewBot commands", description="The pokemon discord bot made for you!!!", color=0xeee657)
 		embed.add_field(name="Ping", value="Pings the bot and shows it's latency")
 		embed.add_field(name="Mew", value="A simple Ping, just responds with Mew!")
 		embed.add_field(name="trainer", value="Displays your Trainer Card and other information")
@@ -155,24 +155,32 @@ async def help(ctx, val=None):
 		embed.add_field(name="tms", value="Get the entire moveset of your pokemon!")
 		embed.add_field(name="pokemon", value="View your Pokemon List!")
 		embed.add_field(name="select", value="Select a Pokemon!")
-		embed.add_field(name="mega", value="`;mega evolve` to Mega and `;mega devolve` to unmega!")
+		embed.add_field(name="mega", value="`;help mega` to see information on Mega Evolution!!")
 		embed.add_field(name="donate", value="Donate to the bot! 1 USD = 2 Redeems + 50,000ℳ")
 		embed.add_field(name="vote", value="Upvote the Bot for Rewards!, 10 Upvote Points = 5 Redeems!")
 		embed.add_field(name="botinfo", value="User count, server count, CPU and Memory Status and More!")
 		embed.set_thumbnail(url='http://pm1.narvii.com/5848/b18cd35647528a7bdffc8e4b8e4d6a1465fc5253_00.jpg')
 		await ctx.send(embed=embed)
 	elif val == 'trading':
-		e = discord.Embed(title="Trading Tutorial")
+		e = discord.Embed(title="Trading Tutorial", color=0xeee657)
 		e.add_field(name="`;trade`", value="`;trade @User <credits_amount> <their_pokemon_number>`")
 		e.add_field(name="`;gift` to give someone credits", value="`;gift @User <credit_amount>`")
 		e.add_field(name="`;give` to give someone a Pokemon", value="`;give @User <your_pokemon_number>`")
 		e.add_field(name="`;giveredeem` to give someone redeems!", value="`;giveredeem @User <number_of_redeems>`")
+		await ctx.send(embed=e)
+	elif val == 'mega':
+		e = discord.Embed(title="Mega Tutorial", color=0xeee657)
+		e.add_field(name="`;mega evolve`", value="Mega You Selected Pokemon")
+		e.add_field(name="`;mega evolve x`", value="Mega evolve your Selected Pokemon to X form")
+		e.add_field(name="`mega evolve y`", value="Mega evolve your Selected Pokemon to Y form")
 		await ctx.send(embed=e)
 
 	
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def shop(ctx, val=None):
+	if not val is None:
+		val = val.lower()
 	if val is None:
 		e = discord.Embed(title="Items you can buy in the Shop!", description="`;shop <shop_name>`", color=0xffb6c1)
 		e.add_field(name="Forms", value="Want to Make your Kyogre or Groudon Primal or Deoxys/Arceus Formes")
@@ -194,6 +202,7 @@ async def shop(ctx, val=None):
 		e.add_field(name="Dark Stone", value="Buy this to Fuse your Kyurem with Zekrom for Kyurem-black | 9500ℳ")
 		e.add_field(name="Reveal Glass", value="Buy this to Change the forms of the weather trio! | 7500ℳ")
 		e.add_field(name="Zygarde cell", value="Get Zygarde-complete by Buying 10 Zygarde Cells! | 15000 ℳ")
+		e.add_field(name="Gracidea flower", value="Buy the Gracidea flower to Evolve your Shaymin to Shaymin-sky! | 6000ℳ")
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
 		await ctx.send(embed=e)
 	elif val == 'plates':
@@ -216,6 +225,11 @@ async def shop(ctx, val=None):
 		e.add_field(name="Toxic Plate", value="Changes Arceus and Judgement to the poison type")
 		e.add_field(name="Zap Plate", value="Changes Arceus and Judgement to the electric type")
 		e.set_footer(text="Please Be patient, the shop is currently being worked on")
+		await ctx.send(embed=e)
+	elif val == 'mega':
+		e = discord.Embed(title="Mega Stones!", description="say `;buy <mega_stone>` to buy it", color=0xffb6c1)
+		e.add_field(name="Buy Mega Stones", value="To evolve your Pokemon to It's Mega Form")
+		e.add_field(name="Choose Between\nMega Stone\n Mega X stone\nMega Y stone", value="To Mega your selected Pokemon")
 		await ctx.send(embed=e)
 @bot.command()
 async def buy(ctx, *, item):
@@ -1513,11 +1527,68 @@ async def mega(ctx, val):
 		
 	if not val == 'evolve':
 		return
+	if val == 'evolve y':
+		pconn = await bot.db.acquire()
+		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+		if not helditem is 'mega-stone-y':
+			await ctx.send("This Pokemon Is not holding a Mega Stone Y!")
+			await bot.db.release(pconn)
+			return
+		if pokename is None:
+			await ctx.send("No Pokemon Selected")
+			await bot.db.release(pconn)
+			return
+		with open("forms.json") as f:
+			forms = json.load(f)
+		order = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		formnum = order[0]
+		formnum += 2
+		pokemon = [t['identifier'] for t in forms if t['order'] == formnum]
+		megaable = [t['is_mega'] for t in forms if t['identifier'] == pokemon[0]]
+		mega = pokemon[0]
+		megaable = megaable[0]
+		if not megaable is 1:
+			await ctx.send("This Pokemon cannot Mega Evolve!")
+			await bot.db.release(pconn)
+			return
+		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author.id)
+		await ctx.send(f"Your {pokename} has evolved into {mega}!")
+		await bot.db.release(pconn)
+	if val == 'evolve x':
+		pconn = await bot.db.acquire()
+		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+		if not helditem is 'mega-stone-x':
+			await ctx.send("This Pokemon Is not holding a Mega Stone Y!")
+			await bot.db.release(pconn)
+			return
+		if pokename is None:
+			await ctx.send("No Pokemon Selected")
+			await bot.db.release(pconn)
+			return
+		with open("forms.json") as f:
+			forms = json.load(f)
+		order = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		formnum = order[0]
+		formnum += 1
+		pokemon = [t['identifier'] for t in forms if t['form_order'] == formnum]
+		megaable = [t['is_mega'] for t in forms if t['identifier'] == pokemon[0]]
+		mega = pokemon[0]
+		megaable = megaable[0]
+		if not megaable is 1:
+			await ctx.send("This Pokemon cannot Mega Evolve!")
+			await bot.db.release(pconn)
+			return
+		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author.id)
+		await ctx.send(f"Your {pokename} has evolved into {mega}!")
+		await bot.db.release(pconn)
+		
 	else:
 		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
-		if not helditem == 'mega-stone':
+		if not helditem is 'mega-stone':
 			await ctx.send("This Pokemon Is not holding a Mega Stone!")
 			await bot.db.release(pconn)
 			return
