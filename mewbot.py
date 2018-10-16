@@ -332,8 +332,9 @@ async def status(ctx):
 async def on_message(message):
 	if message.guild and message.guild.id == 264445053596991498:
 		return
-	vowels = ['a', 'k', 'e', 't', 'u', 'i', 'o', 'l', 'o', 'm', 'y', 'i', 'e', 'z', 'x', 'b', 'g', 'l', 'a', 'w', 'q']
-	vl = random.choice(vowels)
+	chance = random.randint(1, 3)
+	if not chance is 2:
+		return
 	if message.content.startswith(vl):
 		channel = message.channel
 		val1 = random.choice(pList)
@@ -1269,7 +1270,6 @@ async def redeem(ctx, *, val=None):
         e.add_field(name="EV points", value="Redeem 510 EV points then use `;add <pokemon_name> <stat>` to add it!")
         e.add_field(name="Get redeems", value="Just say `;donate`")
         await ctx.send(embed=e)
-        await bot.db.release(pconn)
         return
     val = val.capitalize()
     if val in pList:
