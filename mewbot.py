@@ -1849,6 +1849,7 @@ async def lunarize(ctx, val:int):
 	helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 	lunala = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND pnum = $2", ctx.author.id, val)
 	lunalev = await pconn.fetchval("SELECT pokelevel FROM pokes WHERE ownerid = $1 and pnum = $2", ctx.author.id, val)
+	lunala = lunala.lower()
 	if not lunala == 'lunala':
 		await ctx.send("That is not a Lunala, please use `;lunarize <lunala_number>` to Lunarize")
 		await bot.db.release(pconn)
@@ -1875,6 +1876,7 @@ async def solarize(ctx, val:int):
 	helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 	lunala = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND pnum = $2", ctx.author.id, val)
 	lunalev = await pconn.fetchval("SELECT pokelevel FROM pokes WHERE ownerid = $1 and pnum = $2", ctx.author.id, val)
+	lunala = lunala.lower()
 	if lunalev is None:
 		await ctx.send("That Pokemon Does not exist in your List")
 	if not lunala == 'solgaleo':
