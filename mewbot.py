@@ -1879,7 +1879,7 @@ async def form(ctx, val):
 		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 		await bot.db.release(pconn)
 		return
-	if pokename == 'kyogre' and helditem == 'blue-orb':
+	elif pokename == 'kyogre' and helditem == 'blue-orb':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 		preformnum = preformnum[0]
 		form = preformnum + 1
@@ -1890,7 +1890,7 @@ async def form(ctx, val):
 		await ctx.send("Your Kyogre Has evolved into Kyogre-Primal!")
 		await bot.db.release(pconn)
 		return
-	if pokename == 'groudon' and helditem == 'red-orb':
+	elif pokename == 'groudon' and helditem == 'red-orb':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 		preformnum = preformnum[0]
 		form = preformnum + 1
@@ -1901,12 +1901,13 @@ async def form(ctx, val):
 		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 		await bot.db.release(pconn)
 		return
-	if pokename == 'keldeo-ordinary':
+	elif pokename == 'keldeo-ordinary':
 		move1 = [t['move1'] for t in moves]
 		move2 = [t['move2'] for t in moves]
 		move3 = [t['move3'] for t in moves]
 		move4 = [t['move4'] for t in moves]
 		moves = move1+move2+move3+move4
+		await ctx.send(moves)
 		if 'secret-sword' in moves:
 			preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 			preformnum = preformnum[0]
@@ -1919,7 +1920,7 @@ async def form(ctx, val):
 			await bot.db.release(pconn)
 		else:
 			await ctx.send("Your Keldeo does not know Secret Sword Move")
-	if pokename == 'deoxys-normal' and helditem == 'meteorite':
+	elif pokename == 'deoxys-normal' and helditem == 'meteorite':
 		if val == 'speed':
 			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 			pre = pre[0]
@@ -1953,7 +1954,7 @@ async def form(ctx, val):
 			return
 		else:
 			return
-	if pokename in weathevo and helditem == 'reveal-glass':
+	elif pokename in weathevo and helditem == 'reveal-glass':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 		preformnum = preformnum[0]
 		form = preformnum + 1
@@ -1964,7 +1965,7 @@ async def form(ctx, val):
 		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
 		await bot.db.release(pconn)
 		return
-	if pokename == 'zygarde' and helditem == 'zygarde-cell':
+	elif pokename == 'zygarde' and helditem == 'zygarde-cell':
 		if val == 'complete' or '100':
 			pre = [t['order'] for t in forms if t['identifier'] == 'zygarde-50']
 			pre = pre[0]
