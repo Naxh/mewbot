@@ -1318,7 +1318,7 @@ async def redeem(ctx, *, val=None):
 
 @bot.command()
 async def rcredits(ctx):
-	pconn = await bot.db.acquire()
+        pconn = await bot.db.acquire()
         credits = await pconn.fetchval("SELECT mewcoins FROM users WHERE u_id = $1", ctx.author.id)
         redeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", ctx.author.id)
         redeems = redeems - 1
