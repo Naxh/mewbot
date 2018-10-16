@@ -787,9 +787,9 @@ async def info(ctx, *, val=None):
 				await ctx.send("You haven't selected a Pokemon Bud")
 				await bot.db.release(pconn)
 				return
-			if pn.lower() == 'necrozma-dawn'
+			if pn.lower() == 'necrozma-dawn':
 				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-			if pn.lower() == 'necrozma-dusk'
+			if pn.lower() == 'necrozma-dusk':
 				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 			else:
 				iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
@@ -1014,9 +1014,9 @@ async def info(ctx, *, val=None):
 				await ctx.send("You haven't selected a Pokemon Bud")
 				await bot.db.release(pconn)
 				return
-			if '-dawn' in pn:
+			if pn.lower() == 'necrozma-dawn':
 				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-			elif '-dusk' in pn:
+			if pn.lower() == 'necrozma-dusk':
 				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 			else:
 				iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
@@ -1236,9 +1236,9 @@ async def info(ctx, *, val=None):
 			await ctx.send("You haven't selected a Pokemon Bud")
 			await bot.db.release(pconn)
 			return
-		if '-dawn' in pn:
+		if pn.lower() == 'necrozma-dawn':
 			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-		elif '-dusk' in pn:
+		if pn.lower() == 'necrozma-dusk':
 			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 		else:
 			iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
