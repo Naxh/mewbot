@@ -547,6 +547,8 @@ async def tms(ctx, val: int=None):
 		p_name = 'xerneas-active'
 	if pokename == 'arceus':
 		p_name = 'arceus-normal'
+	if pokename == 'shaymin':
+		p_name = 'shaymin-land'
 	else:
 		p_name = pokename
 	pkid = [i['pokemon_id'] for i in forms if i['identifier'] == p_name]
@@ -594,6 +596,8 @@ async def learn(ctx, val, slot: int):
 		pokename = 'gyarados'
 	if pokename == 'arceus':
 		pokename = 'arceus-normal'
+	if pokename == 'shaymin':
+		pokename = 'shaymin-land'
 	
 	pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pokename]
 	for p_id in pkid:
@@ -768,6 +772,8 @@ async def info(ctx):
 			pn = 'xerneas-active'
 		if pn.lower() == 'arceus':
 			pn = 'arceus-normal'
+		if pn.lower() == 'shaymin':
+			pn = 'shaymin-land'
 			
 		
 		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
@@ -946,6 +952,8 @@ async def pokedex(ctx, *, inp):
 			types = json.load(f)
 		with open('ptypes.json') as f:
 			t_ids = json.load(f)
+		if val == 'shaymin':
+			val = 'shaymin-land'
 		if '-dawn' in val:
 			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
 		elif '-mane' in val:
