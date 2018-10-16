@@ -1838,7 +1838,7 @@ async def give(ctx, user: discord.Member, val):
 		await bot.db.release(pconn)
 		
 @bot.command()
-async def lunarize(ctx, val):
+async def lunarize(ctx, val:int):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
 	pokename = pokename.lower()
@@ -1864,7 +1864,7 @@ async def lunarize(ctx, val):
 	await bot.db.release(pconn)
 
 @bot.command()
-async def solarize(ctx, val):
+async def solarize(ctx, val:int):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
 	if not pokename == 'necrozma':
