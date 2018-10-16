@@ -473,17 +473,17 @@ async def start_journey(ctx):
 
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
-async def pokemon(ctx, val=None):
-	if val == 1:
+async def pokemon(ctx, val1=None):
+	if val1 == 1:
 		val = 1
 		snum = 11
 		
-	elif val is None:
+	elif val1 is None:
 		val = 10
 		snum = 0
 		
 	else:
-		val = int(val)
+		val = int(val1)
 		val = (val*10)
 		snum = val-10
 		
@@ -501,7 +501,7 @@ async def pokemon(ctx, val=None):
 			await bot.db.release(pconn)
 			return
 		embed.add_field(name=f'{nr.capitalize()}', value=f'{pn}', inline=True)
-	embed.set_footer(text="Upvote the Bot!! Open the next page with ;pokemon <page_number>")
+	embed.set_footer(text="Upvote the Bot!! Open the next page with ;pokemon <page_number> | This is page {val1}")
 	await ctx.send(embed=embed)
 	await bot.db.release(pconn)
 	
