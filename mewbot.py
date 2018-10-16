@@ -1843,7 +1843,7 @@ async def form(ctx, val):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
 	helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
-	move = await pconn.fetch("SELECT move1 FROM pokes WHERE ownerid = $1, AND selected = 1", ctx.author.id)
+	moves = await pconn.fetch("SELECT move1, move2, move3, move4 FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 	weathertrio = ['landorus', 'thundurus', 'tornadus']
 	weathevo = ['landorus-incarnate', 'tornadus-incarnate', 'thundurus-incarnate']
 	pokename = pokename.lower()
@@ -1902,7 +1902,8 @@ async def form(ctx, val):
 		await bot.db.release(pconn)
 		return
 	if pokename == 'keldeo-ordinary':
-		if move == 'secret-sword':
+		moves = [t['move'] for move in moves]
+		if 'secret-sword' in moves:
 			preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 			preformnum = preformnum[0]
 			form = preformnum + 1
