@@ -1501,6 +1501,7 @@ async def form(ctx, val):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def mega(ctx, *, val):
+	await ctx.send(val)
 	if val == 'devolve':
 		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
