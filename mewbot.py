@@ -121,7 +121,7 @@ async def trainer(ctx, user: discord.Member=None):
 	embed.add_field(name="Credits", value=f'{mewcoins}ℳ')
 	embed.set_thumbnail(url=user.avatar_url)
 	await ctx.send(embed=embed)
-	await bot.db.release(pconn)
+	await bot.db.release(tconn)
    
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
