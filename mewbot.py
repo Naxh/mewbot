@@ -1476,7 +1476,7 @@ async def pokedex(ctx, *, inp):
 async def on_guild_join(guild):
 	if len(guild.members) >= 50:
 		pconn = await bot.db.acquire()
-		credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", guild.owner.id")
+		credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", guild.owner.id)
 	else: 
 		return
 	if credeems is None:
