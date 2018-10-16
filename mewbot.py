@@ -1529,7 +1529,7 @@ async def mega(ctx, *, val):
 		
 	if not 'evolve' in val:
 		return
-	if val == 'evolve y':
+	if val == 'evolve-y':
 		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
@@ -1557,7 +1557,7 @@ async def mega(ctx, *, val):
 		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid = $2 AND selected = 1", mega, ctx.author.id)
 		await ctx.send(f"Your {pokename} has evolved into {mega}!")
 		await bot.db.release(pconn)
-	if val == 'evolve x':
+	if val == 'evolve-x':
 		pconn = await bot.db.acquire()
 		pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
 		helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
