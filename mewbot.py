@@ -467,7 +467,7 @@ async def start_journey(ctx):
 			args2 = (ctx.author.id, 0, 0, 'None', 0, 0)
 			await pconn.execute(query3, *args2)
 			await ctx.channel.send("Records successfully Added\nGoodluck!")
-			await ctx.author.send("Thank you for registering! Need an Easy way to get redeems? 10 Upvote Points = 5 Redeems!, Upvote Mewbot here!\nhttps://discordbots.org/bot/493045795445276682")
+			await ctx.author.send("Thank you for registering! Need an Easy way to get redeems? 10 Upvote Points = 5 Redeems!, Upvote Mewbot here!\nhttps://discordbots.org/bot/493045795445276682\nAnother way is If you're an Owner or Know an Owner of a 50+ Member server, you get 10 Redeems By Inviting")
 			emoji = random.choice(emotes)
 			await ctx.send(emoji)
 			logging.info("All went well")
