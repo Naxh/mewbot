@@ -8,5 +8,5 @@ with conn.cursor() as cur:
     cur.execute('SELECT * FROM pokes;')
     rows = cur.fetchall()
 
-with open('file.pickle', 'w') as fp:
+with open('file.pickle', 'wb') as fp:
     pickle.dump(rows, fp)
