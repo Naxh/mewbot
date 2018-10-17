@@ -1,11 +1,11 @@
 [
 {
 	"item": "griseous-orb",
-	"price": 6000
+	"price": 10000
 },
 {
 	"item": "gracidea-flower",
-	"price": 6000
+	"price": 7500
 },
 {
 	"item": "mega-stone-x",
@@ -21,15 +21,15 @@
 },
 {
 	"item": "blue-orb",
-	"price": 6000
+	"price": 10000
 },
 {
 	"item": "meteorite",
-	"price": 7500
+	"price": 10500
 },
 {
 	"item": "red-orb",
-	"price": 6000
+	"price": 10000
 },
 {
 	"item": "n-lunarizer",
@@ -49,7 +49,7 @@
 },
 {
 	"item": "reveal-glass",
-	"price": 7500
+	"price": 10500
 },
 {
 	"item": "zygarde-cell",
