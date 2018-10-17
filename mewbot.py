@@ -351,7 +351,6 @@ async def on_message(message):
 		channel = message.channel
 		val1 = random.choice(pList)
 		val = val1.lower()
-		await channel.send(val)
 		url = "https://img.pokemondb.net/artwork/vector/large/" + val + ".png"
 		embed = discord.Embed(title="A Pokemon Has Spawned, Say it's name to catch it!", color=0xffb6c1)
 		embed.set_image(url=url)
@@ -1698,7 +1697,7 @@ async def reward(ctx):
 		await ctx.send(embed=embed)
 		return
 		
-@bot.command(aliases=["vote"])
+@bot.command(aliases=["vote", "daily"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def upvote(ctx):
 	embed = discord.Embed(title="Upvote the Bot Here!")
