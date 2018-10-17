@@ -1916,9 +1916,67 @@ async def solarize(ctx, val:int):
     msg = await ctx.send("Fusing")
     await ctx.send(f"You have Fused your Necrozma with your Solgaleo Level {lunalev}")
     await pconn.execute("UPDATE pokes SET pokname = $1 WHERE selected = 1 AND ownerid = $2", 'necrozma-dusk', ctx.author.id)
-    msg.edit(content="Fusion Complete")
+    await msg.edit(content="Fusion Complete")
     await bot.db.release(pconn)
 
+@bot.command()
+async def fuse(ctx, form, val:int):
+    if form == 'white':
+        pconn = await bot.db.acquire()
+        pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
+        pokename = pokename.lower()
+        if not pokename == 'kyurem':
+            await ctx.send(f"You can not Fuse a {pokename} with Reshiram")
+            await bot.db.release(pconn)
+            return
+        helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+        lunala = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND pnum = $2", ctx.author.id, val)
+        lunalev = await pconn.fetchval("SELECT pokelevel FROM pokes WHERE ownerid = $1 and pnum = $2", ctx.author.id, val)
+        lunala = lunala.lower()
+        if lunalev is None:
+            await ctx.send("That Pokemon Does not exist in your List")
+        if not lunala == 'reshiram':
+            await ctx.send("That is not a Reshiram, please use `;fuse white <reshiram_number>` to Fuse Kyurem with Reshiram")
+            await bot.db.release(pconn)
+            return
+        if not helditem == 'light-stone':
+            await ctx.send("Your Kyurem is not holding a Light stone")
+            await bot.db.release(pconn)
+            return
+        msg = await ctx.send("Fusing")
+        await ctx.send(f"You have Fused your Kyurem with your Reshiram Level {lunalev}")
+        await pconn.execute("UPDATE pokes SET pokname = $1 WHERE selected = 1 AND ownerid = $2", 'kyurem-white', ctx.author.id)
+        await msg.edit(content="Fusion Complete")
+        await bot.db.release(pconn)
+    elif form == 'black':
+        pconn = await bot.db.acquire()
+        pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
+        pokename = pokename.lower()
+        if not pokename == 'kyurem':
+            await ctx.send(f"You can not Fuse a {pokename} with Zekrom")
+            await bot.db.release(pconn)
+            return
+        helditem = await pconn.fetchval("SELECT hitem FROM pokes WHERE ownerid = $1 AND selected = 1", ctx.author.id)
+        lunala = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND pnum = $2", ctx.author.id, val)
+        lunalev = await pconn.fetchval("SELECT pokelevel FROM pokes WHERE ownerid = $1 and pnum = $2", ctx.author.id, val)
+        lunala = lunala.lower()
+        if lunalev is None:
+            await ctx.send("That Pokemon Does not exist in your List")
+        if not lunala == 'zekrom':
+            await ctx.send("That is not a Zekrom, please use `;fuse black <zekrom_number>` to Fuse Kyurem with Zekrom")
+            await bot.db.release(pconn)
+            return
+        if not helditem == 'dark-stone':
+            await ctx.send("Your Kyurem is not holding a Dark stone")
+            await bot.db.release(pconn)
+            return
+        msg = await ctx.send("Fusing")
+        await ctx.send(f"You have Fused your Kyurem with your Zekrom Level {lunalev}")
+        await pconn.execute("UPDATE pokes SET pokname = $1 WHERE selected = 1 AND ownerid = $2", 'kyurem-black', ctx.author.id)
+        await msg.edit(content="Fusion Complete")
+        await bot.db.release(pconn)
+    
+   
 @bot.command()
 async def form(ctx, val):
     val = val.lower()
