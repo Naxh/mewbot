@@ -6,7 +6,7 @@ conn = psycopg2.connect(dburl)
 
 with conn.cursor() as cur:
     cur.execute('SELECT * FROM pokes;')
-    rows = cur.fetchrow()
+    rows = cur.fetchall()
 
 with open('file.pickle', 'w') as fp:
     pickle.dump(rows, fp)
