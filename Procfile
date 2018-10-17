@@ -1,1 +1,1 @@
-worker: python3 bck
+worker: python3 mewbot.py
