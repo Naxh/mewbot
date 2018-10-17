@@ -743,7 +743,7 @@ async def show(ctx, val=None):
 			pokemonSpd =110
 			pokemonHp = 95
 			pAb = 'Sizzling Growth'
-			irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
+			iurl = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
 		elif pn == 'Flire':
 			tlist = 'Fire'
 			pokemonSpeed = 110
@@ -753,7 +753,7 @@ async def show(ctx, val=None):
 			pokemonSpd =99
 			pokemonHp = 73
 			pAb = 'Scorched feet'
-			irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
+			iurl = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
 		elif pn == 'Aquino':
 			tlist = 'Water'
 			pokemonSpeed = 95
@@ -763,7 +763,7 @@ async def show(ctx, val=None):
 			pokemonSpd = 110
 			pokemonHp = 99
 			pAb = 'Eternal Rain'
-			irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
+			iurl = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 		else:
 			pns = str(pn)
 			with open ('statfile') as f:
@@ -916,7 +916,7 @@ async def show(ctx, val=None):
 		embed.add_field(name="Speed", value=f"{speed:.0f} |- {speediv} IVs")
 		embed.add_field(name="Held Item", value=f"{hi}")
 		embed.add_field(name="IV Percentage", value=f"{percentage:.0f}%")
-		embed.set_image(url=irul)
+		embed.set_image(url=iurl)
 		await ctx.send(embed=embed)
 		await bot.db.release(pconn)
 		return
@@ -1003,11 +1003,11 @@ async def show(ctx, val=None):
 				await bot.db.release(pconn)
 				return
 			if pn.lower() == 'necrozma-dawn':
-				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
+				irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
 			if pn.lower() == 'necrozma-dusk':
-				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
+				irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 			else:
-				iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
+				irul = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 			wtrio = ['tornadus', 'landorus', 'thundurus']
 			if pn.lower() in wtrio:
 				pn = pn+'-incarnate'
@@ -1209,6 +1209,13 @@ async def info(ctx):
 		pAb = 'Eternal Rain'
 		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 	else:
+		
+		if pn.lower() == 'necrozma-dawn':
+			irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
+		if pn.lower() == 'necrozma-dusk':
+			irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
+		else:
+			irul = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 		pns = str(pn)
 		with open ('statfile') as f:
 			stats = json.load(f)
@@ -1342,14 +1349,6 @@ async def info(ctx):
 	info.defense = defense
 
 	embed = discord.Embed(title=f"Your Selected {pn.capitalize()}", color=0xffb6c1)
-
-
-	if pn.lower() == 'necrozma-dawn':
-		irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-	if pn.lower() == 'necrozma-dusk':
-		irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
-	else:
-		irul = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 	embed.add_field(name="Pokemon Level", value=f"{plevel}")
 	embed.add_field(name="Exp", value=f"{exp}/{expcap}")
 	embed.add_field(name="Nature: ", value=f'{nature.capitalize()}')
