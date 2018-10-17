@@ -1722,7 +1722,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         e.set_footer(text="Say Yes to accept")
         await ctx.send(embed=e)
         def check(m):
-            m.user == user.id
+            m.author == user.id
         try:
             msg = await bot.wait_for('message', check=check, timeout=30)
         except asyncio.TimeoutError:
