@@ -808,6 +808,7 @@ async def info(ctx, *, val=None):
 				pn = 'keldeo-ordinary'
 
 
+			await ctx.send(iurl)
 			pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
 
 
