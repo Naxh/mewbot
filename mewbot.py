@@ -1155,226 +1155,228 @@ async def info(ctx, *, val=None):
 		await bot.db.release(pconn)
 		return
 		
-	pconn = await bot.db.acquire()
-	pquery = "SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	atquery = "SELECT atkiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	dequery = "SELECT defiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	spaquery = "SELECT spatkiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	spdquery = "SELECT spdefiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	spequery = "SELECT speediv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	plquery = "SELECT pokelevel FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	pnquery = "SELECT poknick FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	hiquery = "SELECT hitem FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	hpquery = "SELECT hpiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	natque = "SELECT nature FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	expque = "SELECT exp FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-	expcque = "SELECT expcap FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
-
-	nature = await pconn.fetchval(natque)
-	pn = await pconn.fetchval(pquery)
-	atkiv = await pconn.fetchval(atquery)
-	defiv = await pconn.fetchval(dequery)
-	spatkiv = await pconn.fetchval(spaquery)
-	spdefiv = await pconn.fetchval(spdquery)
-	speediv= await pconn.fetchval(spequery)
-	pnick = await pconn.fetchval(pnquery)
-	plevel = await pconn.fetchval(plquery)
-	hpiv = await pconn.fetchval(hpquery)
-	hi = await pconn.fetchval(hiquery)
-	exp = await pconn.fetchval(expque)
-	expcap = await pconn.fetchval(expcque)
-	
-	if pn == 'Flowing':
-		tlist = 'Grass'
-		pokemonSpeed = 73
-		pokemonAtk = 99
-		pokemonDef = 79
-		pokemonSpa = 120
-		pokemonSpd =110
-		pokemonHp = 95
-		pAb = 'Sizzling Growth'
-		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
-	elif pn == 'Flire':
-		tlist = 'Fire'
-		pokemonSpeed = 110
-		pokemonAtk = 120
-		pokemonDef = 95
-		pokemonSpa = 79
-		pokemonSpd =99
-		pokemonHp = 73
-		pAb = 'Scorched feet'
-		irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
-	elif pn == 'Aquino':
-		tlist = 'Water'
-		pokemonSpeed = 95
-		pokemonAtk = 79
-		pokemonDef = 120
-		pokemonSpa = 73
-		pokemonSpd = 110
-		pokemonHp = 99
-		pAb = 'Eternal Rain'
-		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 	else:
-		try:
-			irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
-		except Exception as e:
-			await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
-			await bot.db.release(pconn)
-			return
-		pns = str(pn)
-		with open ('statfile') as f:
-			stats = json.load(f)
-		with open('pokemonfile.json') as f:
-			pkids = json.load(f)
-		with open('forms.json') as f:
-			forms = json.load(f)
-		with open('types.json') as f:
-			types = json.load(f)
-		with open('ptypes.json') as f:
-			t_ids = json.load(f)
-		if pn is None:
-			await ctx.send("You haven't selected a Pokemon Bud")
-			await bot.db.release(pconn)
-			return
-		if pn.lower() == 'necrozma-dawn':
-			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-		if pn.lower() == 'necrozma-dusk':
-			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
+		pconn = await bot.db.acquire()
+		pquery = "SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		atquery = "SELECT atkiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		dequery = "SELECT defiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		spaquery = "SELECT spatkiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		spdquery = "SELECT spdefiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		spequery = "SELECT speediv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		plquery = "SELECT pokelevel FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		pnquery = "SELECT poknick FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		hiquery = "SELECT hitem FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		hpquery = "SELECT hpiv FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		natque = "SELECT nature FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		expque = "SELECT exp FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+		expcque = "SELECT expcap FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
+
+		nature = await pconn.fetchval(natque)
+		pn = await pconn.fetchval(pquery)
+		atkiv = await pconn.fetchval(atquery)
+		defiv = await pconn.fetchval(dequery)
+		spatkiv = await pconn.fetchval(spaquery)
+		spdefiv = await pconn.fetchval(spdquery)
+		speediv= await pconn.fetchval(spequery)
+		pnick = await pconn.fetchval(pnquery)
+		plevel = await pconn.fetchval(plquery)
+		hpiv = await pconn.fetchval(hpquery)
+		hi = await pconn.fetchval(hiquery)
+		exp = await pconn.fetchval(expque)
+		expcap = await pconn.fetchval(expcque)
+
+		if pn == 'Flowing':
+			tlist = 'Grass'
+			pokemonSpeed = 73
+			pokemonAtk = 99
+			pokemonDef = 79
+			pokemonSpa = 120
+			pokemonSpd =110
+			pokemonHp = 95
+			pAb = 'Sizzling Growth'
+			irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497738691381559296/flowin.png'
+		elif pn == 'Flire':
+			tlist = 'Fire'
+			pokemonSpeed = 110
+			pokemonAtk = 120
+			pokemonDef = 95
+			pokemonSpa = 79
+			pokemonSpd =99
+			pokemonHp = 73
+			pAb = 'Scorched feet'
+			irul = 'https://cdn.discordapp.com/attachments/479175545481986088/497733271392878622/flire.png'
+		elif pn == 'Aquino':
+			tlist = 'Water'
+			pokemonSpeed = 95
+			pokemonAtk = 79
+			pokemonDef = 120
+			pokemonSpa = 73
+			pokemonSpd = 110
+			pokemonHp = 99
+			pAb = 'Eternal Rain'
+			irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 		else:
-			iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
-		wtrio = ['tornadus', 'landorus', 'thundurus']
-		if pn.lower() in wtrio:
-			pn = pn+'-incarnate'
-		if pn.lower() == 'deoxys':
-			pn = 'deoxys-normal'
-		if pn.lower() == 'xerneas':
-			pn = 'xerneas-active'
-		if pn.lower() == 'arceus':
-			pn = 'arceus-normal'
-		if pn.lower() == 'shaymin':
-			pn = 'shaymin-land'
-		if pn.lower() == 'keldeo':
-			pn = 'keldeo-resolute'
-		
-		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
-		
-		
-		for p_id in pkid:
-			pk_id = str(p_id)
-			b = [i['base_stat'] for i in stats[pk_id]]
-			tids = [i['type_id'] for i in t_ids[pk_id]]
-			pokemonSpeed = (b[5])
-			pokemonSpd = (b[4])
-			pokemonSpa = (b[3])
-			pokemonDef = (b[2])
-			pokemonAtk = (b[1])
-			pokemonHp = (b[0])
-			if len(tids) is 2:
-				id1 = [i['identifier'] for i in types if i['id'] == tids[0]]
-				id2 = [i['identifier'] for i in types if i['id'] == tids[1]]
-				types = id1 + id2
-				tlist = ", ".join(types)
+			try:
+				irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
+			except Exception as e:
+				await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
+				await bot.db.release(pconn)
+				return
+			pns = str(pn)
+			with open ('statfile') as f:
+				stats = json.load(f)
+			with open('pokemonfile.json') as f:
+				pkids = json.load(f)
+			with open('forms.json') as f:
+				forms = json.load(f)
+			with open('types.json') as f:
+				types = json.load(f)
+			with open('ptypes.json') as f:
+				t_ids = json.load(f)
+			if pn is None:
+				await ctx.send("You haven't selected a Pokemon Bud")
+				await bot.db.release(pconn)
+				return
+			await ctx.send(pn)
+			if pn.lower() == 'necrozma-dawn':
+				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
+			if pn.lower() == 'necrozma-dusk':
+				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 			else:
-				id1 = [i['identifier'] for i in types if i['id'] == tids[0]]
+				iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
+			wtrio = ['tornadus', 'landorus', 'thundurus']
+			if pn.lower() in wtrio:
+				pn = pn+'-incarnate'
+			if pn.lower() == 'deoxys':
+				pn = 'deoxys-normal'
+			if pn.lower() == 'xerneas':
+				pn = 'xerneas-active'
+			if pn.lower() == 'arceus':
+				pn = 'arceus-normal'
+			if pn.lower() == 'shaymin':
+				pn = 'shaymin-land'
+			if pn.lower() == 'keldeo':
+				pn = 'keldeo-resolute'
 
-				tlist = id1[0]
-			
+			pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
 
-	hp = round((((2*pokemonHp+hpiv+(0/4))*plevel)/100)+plevel+10)
-	attack = round((((2*pokemonSpeed+atkiv+(0/4))*plevel)/100)+5)
-	defense = round((((2*pokemonDef+defiv+(0/4))*plevel)/100)+5)
-	specialattack = round((((2*pokemonSpa+spatkiv+(0/4))*plevel)/100)+5)
-	specialdefense = round((((2*pokemonSpd+spdefiv+(0/4))*plevel)/100)+5)
-	speed = round((((2*pokemonSpeed+speediv+(0/4))*plevel)/100)+5)
-	t_ivs = (hpiv+atkiv+defiv+spatkiv+spdefiv+speediv)
-	percentage = ((t_ivs/186)*100)
-	
-	if nature == 'Adamant':
-		attack = attack*1.1
-		specialattack *= 0.9
-	elif nature == 'Bold':
-		defense *= 1.1
-		attack *= 0.9
-	elif nature == 'Brave':
-		attack *= 1.1
-		speed *= 0.9
-	elif nature == 'Calm':
-		specialdefense *= 1.1
-		attack *= 0.9
-	elif nature == 'careful':
-		specialdefense *= 1.1
-		specialattack *= 0.9
-	elif nature == 'Gentle':
-		specialdefense *= 1.1
-		defense *= 0.9
-	elif nature == 'Hasty':
-		speed *= 1.1
-		defense *= 0.9
-	elif nature == 'Impish':
-		defense *= 1.1
-		specialattack *= 0.9
-	elif nature == 'Jolly':
-		speed *= 1.1
-		specialattack *= 0.9
-	elif nature == 'Lax':
-		defense *= 1.1
-		specialdefense *= 0.9
-	elif nature == 'Lonely':
-		attack *= 1.1
-		defense *= 0.9
-	elif nature == 'Mild':
-		specialattack *= 1.1
-		defense *= 0.9
-	elif nature == 'Modest':
-		specialattack *= 1.1
-		attack *= 0.9
-	elif nature == 'Naive':
-		speed *= 1.1
-		specialdefense *= 0.9
-	elif nature == 'Naughty':
-		attack *= 1.1
-		specialdefense *= 0.9
-	elif nature == 'Quiet':
-		specialattack *= 1.1
-		speed *= 0.9
-	elif nature == 'Rash':
-		specialattack *= 1.1
-		specialdefense *= 0.9
-	elif nature == 'Relaxed':
-		defense *= 1.1
-		speed *= 0.9
-	elif nature == 'Sassy':
-		specialdefense *= 1.1
-		speed *= 0.9
-	elif nature == 'Tired':
-		speed *= 1.1
-		attack *= 0.9
-		
-	info.speed = speed
-	info.hp = hp
-	info.atk = attack
-	info.spa = specialattack
-	info.spd = specialdefense
-	info.defense = defense
 
-	embed = discord.Embed(title=f"Your Selected {pn.capitalize()}", color=0xffb6c1)
+			for p_id in pkid:
+				pk_id = str(p_id)
+				b = [i['base_stat'] for i in stats[pk_id]]
+				tids = [i['type_id'] for i in t_ids[pk_id]]
+				pokemonSpeed = (b[5])
+				pokemonSpd = (b[4])
+				pokemonSpa = (b[3])
+				pokemonDef = (b[2])
+				pokemonAtk = (b[1])
+				pokemonHp = (b[0])
+				if len(tids) is 2:
+					id1 = [i['identifier'] for i in types if i['id'] == tids[0]]
+					id2 = [i['identifier'] for i in types if i['id'] == tids[1]]
+					types = id1 + id2
+					tlist = ", ".join(types)
+				else:
+					id1 = [i['identifier'] for i in types if i['id'] == tids[0]]
 
-	embed.add_field(name="Pokemon Level", value=f"{plevel}")
-	embed.add_field(name="Exp", value=f"{exp}/{expcap}")
-	embed.add_field(name="Nature: ", value=f'{nature.capitalize()}')
-	embed.add_field(name="Types: ", value=f'{tlist.capitalize()}')
-	embed.add_field(name="Hit Points (HP)", value=f"{hp} |- {hpiv} IVs")
-	embed.add_field(name="Attack", value=f"{round(attack)} |- {atkiv} IVs")
-	embed.add_field(name="Defense", value=f"{round(defense)} |- {defiv} IVs")
-	embed.add_field(name="Special Attack", value=f"{round(specialattack)} |- {spatkiv} IVs")
-	embed.add_field(name="Special Defense", value=f"{round(specialdefense)} |- {spdefiv} IVs")
-	embed.add_field(name="Speed", value=f"{speed:.0f} |- {speediv} IVs")
-	embed.add_field(name="Held Item", value=f"{hi}")
-	embed.add_field(name="IV Percentage", value=f"{percentage:.0f}%")
-	embed.set_image(url=irul)
-	await ctx.send(embed=embed)
-	await bot.db.release(pconn)
-	logging.basicConfig(level="INFO")
+					tlist = id1[0]
+
+
+		hp = round((((2*pokemonHp+hpiv+(0/4))*plevel)/100)+plevel+10)
+		attack = round((((2*pokemonSpeed+atkiv+(0/4))*plevel)/100)+5)
+		defense = round((((2*pokemonDef+defiv+(0/4))*plevel)/100)+5)
+		specialattack = round((((2*pokemonSpa+spatkiv+(0/4))*plevel)/100)+5)
+		specialdefense = round((((2*pokemonSpd+spdefiv+(0/4))*plevel)/100)+5)
+		speed = round((((2*pokemonSpeed+speediv+(0/4))*plevel)/100)+5)
+		t_ivs = (hpiv+atkiv+defiv+spatkiv+spdefiv+speediv)
+		percentage = ((t_ivs/186)*100)
+
+		if nature == 'Adamant':
+			attack = attack*1.1
+			specialattack *= 0.9
+		elif nature == 'Bold':
+			defense *= 1.1
+			attack *= 0.9
+		elif nature == 'Brave':
+			attack *= 1.1
+			speed *= 0.9
+		elif nature == 'Calm':
+			specialdefense *= 1.1
+			attack *= 0.9
+		elif nature == 'careful':
+			specialdefense *= 1.1
+			specialattack *= 0.9
+		elif nature == 'Gentle':
+			specialdefense *= 1.1
+			defense *= 0.9
+		elif nature == 'Hasty':
+			speed *= 1.1
+			defense *= 0.9
+		elif nature == 'Impish':
+			defense *= 1.1
+			specialattack *= 0.9
+		elif nature == 'Jolly':
+			speed *= 1.1
+			specialattack *= 0.9
+		elif nature == 'Lax':
+			defense *= 1.1
+			specialdefense *= 0.9
+		elif nature == 'Lonely':
+			attack *= 1.1
+			defense *= 0.9
+		elif nature == 'Mild':
+			specialattack *= 1.1
+			defense *= 0.9
+		elif nature == 'Modest':
+			specialattack *= 1.1
+			attack *= 0.9
+		elif nature == 'Naive':
+			speed *= 1.1
+			specialdefense *= 0.9
+		elif nature == 'Naughty':
+			attack *= 1.1
+			specialdefense *= 0.9
+		elif nature == 'Quiet':
+			specialattack *= 1.1
+			speed *= 0.9
+		elif nature == 'Rash':
+			specialattack *= 1.1
+			specialdefense *= 0.9
+		elif nature == 'Relaxed':
+			defense *= 1.1
+			speed *= 0.9
+		elif nature == 'Sassy':
+			specialdefense *= 1.1
+			speed *= 0.9
+		elif nature == 'Tired':
+			speed *= 1.1
+			attack *= 0.9
+
+		info.speed = speed
+		info.hp = hp
+		info.atk = attack
+		info.spa = specialattack
+		info.spd = specialdefense
+		info.defense = defense
+
+		embed = discord.Embed(title=f"Your Selected {pn.capitalize()}", color=0xffb6c1)
+
+		embed.add_field(name="Pokemon Level", value=f"{plevel}")
+		embed.add_field(name="Exp", value=f"{exp}/{expcap}")
+		embed.add_field(name="Nature: ", value=f'{nature.capitalize()}')
+		embed.add_field(name="Types: ", value=f'{tlist.capitalize()}')
+		embed.add_field(name="Hit Points (HP)", value=f"{hp} |- {hpiv} IVs")
+		embed.add_field(name="Attack", value=f"{round(attack)} |- {atkiv} IVs")
+		embed.add_field(name="Defense", value=f"{round(defense)} |- {defiv} IVs")
+		embed.add_field(name="Special Attack", value=f"{round(specialattack)} |- {spatkiv} IVs")
+		embed.add_field(name="Special Defense", value=f"{round(specialdefense)} |- {spdefiv} IVs")
+		embed.add_field(name="Speed", value=f"{speed:.0f} |- {speediv} IVs")
+		embed.add_field(name="Held Item", value=f"{hi}")
+		embed.add_field(name="IV Percentage", value=f"{percentage:.0f}%")
+		embed.set_image(url=irul)
+		await ctx.send(embed=embed)
+		await bot.db.release(pconn)
+		logging.basicConfig(level="INFO")
 	
 
 @bot.command()
