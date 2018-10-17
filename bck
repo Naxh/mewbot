@@ -15,7 +15,7 @@ try:
     for row in cur:
       f.write("insert into pokes values (" + str(row) + ");")
 except psycopg2.DatabaseError as e:
-    print 'Error %s' % e
+    print ('Error %s' % e)
     sys.exit(1)
 finally:
     if con:
