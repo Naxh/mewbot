@@ -699,7 +699,7 @@ async def inspire(ctx):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def show(ctx, val=None):
-	if val is 'newest':
+	if val == 'newest':
 		pconn = await bot.db.acquire()
 		max = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = $1", ctx.author.id)
 		pquery = "SELECT pokname FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
@@ -780,9 +780,9 @@ async def show(ctx, val=None):
 				await ctx.send("You haven't selected a Pokemon Bud")
 				await bot.db.release(pconn)
 				return
-			if pn.lower() == 'necrozma-dawn':
+			if '-dawn' in pn:
 				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-			if pn.lower() == 'necrozma-dusk':
+			if 'dusk' in pn:
 				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 			else:
 				iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
@@ -1002,9 +1002,9 @@ async def show(ctx, val=None):
 				await ctx.send("You haven't selected a Pokemon Bud")
 				await bot.db.release(pconn)
 				return
-			if pn.lower() == 'necrozma-dawn':
+			if '-dawn' in pn:
 				irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-			if pn.lower() == 'necrozma-dusk':
+			if '-dusk' in pn:
 				irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 			else:
 				irul = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
@@ -1210,12 +1210,6 @@ async def info(ctx):
 		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 	else:
 		
-		if pn.lower() == 'necrozma-dawn':
-			irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-		if pn.lower() == 'necrozma-dusk':
-			irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
-		else:
-			irul = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 		pns = str(pn)
 		with open ('statfile') as f:
 			stats = json.load(f)
@@ -1231,7 +1225,12 @@ async def info(ctx):
 			await ctx.send("You haven't selected a Pokemon Bud")
 			await bot.db.release(pconn)
 			return
-		await ctx.send(pn)
+		if '-dawn' in pn:
+			irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
+		elif '-dusk' in pn:
+			irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
+		else:
+			irul = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
 		pn = pn.lower()
 		wtrio = ['tornadus', 'landorus', 'thundurus']
 		if pn.lower() in wtrio:
