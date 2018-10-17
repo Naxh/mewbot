@@ -581,6 +581,8 @@ async def tms(ctx, val: int=None):
 		p_name = 'shaymin-land'
 	if pokename == 'keldeo':
 		p_name = 'keldeo-ordinary'
+	if pokename == 'giratina':
+		p_name = 'giratina-altered'
 	else:
 		p_name = pokename
 	pkid = [i['pokemon_id'] for i in forms if i['identifier'] == p_name]
@@ -632,6 +634,8 @@ async def learn(ctx, val, slot: int):
 		pokename = 'shaymin-land'
 	if pokename == 'keldeo':
 		pokename = 'keldeo-ordinary'
+	if pokename == 'giratina':
+		pokename = 'giratina-altered'
 	
 	pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pokename]
 	for p_id in pkid:
@@ -810,6 +814,8 @@ async def show(ctx, val=None):
 				pn = 'shaymin-land'
 			if pn.lower() == 'keldeo':
 				pn = 'keldeo-ordinary'
+			if pn.lower() == 'giratina':
+				pn = 'giratina-altered'
 
 
 			pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
@@ -1032,6 +1038,8 @@ async def show(ctx, val=None):
 				pn = 'shaymin-land'
 			elif pn.lower() == 'keldeo':
 				pn = 'keldeo-ordinary'
+			elif pn.lower() == 'giratina':
+				pn = 'giratina-altered'
 
 
 			pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
@@ -1255,6 +1263,8 @@ async def info(ctx):
 			pn = 'shaymin-land'
 		if pn.lower() == 'keldeo':
 			pn = 'keldeo-resolute'
+		if pn.lower() == 'giratina':
+			pn = 'giratina-altered'
 
 		pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
 
@@ -1913,6 +1923,8 @@ async def form(ctx, val):
 		pokename = 'arceus-normal'
 	if pokename == 'keldeo':
 		pokename = 'keldeo-ordinary'
+	if pokename == 'giratina':
+		pokename = 'giratina-altered'
 	if helditem is None:
 		await ctx.send("This Pokemon Is not Holding the required item for transformation")
 		await bot.db.release(pconn)
@@ -1947,6 +1959,17 @@ async def form(ctx, val):
 		await bot.db.release(pconn)
 		return
 	elif pokename == 'groudon' and helditem == 'red-orb':
+		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
+		preformnum = preformnum[0]
+		form = preformnum + 1
+		f_id = [t['identifier'] for t in forms if t['order'] == form]
+		form = f_id
+		form = form[0]
+		await pconn.execute("UPDATE pokes SET pokname = $1 WHERE ownerid  = $2 AND selected = 1", form, ctx.author.id)
+		await ctx.send(f"Your {pokename.capitalize()} has evolved into {form.capitalize()}")
+		await bot.db.release(pconn)
+		return
+	elif pokename == 'giratina-altered' and helditem == 'griseous-orb':
 		preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 		preformnum = preformnum[0]
 		form = preformnum + 1
