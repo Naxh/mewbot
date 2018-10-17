@@ -95,7 +95,7 @@ async def ping(ctx):
     embed.add_field(name="latency", value="{} ms".format(int(ctx.bot.latency*1000)))
     await ctx.send(embed=embed)
 
-@bot.command()
+@bot.command(aliases=["Trainer"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def trainer(ctx, user: discord.Member=None):
 	tconn = await bot.db.acquire()
@@ -109,7 +109,7 @@ async def trainer(ctx, user: discord.Member=None):
 	poke = await tconn.fetchval(cquery)
 	redeems = await tconn.fetchval(rquery)
 	if redeems is None:
-		await ctx.send("You haven't started the Playing!")
+		await ctx.send("You haven't started Playing!")
 		await bot.db.release(pconn)
 		return
 	tnick = await tconn.fetchval(tquery)
@@ -120,7 +120,7 @@ async def trainer(ctx, user: discord.Member=None):
 	embed.add_field(name="Redeems", value=f'{redeems}')
 	embed.add_field(name="Trainer Nick", value=f'{tnick}')
 	embed.add_field(name="Upvote Points", value=f'{uppoints}')
-	embed.add_field(name="Currently Selected Pokemon", value=f'{poke.capitalize()} Level {plev}.')
+	embed.add_field(name="Currently Selected Pokemon", value=f'{poke.capitalize()} Level {plev}')
 	embed.add_field(name="Credits", value=f'{mewcoins}ℳ')
 	embed.set_thumbnail(url=user.avatar_url)
 	await ctx.send(embed=embed)
@@ -139,7 +139,7 @@ async def nick(ctx, *, val):
 
 			
 ############################################################################################################			
-@bot.command()
+@bot.command(aliases=["Help"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def help(ctx, val=None):
 	if val is None:
@@ -184,9 +184,12 @@ async def help(ctx, val=None):
 		e.add_field(name="`;solarize <solgaleo_number`", value="Solarize your Necrozma to Necrozma-dusk form")
 		e.add_field(name="`;lunarize <lunala_number>`", value="Lunarize your Necrozma to Necrozma-dawn form")
 		await ctx.send(embed=e)
-
+	elif val == 'trainer':
+		e = discord.Embed(title="Trainer card help", color=0xeee657)
+		e.add_field(name="`;nick <nickname>`", value="To change your Trainer Nickname")
+		await ctx.send(embed=e)
 	
-@bot.command()
+@bot.command(aliases=["Shop"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def shop(ctx, val=None):
 	if not val is None:
@@ -243,7 +246,7 @@ async def shop(ctx, val=None):
 		e.add_field(name="Choose Between\nMega Stone\n Mega X stone\nMega Y stone", value="To Mega your selected Pokemon")
 		await ctx.send(embed=e)
 
-@bot.command()
+@bot.command(aliases=["Buy"])
 async def buy(ctx, *, item):
 	if ' ' in item:
 		item = item.replace(' ', '-')
@@ -290,7 +293,7 @@ async def botinfo(ctx):
 
     await ctx.send(embed=embed)
 
-@bot.command()
+@bot.command(aliases=["Donate"])
 async def donate(ctx):
 	e = discord.Embed(title="Want to Donate to the Bot?", color=0xffb6c1)
 	e.add_field(name="DM Dylee#6669 or Join the Official Server Here!", value="[Here!](https://invite.gg/pokeglobe)")
@@ -300,7 +303,7 @@ async def donate(ctx):
 	embed.add_field(name="Every Dollar Donated = 50,000ℳCredits", value="Donator Rank in the PokeGlobe Server")
 	embed.add_field(name="100 Redeems", value="Gives You a Perfect Pokemon")
 	await ctx.author.send(embed=embed)
-@bot.command()
+@bot.command(aliases=["Invite"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def invite(ctx):
     embed = discord.Embed(title="Invite Me", description="The invite link for MewBot", color=0xffb6c1)
@@ -325,6 +328,7 @@ async def status(ctx):
     embed.add_field(name="Registering", value=":white_check_mark:")
     embed.add_field(name="EVs, IVs, and Stats", value=":white_check_mark:")
     embed.add_field(name="Held Items", value=":white_check_mark:")
+    embed.add_field(name="Pokemon forms", value=":white_check_mark:")
     embed.add_field(name="Trainer information", value=":white_check_mark:")
     embed.add_field(name="Battles", value="In Progress")
 
@@ -340,7 +344,6 @@ async def status(ctx):
 #speiv = random.randint(1, 31)
 #plevel = random.randint(1, 100)
 @bot.listen()
-
 async def on_message(message):
 	if message.guild and message.guild.id == 264445053596991498:
 		return
@@ -483,7 +486,7 @@ async def start_journey(ctx):
 
 
 
-@bot.command()
+@bot.command(aliases=["Pokemon"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def pokemon(ctx, val1=None):
 	if val1 == 1:
@@ -517,7 +520,7 @@ async def pokemon(ctx, val1=None):
 	await ctx.send(embed=embed)
 	await bot.db.release(pconn)
 	
-@bot.command()
+@bot.command(aliases=["Moves"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def moves(ctx):
 	pconn = await bot.db.acquire()
@@ -536,7 +539,7 @@ async def moves(ctx):
 	await ctx.send(embed=embed)
 	await bot.db.release(pconn)
 	
-@bot.command()
+@bot.command(aliases=["Tms"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def tms(ctx, val: int=None):
 	if val is 2:
@@ -613,7 +616,7 @@ async def release(ctx, val: int):
 	else:
 		await ctx.send("You dont have that Pokemon")
 	
-@bot.command()
+@bot.command(aliases=["Learn"])
 async def learn(ctx, val, slot: int):
 	pconn = await bot.db.acquire()
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = $1", ctx.author.id)
@@ -656,7 +659,7 @@ async def learn(ctx, val, slot: int):
 	await bot.db.release(pconn)
 	
     
-@bot.command()
+@bot.command(aliases=["Select"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def select(ctx, val):
 	pconn = await bot.db.acquire()
@@ -715,7 +718,7 @@ async def inspire(ctx):
     iE.add_field("I hope you try harder! :wave:")
     await ctx.send(embed=iE)
 
-@bot.command()
+@bot.command(aliases=["Show"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def show(ctx, val=None):
 	if val == 'newest':
@@ -1170,7 +1173,7 @@ async def show(ctx, val=None):
 		await bot.db.release(pconn)
 		return
 		
-@bot.command()
+@bot.command(aliases=["Info"])
 async def info(ctx):
 	pconn = await bot.db.acquire()
 	pquery = "SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
@@ -1396,7 +1399,7 @@ async def info(ctx):
 	logging.basicConfig(level="INFO")
 	
 
-@bot.command()
+@bot.command(aliases=["Pokedex"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def pokedex(ctx, *, inp):
 	
@@ -1493,11 +1496,10 @@ async def pokedex(ctx, *, inp):
 
 @bot.listen()
 async def on_guild_join(guild):
-	if len(guild.members) >= 50:
-		pconn = await bot.db.acquire()
-		credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", guild.owner.id)
-	else: 
+	if not len(guild.members) >= 50:
 		return
+	pconn = await bot.db.acquire()
+	credeems = await pconn.fetchval("SELECT redeems FROM users WHERE u_id = $1", guild.owner.id)
 	if credeems is None:
 		await guild.owner.send("You have 50+ Members and you should Have 10 Redeems but you Have not started, Please start with `;start` DM Dylee to claim it!")
 		await guild.owner.send("<a:jirachigif:499179583531253760>")
@@ -1519,7 +1521,7 @@ async def on_guild_remove(guild):
     await bot.db.release(pconn)
     await guild.owner.send("Goodbye to 10 Redeems :cry:")
 
-@bot.command()
+@bot.command(aliases=["Redeem"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def redeem(ctx, *, val=None):
     if val is None:
@@ -1655,7 +1657,7 @@ async def addredeems(ctx, val, user: discord.Member):
 		await ctx.send(random.choice(emotes))
 
 		
-@bot.command()
+@bot.command(aliases=["Reward"])
 @commands.cooldown(1, 43200, commands.BucketType.user)
 async def reward(ctx):
 	try:
