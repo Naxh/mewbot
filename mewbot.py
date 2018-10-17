@@ -2223,6 +2223,9 @@ async def on_message(message):
         await bot.db.release(pconn)
         return
     plup = await pconn.fetchval("SELECT pokelevel FROM pokes WHERE selected = 1 AND ownerid = $1", message.author.id)
+    if plup is None:
+        await bot.db.release(pconn)
+        return
     plup+=1
     newcap = (plup ** 3)
     if exp1 > lexp:
