@@ -146,22 +146,23 @@ async def help(ctx, val=None):
 		embed = discord.Embed(title="MewBot commands", description="The pokemon discord bot made for you!!!", color=0xeee657)
 		embed.add_field(name="Ping", value="Pings the bot and shows it's latency", inline=False)
 		embed.add_field(name="Mew", value="A simple Ping, just responds with Mew!", inline=False)
-		embed.add_field(name="trainer", value="Displays your Trainer Card and other information", inline=False)
-		embed.add_field(name="start", value="Start Playing Mewbot!!", inline=False)
-		embed.add_field(name="trade", value="Trade Items, Redeems, Pokemon, and Credits!", inline=False)
-		embed.add_field(name="shop", value="Buy TMs, Held Items, Evolution Items & More!", inline=False)
-		embed.add_field(name="buy", value="`;buy <item_name>` to buy an item", inline=False)
-		embed.add_field(name="reward", value="Get Upvote Rewards! NOTE: Only Use this command WHEN you have Upvoted!", inline=False)
-		embed.add_field(name="upvote", value="Upvote the Bot for rewards!!", inline=False)
-		embed.add_field(name="moves", value="See your current move count!", inline=False)
-		embed.add_field(name="learn", value="Learn a Move! `;learn <move-name> <slot_number>", inline=False)
-		embed.add_field(name="tms", value="Get the entire moveset of your pokemon!", inline=False)
-		embed.add_field(name="pokemon", value="View your Pokemon List!", inline=False)
-		embed.add_field(name="select", value="Select a Pokemon!", inline=False)
-		embed.add_field(name="mega", value="`;help mega` to see information on Mega Evolution!!", inline=False)
-		embed.add_field(name="donate", value="Donate to the bot! 1 USD = 2 Redeems + 50,000ℳ", inline=False)
-		embed.add_field(name="vote", value="Upvote the Bot for Rewards!, 10 Upvote Points = 5 Redeems!", inline=False)
-		embed.add_field(name="botinfo", value="User count, server count, CPU and Memory Status and More!", inline=False)
+		embed.add_field(name="Trainer", value="Displays your Trainer Card and other information", inline=False)
+		embed.add_field(name="Start", value="Start Playing Mewbot!!", inline=False)
+		embed.add_field(name="Trade", value="Trade Items, Redeems, Pokemon, and Credits!", inline=False)
+		embed.add_field(name="Shop", value="Buy TMs, Held Items, Evolution Items & More!", inline=False)
+		embed.add_field(name="Buy", value="`;buy <item_name>` to buy an item", inline=False)
+		embed.add_field(name="Reward", value="Get Upvote Rewards! NOTE: Only Use this command WHEN you have Upvoted!", inline=False)
+		embed.add_field(name="Upvote", value="Upvote the Bot for rewards!!", inline=False)
+		embed.add_field(name="Moves", value="See your current move count!", inline=False)
+		embed.add_field(name="Learn", value="Learn a Move! `;learn <move-name> <slot_number>", inline=False)
+		embed.add_field(name="Tms", value="Get the entire moveset of your pokemon!", inline=False)
+		embed.add_field(name="Pokemon", value="View your Pokemon List!", inline=False)
+		embed.add_field(name="Select", value="Select a Pokemon!", inline=False)
+		embed.add_field(name="Mega", value="`;help mega` to see information on Mega Evolution!!", inline=False)
+		embed.add_field(name="Forms", value="`;help forms` to see information on Forms!!", inline=False)
+		embed.add_field(name="Donate", value="Donate to the bot! 1 USD = 2 Redeems + 50,000ℳ", inline=False)
+		embed.add_field(name="Vote", value="Upvote the Bot for Rewards!, 10 Upvote Points = 5 Redeems!", inline=False)
+		embed.add_field(name="Botinfo", value="User count, server count, CPU and Memory Status and More!", inline=False)
 		embed.set_thumbnail(url='http://pm1.narvii.com/5848/b18cd35647528a7bdffc8e4b8e4d6a1465fc5253_00.jpg')
 		await ctx.send(embed=embed)
 	elif val == 'trading':
@@ -176,6 +177,12 @@ async def help(ctx, val=None):
 		e.add_field(name="`;mega evolve`", value="Mega You Selected Pokemon")
 		e.add_field(name="`;mega evolve x`", value="Mega evolve your Selected Pokemon to X form")
 		e.add_field(name="`mega evolve y`", value="Mega evolve your Selected Pokemon to Y form")
+		await ctx.send(embed=e)
+	elif val == 'forms':
+		e = discord.Embed(title="Form Tutorial", color=0xeee657)
+		e.add_field(name="`;form <form_name>`", value="Transform Your Selected Pokemon to it's form!")
+		e.add_field(name="`;solarize <solgaleo_number`", value="Solarize your Necrozma to Necrozma-dusk form")
+		e.add_field(name="`;lunarize <lunala_number>`", value="Lunarize your Necrozma to Necrozma-dawn form")
 		await ctx.send(embed=e)
 
 	
@@ -1905,6 +1912,7 @@ async def form(ctx, val):
 		pokename = 'keldeo-ordinary'
 	if helditem is None:
 		await ctx.send("This Pokemon Is not Holding the required item for transformation")
+		await bot.db.release(pconn)
 		return
 	if pokename is None:
 		await ctx.send("No Pokemon Selected")
@@ -1952,7 +1960,6 @@ async def form(ctx, val):
 		move3 = [t['move3'] for t in moves]
 		move4 = [t['move4'] for t in moves]
 		moves = move1+move2+move3+move4
-		await ctx.send(moves)
 		if 'secret-sword' in moves:
 			preformnum = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
 			preformnum = preformnum[0]
@@ -1978,7 +1985,6 @@ async def form(ctx, val):
 			return
 		elif val == 'defense':
 			pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
-			await ctx.send(pre)
 			pre = pre[0]
 			form = pre + 2
 			form = [t['identifier'] for t in forms if t['order'] == form]
