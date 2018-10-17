@@ -584,6 +584,8 @@ async def tms(ctx, val: int=None):
 		p_name = 'keldeo-ordinary'
 	if pokename == 'giratina':
 		p_name = 'giratina-altered'
+	if pokename == 'meloetta':
+		p_name = 'meloetta-aria'
 	else:
 		p_name = pokename
 	pkid = [i['pokemon_id'] for i in forms if i['identifier'] == p_name]
@@ -637,6 +639,8 @@ async def learn(ctx, val, slot: int):
 		pokename = 'keldeo-ordinary'
 	if pokename == 'giratina':
 		pokename = 'giratina-altered'
+	if pokename == 'meloetta':
+		pokename = 'meloetta-aria'
 	
 	pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pokename]
 	for p_id in pkid:
@@ -817,6 +821,8 @@ async def show(ctx, val=None):
 				pn = 'keldeo-ordinary'
 			if pn.lower() == 'giratina':
 				pn = 'giratina-altered'
+			if pn.lower() == 'meloetta':
+				pn = 'meloetta-aria'
 
 
 			pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
@@ -1041,6 +1047,8 @@ async def show(ctx, val=None):
 				pn = 'keldeo-ordinary'
 			elif pn.lower() == 'giratina':
 				pn = 'giratina-altered'
+			elif pn.lower() == 'meloetta':
+				pn = 'meloetta-aria'
 
 
 			pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
@@ -1264,6 +1272,8 @@ async def info(ctx):
 			pn = 'shaymin-land'
 		if pn.lower() == 'keldeo':
 			pn = 'keldeo-resolute'
+		if pn.lower() == 'meloetta':
+			pn = 'meloetta-aria'
 		if pn.lower() == 'giratina':
 			pn = 'giratina-altered'
 
