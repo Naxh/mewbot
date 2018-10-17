@@ -764,12 +764,6 @@ async def show(ctx, val=None):
 			pAb = 'Eternal Rain'
 			irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 		else:
-			try:
-				irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
-			except Exception as e:
-				await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
-				await bot.db.release(pconn)
-				return
 			pns = str(pn)
 			with open ('statfile') as f:
 				stats = json.load(f)
@@ -782,13 +776,14 @@ async def show(ctx, val=None):
 			with open('ptypes.json') as f:
 				t_ids = json.load(f)
 			await ctx.send(pn)
+			pn = pn.lower()
 			if pn is None:
 				await ctx.send("You haven't selected a Pokemon Bud")
 				await bot.db.release(pconn)
 				return
-			elif pn.lower() == 'necrozma-dawn':
+			if pn.lower() == 'necrozma-dawn':
 				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-			elif pn.lower() == 'necrozma-dusk':
+			if pn.lower() == 'necrozma-dusk':
 				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 			else:
 				iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
@@ -993,12 +988,6 @@ async def show(ctx, val=None):
 			pAb = 'Eternal Rain'
 			irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 		else:
-			try:
-				irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
-			except Exception as e:
-				await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
-				await bot.db.release(pconn)
-				return
 			pns = str(pn)
 			with open ('statfile') as f:
 				stats = json.load(f)
@@ -1173,6 +1162,9 @@ async def info(ctx):
 	expcque = "SELECT expcap FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id)
 
 	nature = await pconn.fetchval(natque)
+	if nature is None:
+		await ctx.send("No Pokemon Selected")
+		return
 	pn = await pconn.fetchval(pquery)
 	atkiv = await pconn.fetchval(atquery)
 	defiv = await pconn.fetchval(dequery)
@@ -1217,12 +1209,6 @@ async def info(ctx):
 		pAb = 'Eternal Rain'
 		irul = 'https://cdn.discordapp.com/attachments/480885918354636804/497721785048104970/aquino.jpg'
 	else:
-		try:
-			irul = 'https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png'
-		except Exception as e:
-			await ctx.send(f'You need to `;select` a pokemon or you haven\'t started <@{ctx.author.id}>')
-			await bot.db.release(pconn)
-			return
 		pns = str(pn)
 		with open ('statfile') as f:
 			stats = json.load(f)
@@ -1239,12 +1225,7 @@ async def info(ctx):
 			await bot.db.release(pconn)
 			return
 		await ctx.send(pn)
-		if pn.lower() == 'necrozma-dawn':
-			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-		if pn.lower() == 'necrozma-dusk':
-			iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
-		else:
-			iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
+		pn = pn.lower()
 		wtrio = ['tornadus', 'landorus', 'thundurus']
 		if pn.lower() in wtrio:
 			pn = pn+'-incarnate'
@@ -1362,6 +1343,13 @@ async def info(ctx):
 
 	embed = discord.Embed(title=f"Your Selected {pn.capitalize()}", color=0xffb6c1)
 
+
+	if pn.lower() == 'necrozma-dawn':
+		iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
+	if pn.lower() == 'necrozma-dusk':
+		iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
+	else:
+		iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 	embed.add_field(name="Pokemon Level", value=f"{plevel}")
 	embed.add_field(name="Exp", value=f"{exp}/{expcap}")
 	embed.add_field(name="Nature: ", value=f'{nature.capitalize()}')
