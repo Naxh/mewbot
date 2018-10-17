@@ -8,3 +8,4 @@ Objectpath
 aiohttp
 asyncio
 dblpy
+psycopg2
