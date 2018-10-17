@@ -1845,7 +1845,7 @@ async def give(ctx, user: discord.Member, val):
 		await bot.db.release(pconn)
 		return
 	else:
-		poke = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1", ctx.author.id)
+		poke = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 AND pnum = $2", ctx.author.id, val)
 		maxnum = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = $1", user.id)
 		if maxnum is None:
 			await ctx.send(f"<@{user.id}> has not started")
@@ -1855,7 +1855,7 @@ async def give(ctx, user: discord.Member, val):
 			await ctx.send(f"<@{ctx.author.id}> has not started or you dont have that poke")
 			await bot.db.release(pconn)
 			return
-		await pconn.execute("UPDATE pokes SET ownerid = $1 AND pnum = maxnum WHERE ownerid = $2 AND pnum = $1", user.id, ctx.author.id, gpnum)
+		await pconn.execute("UPDATE pokes SET ownerid = $1 AND pnum = $2 WHERE ownerid = $3 AND pnum = $4", user.id, maxnum, ctx.author.id, val)
 		await ctx.send(f"<@{ctx.author.id}> has given <@{user.id}> A {poke}")
 		await bot.db.release(pconn)
 		
