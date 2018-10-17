@@ -557,8 +557,11 @@ async def tms(ctx, val: int=None):
 	pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}".format(ctx.author.id))
 	if pokename is None:
 		await ctx.send("You have not selected a Pokemon")
-	if ' ' in pokename:
-		pokename = pokename.replace(' ', '-')
+	if '-' in pokename:
+		pokename = pokename.replace('-', ' ')
+		pokename = pokename.split()
+		pokename = pokename[0]
+	
 	with open('forms.json') as f:
 		forms = json.load(f)
 	pokename = pokename.lower()
