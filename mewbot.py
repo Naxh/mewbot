@@ -1345,11 +1345,11 @@ async def info(ctx):
 
 
 	if pn.lower() == 'necrozma-dawn':
-		iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
+		irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
 	if pn.lower() == 'necrozma-dusk':
-		iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
+		irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 	else:
-		iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
+		irul = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 	embed.add_field(name="Pokemon Level", value=f"{plevel}")
 	embed.add_field(name="Exp", value=f"{exp}/{expcap}")
 	embed.add_field(name="Nature: ", value=f'{nature.capitalize()}')
