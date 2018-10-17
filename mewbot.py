@@ -699,21 +699,22 @@ async def inspire(ctx):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def show(ctx, val=None):
-	if type(val) is int:
+	if val is 'newest':
 		pconn = await bot.db.acquire()
-		pquery = "SELECT pokname FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		atquery = "SELECT atkiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		dequery = "SELECT defiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		spaquery = "SELECT spatkiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		spdquery = "SELECT spdefiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		spequery = "SELECT speediv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		plquery = "SELECT pokelevel FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		pnquery = "SELECT poknick FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		hiquery = "SELECT hitem FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		hpquery = "SELECT hpiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		natque = "SELECT nature FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		expque = "SELECT exp FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
-		expcque = "SELECT expcap FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		max = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = $1", ctx.author.id)
+		pquery = "SELECT pokname FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		atquery = "SELECT atkiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		dequery = "SELECT defiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		spaquery = "SELECT spatkiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		spdquery = "SELECT spdefiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		spequery = "SELECT speediv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		plquery = "SELECT pokelevel FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		pnquery = "SELECT poknick FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		hiquery = "SELECT hitem FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		hpquery = "SELECT hpiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		natque = "SELECT nature FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		expque = "SELECT exp FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		expcque = "SELECT expcap FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
 
 		nature = await pconn.fetchval(natque)
 		if nature is None:
@@ -775,8 +776,6 @@ async def show(ctx, val=None):
 				types = json.load(f)
 			with open('ptypes.json') as f:
 				t_ids = json.load(f)
-			await ctx.send(pn)
-			pn = pn.lower()
 			if pn is None:
 				await ctx.send("You haven't selected a Pokemon Bud")
 				await bot.db.release(pconn)
@@ -790,19 +789,18 @@ async def show(ctx, val=None):
 			wtrio = ['tornadus', 'landorus', 'thundurus']
 			if pn.lower() in wtrio:
 				pn = pn+'-incarnate'
-			elif pn.lower() == 'deoxys':
+			if pn.lower() == 'deoxys':
 				pn = 'deoxys-normal'
-			elif pn.lower() == 'xerneas':
+			if pn.lower() == 'xerneas':
 				pn = 'xerneas-active'
-			elif pn.lower() == 'arceus':
+			if pn.lower() == 'arceus':
 				pn = 'arceus-normal'
-			elif pn.lower() == 'shaymin':
+			if pn.lower() == 'shaymin':
 				pn = 'shaymin-land'
-			elif pn.lower() == 'keldeo':
+			if pn.lower() == 'keldeo':
 				pn = 'keldeo-ordinary'
 
 
-			await ctx.send(iurl)
 			pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
 
 
@@ -922,22 +920,21 @@ async def show(ctx, val=None):
 		await ctx.send(embed=embed)
 		await bot.db.release(pconn)
 		return
-	elif val is 'newest':
+	else:
 		pconn = await bot.db.acquire()
-		max = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = $1", ctx.author.id)
-		pquery = "SELECT pokname FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		atquery = "SELECT atkiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		dequery = "SELECT defiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		spaquery = "SELECT spatkiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		spdquery = "SELECT spdefiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		spequery = "SELECT speediv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		plquery = "SELECT pokelevel FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		pnquery = "SELECT poknick FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		hiquery = "SELECT hitem FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		hpquery = "SELECT hpiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		natque = "SELECT nature FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		expque = "SELECT exp FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
-		expcque = "SELECT expcap FROM pokes WHERE pnum = {} AND ownerid = {}".format(max, ctx.author.id)
+		pquery = "SELECT pokname FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		atquery = "SELECT atkiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		dequery = "SELECT defiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		spaquery = "SELECT spatkiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		spdquery = "SELECT spdefiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		spequery = "SELECT speediv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		plquery = "SELECT pokelevel FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		pnquery = "SELECT poknick FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		hiquery = "SELECT hitem FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		hpquery = "SELECT hpiv FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		natque = "SELECT nature FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		expque = "SELECT exp FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
+		expcque = "SELECT expcap FROM pokes WHERE pnum = {} AND ownerid = {}".format(val, ctx.author.id)
 
 		nature = await pconn.fetchval(natque)
 		if nature is None:
@@ -999,6 +996,8 @@ async def show(ctx, val=None):
 				types = json.load(f)
 			with open('ptypes.json') as f:
 				t_ids = json.load(f)
+			await ctx.send(pn)
+			pn = pn.lower()
 			if pn is None:
 				await ctx.send("You haven't selected a Pokemon Bud")
 				await bot.db.release(pconn)
@@ -1012,18 +1011,19 @@ async def show(ctx, val=None):
 			wtrio = ['tornadus', 'landorus', 'thundurus']
 			if pn.lower() in wtrio:
 				pn = pn+'-incarnate'
-			if pn.lower() == 'deoxys':
+			elif pn.lower() == 'deoxys':
 				pn = 'deoxys-normal'
-			if pn.lower() == 'xerneas':
+			elif pn.lower() == 'xerneas':
 				pn = 'xerneas-active'
-			if pn.lower() == 'arceus':
+			elif pn.lower() == 'arceus':
 				pn = 'arceus-normal'
-			if pn.lower() == 'shaymin':
+			elif pn.lower() == 'shaymin':
 				pn = 'shaymin-land'
-			if pn.lower() == 'keldeo':
+			elif pn.lower() == 'keldeo':
 				pn = 'keldeo-ordinary'
 
 
+			await ctx.send(iurl)
 			pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
 
 
