@@ -1024,7 +1024,6 @@ async def show(ctx, val=None):
 				pn = 'keldeo-ordinary'
 
 
-			await ctx.send(irul)
 			pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
 
 
