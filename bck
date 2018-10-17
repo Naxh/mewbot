@@ -1,0 +1,12 @@
+import pickle
+import psycopg2
+import os
+dburl = os.environ['TOKEN']
+conn = psycopg2.connect(...)
+
+with conn.cursor() as cur:
+    cur.execute('SELECT * FROM table;')
+    rows = cur.fetch()
+
+with open('file.pickle', 'w') as fp:
+    pickle.dump(rows, fp)
