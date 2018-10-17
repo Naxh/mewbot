@@ -1231,7 +1231,7 @@ async def info(ctx):
 		elif '-dusk' in pn:
 			irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 		else:
-			irul = ('https://img.pokemondb.net/artwork/vector/' + val.lower() + '.png')
+			irul = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 		pn = pn.lower()
 		wtrio = ['tornadus', 'landorus', 'thundurus']
 		if pn.lower() in wtrio:
