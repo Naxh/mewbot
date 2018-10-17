@@ -1,12 +1,22 @@
-import pickle
-import psycopg2
+
 import os
+import psycopg2
+import sys
+
 dburl = os.environ['DATABASE_URL']
-conn = psycopg2.connect(dburl)
+con = None
 
-with conn.cursor() as cur:
-    cur.execute('SELECT * FROM pokes;')
-    rows = cur.fetchall()
+try:
 
-with open('file.pickle', 'wb') as fp:
-    pickle.dump(rows, fp)
+    con = psycopg2.connect(dburl)
+    cur = con.cursor()
+    cur.execute('SELECT * FROM pokes')
+    f = open('bck.sql', 'w')
+    for row in cur:
+      f.write("insert into pokes values (" + str(row) + ");")
+except psycopg2.DatabaseError, e:
+    print 'Error %s' % e
+    sys.exit(1)
+finally:
+    if con:
+        con.close()
