@@ -1855,7 +1855,7 @@ async def give(ctx, user: discord.Member, val):
 			await ctx.send(f"<@{ctx.author.id}> has not started or you dont have that poke")
 			await bot.db.release(pconn)
 			return
-		await pconn.execute("UPDATE pokes SET ownerid = $1 AND pnum = $2 WHERE ownerid = $3 AND pnum = $4", user.id, maxnum, ctx.author.id, val)
+		await pconn.execute("UPDATE pokes SET ownerid = $1, pnum = $2 WHERE ownerid = $3 AND pnum = $4", user.id, maxnum, ctx.author.id, val)
 		await ctx.send(f"<@{ctx.author.id}> has given <@{user.id}> A {poke}")
 		await bot.db.release(pconn)
 		
