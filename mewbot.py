@@ -787,24 +787,24 @@ async def info(ctx, *, val=None):
 				await ctx.send("You haven't selected a Pokemon Bud")
 				await bot.db.release(pconn)
 				return
-			if pn.lower() == 'necrozma-dawn':
+			elif pn.lower() == 'necrozma-dawn':
 				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dawn-wings.png')
-			if pn.lower() == 'necrozma-dusk':
+			elif pn.lower() == 'necrozma-dusk':
 				iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
 			else:
 				iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
 			wtrio = ['tornadus', 'landorus', 'thundurus']
 			if pn.lower() in wtrio:
 				pn = pn+'-incarnate'
-			if pn.lower() == 'deoxys':
+			elif pn.lower() == 'deoxys':
 				pn = 'deoxys-normal'
-			if pn.lower() == 'xerneas':
+			elif pn.lower() == 'xerneas':
 				pn = 'xerneas-active'
-			if pn.lower() == 'arceus':
+			elif pn.lower() == 'arceus':
 				pn = 'arceus-normal'
-			if pn.lower() == 'shaymin':
+			elif pn.lower() == 'shaymin':
 				pn = 'shaymin-land'
-			if pn.lower() == 'keldeo':
+			elif pn.lower() == 'keldeo':
 				pn = 'keldeo-ordinary'
 
 
