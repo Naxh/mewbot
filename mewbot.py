@@ -120,8 +120,8 @@ async def trainer(ctx, user: discord.Member=None):
     cquery = '''SELECT pokname FROM pokes WHERE selected = 1 AND ownerid = {}'''.format(user.id)
     mquery = '''SELECT mewcoins FROM users WHERE u_id = {}'''.format(user.id)
     poke = await tconn.fetchval(cquery)
-        if poke is None:
-            poke = 'None'
+    if poke is None:
+        poke = 'None'
     redeems = await tconn.fetchval(rquery)
     if redeems is None:
         await ctx.send("You haven't started Playing!")
