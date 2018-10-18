@@ -140,8 +140,28 @@ async def nick(ctx, *, val):
     
     
 ########################################################################################################33
-
-            
+@bot.command()
+async def team(ctx, val=None, slot:int, num:int=None):
+    if val is None:
+        pconn = await bot.db.acquire()
+        embed =  discord.Embed(title="Your Current Team!", color=0xeee647)
+        
+        for num in range(0,7):
+            t_num  = await pconn.fetchval("SELECT pokname FROM pokes WHERE team{num} = 1 AND ownerid = $1", ctx.author.id)
+            if t_num is None:
+                await ctx.send("Your Team is incomplete and cannot be viewed")
+            embed.add_field(name="Slot {num+1} Pokemon", value="{t_num}")
+        embed.set_footer(text="Your Current Pokemon Team")
+        await bot.db.release(pconn)
+        await ctx.send(embed=embed)
+    elif val is 'add':
+        pconn =  await bot.db.acquire()
+        name = await pconn.fetchval("SELECT pokname FROM pokes WHERE pnum = $1 AND ownerid = $2", num, ctx.author.id)
+        await pconn.execute(f"UPDATE pokes SET team{slot} = 1 WHERE pnum = {num} AND ownerid = {ctx.author.id}")
+        await ctx.send("You have Successfully Made your {name} Team Slot Number {slot}")
+        await bot.db.release(pconn)
+    else:
+        await ctx.send("Invalid Team Command")
 ############################################################################################################            
 @bot.command(aliases=["Help"])
 @commands.cooldown(1, 3, commands.BucketType.user)
