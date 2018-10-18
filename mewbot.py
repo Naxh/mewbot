@@ -1850,8 +1850,8 @@ async def giveredeem(ctx, user: discord.Member, val):
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def gift(ctx, user: discord.Member, val):
     if ctx.author.id == user.id:
-    await ctx.send("You can not give yourself credits")
-    return
+        await ctx.send("You can not give yourself credits")
+        return
     pconn = await bot.db.acquire()
     val = int(val)
     if user is None:
