@@ -151,7 +151,7 @@ async def nick(ctx, *, val):
     
     
 ########################################################################################################33
-@bot.command()
+@bot.command(aliases=["Team"])
 async def team(ctx):
     pconn = await bot.db.acquire()
     embed =  discord.Embed(title="Your Current Team!", color=0xeee647)
@@ -164,7 +164,7 @@ async def team(ctx):
     embed.set_footer(text="Your Current Pokemon Team | use ;teamadd <slot_number> to add a selected Pokemon")
     await bot.db.release(pconn)
     await ctx.send(embed=embed)
-@bot.command()
+@bot.command(aliases=["Teamadd"])
 async def teamadd(ctx, slot:int):
     if slot > 6:
         await ctx.send("You can not add More than 6 Pokemon to a Team")
@@ -176,7 +176,19 @@ async def teamadd(ctx, slot:int):
         await bot.db.release(pconn)
         return
     await pconn.execute(f"UPDATE pokes SET team{slot} = 1 WHERE selected = 1 and ownerid = $1", ctx.author.id)
-    await ctx.send(f"Your {pokename} is now onn your team, Slot number {slot}")
+    await ctx.send(f"Your {pokename} is now on your team, Slot number {slot}")
+    await bot.db.release(pconn)
+    
+@bot.command(aliases=["Teamremove", "Tr", "TR", "tr"])
+async def teamremove(ctx, slot:int):
+    pconn = await bot.db.acquire()
+    pokename = await pconn.fetchval(f"SELECT pokname FROM pokes WHERE team{slot} = 1 AND ownerid  = $1", ctx.author.id)
+    if pokename is None:
+        await ctx.send("There is no Pokemon in that Team Slot")
+        await bot.db.release(pconn)
+        return
+    await pconn.execute(f"UPDATE pokes SET team{slot} = 0 WHERE team{slot} = 1 AND ownerid = $1", ctx.author.id)
+    await ctx.send(f"You have sucessfully removed {pokename} from Pokemon Number {slot} In your team!")
     await bot.db.release(pconn)
     
 ############################################################################################################            
@@ -189,6 +201,7 @@ async def help(ctx, val=None):
         embed.add_field(name="Pokemon", value="See all Pokemon Commands with `;help pokemon`")
         embed.add_field(name="Mega", value="`;help mega` to see information on Mega Evolution!!", inline=False)
         embed.add_field(name="Forms", value="`;help forms` to see information on Forms!!", inline=False)
+        embed.add_field(name="Team", value="`;help team` for help with Teams!", Inline=False)
         embed.add_field(name="Trading", value="`;help trading` to see Trading Commands", inline=False)
         embed.add_field(name="Donate", value="Donate to the bot! 1 USD = 2 Redeems + 50,000ℳ", inline=False)
         embed.add_field(name="Vote", value="Upvote the Bot for Rewards!, 10 Upvote Points = 5 Redeems!", inline=False)
@@ -235,6 +248,13 @@ async def help(ctx, val=None):
         embed.add_field(name="Mega", value="`;help mega` to see information on Mega Evolution!!", inline=False)
         embed.add_field(name="Forms", value="`;help forms` to see information on Forms!!", inline=False)
         await ctx.send(embed=e)
+    elif val == 'team':
+        embed = discord.Embed(title="Team Commands", color = 0xeee657)
+        embed.add_field(name="Team", value="`;team` displays your current team")
+        embed.add_field(name="Teamadd <slot_number>", value="Add Your __selected__ Pokemon to your team")
+        embed.add_field(name="Teamremove <slot_number>", value="Remove a Pokemon from that slot")
+        await ctx.send(embed=e)
+
 @bot.command(aliases=["Shop"])
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def shop(ctx, val=None):
