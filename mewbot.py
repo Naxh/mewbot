@@ -1799,11 +1799,11 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
             await ctx.send("Trade cancelled, took too long to confirm")
             await bot.db.release(pconn)
             return
-        if msg.lower() in ('no', 'nah', 'nope'):
+        if msg.content.lower() in ('no', 'nah', 'nope'):
                 await ctx.send("Trade rejected")
                 await bot.db.release(pconn)
                 return
-        elif msg.lower() in ('yes', 'ye', 'yep', 'yeet'):
+        elif msg.content.lower() in ('yes', 'ye', 'yep', 'yeet'):
                 await ctx.send("Trade has been approved!")
         offering -= creds
         ccreds += offering
