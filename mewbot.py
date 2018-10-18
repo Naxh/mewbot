@@ -159,15 +159,16 @@ async def team(ctx):
     for num in range(1,7):
         t_num  = await pconn.fetchval(f"SELECT pokname FROM pokes WHERE team{num} = 1 AND ownerid = $1", ctx.author.id)
         if t_num is None:
-            await ctx.send("Your Team is incomplete and cannot be viewed")
-            await bot.db.release(pconn)
-            return
+            t_num = 'None'
         embed.add_field(name=f"Slot {num} Pokemon", value=f"{t_num}")
-    embed.set_footer(text="Your Current Pokemon Team")
+    embed.set_footer(text="Your Current Pokemon Team | use ;teamadd <slot_number> to add a selected Pokemon")
     await bot.db.release(pconn)
     await ctx.send(embed=embed)
 @bot.command()
 async def teamadd(ctx, slot):
+    if slot > 6:
+        await ctx.send("You can not add More than 6 Pokemon to a Team")
+        return
     pconn = await bot.db.acquire()
     pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE ownerid = $1 and selected = 1", ctx.author.id)
     if pokename is None:
