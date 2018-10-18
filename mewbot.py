@@ -49,7 +49,14 @@ async def on_ready():
     print(bot.user.id)
     print(version)
     print('-------------')
-
+@bot.command()
+async def wipe(ctx, user:discord.Member):
+        if not ctx.author.id == 358293206900670467:
+                await ctx.send("Not dylee :interrobang:")
+                return
+        await pconn.execute("DELETE FROM pokes WHERE ownerid = $1", user.id)
+        await pconn.execute("DELETE FROM users WHERE u_id = $1", user.id)
+        await ctx.send("Wiped")
 @bot.listen()
 async def on_ready():
     if not hasattr(bot, 'db'):
