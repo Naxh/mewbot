@@ -146,7 +146,7 @@ async def team(ctx):
     embed =  discord.Embed(title="Your Current Team!", color=0xeee647)
 
     for num in range(0,7):
-        t_num  = await pconn.fetchval("SELECT pokname FROM pokes WHERE team{num} = 1 AND ownerid = $1", ctx.author.id)
+        t_num  = await pconn.fetchval(f"SELECT pokname FROM pokes WHERE team{num} = 1 AND ownerid = $1", ctx.author.id)
         if t_num is None:
             await ctx.send("Your Team is incomplete and cannot be viewed")
             await bot.db.release(pconn)
@@ -628,7 +628,7 @@ async def release(ctx, val: int):
     if not val is None:
         pconn = await bot.db.acquire()
         await pconn.execute("DELETE FROM pokes WHERE pnum = $1 AND ownerid = $2", val, ctx.author.id)
-        await ctx.send("You have successfully released your Pokemon Number {val}")
+        await ctx.send(f"You have successfully released your Pokemon Number {val}")
         await bot.db.release(pconn)
     else:
         await ctx.send("You dont have that Pokemon")
