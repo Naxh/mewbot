@@ -1768,7 +1768,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
             return
         pokename = await pconn.fetchval(f"SELECT pokname FROM pokes WHERE pnum = {poke} AND ownerid = {user.id}")
 
-        pid = await pconn.fetchval(f"SELECT  id FROM pokes WHERE pnum = {poke}")
+        pid = await pconn.fetchval(f"SELECT id FROM pokes WHERE pnum = {poke}")
         e = discord.Embed(title="Current Trade")
         e.add_field(name=f"\n<@{ctx.author.name}> ", value=f"is Offering {creds} for \n")
         e.add_field(name=f"\n<@{user.name}>'s ", value=f"{pokename} \n")
@@ -1795,6 +1795,12 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         nquery = f"UPDATE pokes SET ownerid = {ctx.author.id} AND pnum = {mnum} WHERE id = {pid}"
         cquery = f"UPDATE users SET mewcoins = {offering} WHERE u_id = {ctx.author.id}"
         gquery = f"UPDATE users SET mewcoins = {ccreds} WHERE u_id = {user.id}"
+        maxnum = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = $1", user.id)
+        maxnum+=1
+        poke+=1
+        for i in range(poke, maxnum):
+                newnum = i - 1
+                await pconn.execute("UPDATE pokes SET pnum = $1 WHERE pnum = $2 AND ownerid = $3", newnum, i, user.id)
         await pconn.execute(nquery)
         await pconn.execute(cquery)
         await pconn.execute(gquery)
@@ -1889,6 +1895,12 @@ async def give(ctx, user: discord.Member, val):
             await bot.db.release(pconn)
             return
         await pconn.execute("UPDATE pokes SET ownerid = $1, pnum = $2 WHERE ownerid = $3 AND pnum = $4", user.id, maxnum, ctx.author.id, val)
+        mnum = await pconn.fetchval("SELECT MAX(pnum) FROM pokes WHERE ownerid = $1", ctx.author.id)
+        mnum+=1
+        val+=1
+        for i in range(val,mnum):
+                nnum = i - 1
+                await pconn.execute("UPDATE pokes SET pnum = $1 WHERE pnum = $2 AND ownerid = $3", nnum, i, ctx.author.id)
         await ctx.send(f"<@{ctx.author.id}> has given <@{user.id}> A {poke}")
         await bot.db.release(pconn)
         
