@@ -151,7 +151,7 @@ async def team(ctx):
             await ctx.send("Your Team is incomplete and cannot be viewed")
             await bot.db.release(pconn)
             return
-        embed.add_field(name="Slot {num} Pokemon", value="{t_num}")
+        embed.add_field(name=f"Slot {num} Pokemon", value=f"{t_num}")
     embed.set_footer(text="Your Current Pokemon Team")
     await bot.db.release(pconn)
     await ctx.send(embed=embed)
