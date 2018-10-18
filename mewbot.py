@@ -1786,25 +1786,25 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
 
         pid = await pconn.fetchval(f"SELECT id FROM pokes WHERE pnum = {poke}")
         e = discord.Embed(title="Current Trade")
-        e.add_field(name=f"\n<@{ctx.author.name}> ", value=f"is Offering {creds} for \n")
-        e.add_field(name=f"\n<@{user.name}>'s ", value=f"{pokename} \n")
+        e.add_field(name=f"\n{ctx.author.name} ", value=f"is Offering {creds} for \n")
+        e.add_field(name=f"\n{user.name}'s ", value=f"{pokename} \n")
         e.add_field(name=f"\nDo you both ", value=f"Accept the trade?\n")
-        e.set_footer(text="Say Yes to accept")
+        e.set_footer(text="Say Yes to accept or no to reject.")
         await ctx.send(embed=e)
         def check(m):
             m.author.id == user.id and m.content in ('Yes', 'yes', 'No', 'no')
-            if m.content.lower() in ('no', 'nah', 'nope'):
-                await ctx.send("Trade rejected")
-                await bot.db.release(pconn)
-                return
-            elif m.content.lower() in ('yes', 'ye', 'yep', 'yeet'):
-                await ctx.send("Trade has been approved!")
         try:
             await bot.wait_for('message', check=check, timeout=30)
         except asyncio.TimeoutError:
             await ctx.send("Trade cancelled, took too long to confirm")
             await bot.db.release(pconn)
             return
+        if msg.content.lower() in ('no', 'nah', 'nope'):
+            await ctx.send("Trade rejected")
+            await bot.db.release(pconn)
+            return
+        elif msg.content.lower() in ('yes', 'ye', 'yep', 'yeet'):
+            await ctx.send("Trade has been approved!")
         offering -= creds
         ccreds += offering
         mnum = await pconn.fetchval(f"SELECT MAX(pnum)+1 FROM pokes WHERE ownerid = {ctx.author.id}")
