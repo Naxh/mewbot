@@ -53,7 +53,7 @@ async def on_ready():
 @bot.listen()
 async def on_ready():
     if not hasattr(bot, 'db'):
-        bot.db = await asyncpg.create_pool(dburl, min_size=1, max_size=20)
+        bot.db = await asyncpg.create_pool(dburl, min_size=1, max_size=500)
 @bot.command()
 async def load(ctx, extension_name : str):
     if not ctx.author.id == 358293206900670467:
