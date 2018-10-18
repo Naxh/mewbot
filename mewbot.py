@@ -1794,7 +1794,7 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
         def check(m):
             return m.author.id == user.id and m.content in ('Yes', 'yes', 'No', 'no')
         try:
-            await bot.wait_for('message', check=check, timeout=30)
+            msg = await bot.wait_for('message', check=check, timeout=30)
         except asyncio.TimeoutError:
             await ctx.send("Trade cancelled, took too long to confirm")
             await bot.db.release(pconn)
