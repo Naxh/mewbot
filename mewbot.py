@@ -1815,6 +1815,9 @@ async def trade(ctx, user: discord.Member, creds: int, poke: int):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def giveredeem(ctx, user: discord.Member, val):
+    if ctx.author.id is user.id:
+        await ctx.send("You can not give yourself redeems")
+        return
     pconn = await bot.db.acquire()
     val = int(val)
     if user is None:
@@ -1846,6 +1849,9 @@ async def giveredeem(ctx, user: discord.Member, val):
 @bot.command()
 @commands.cooldown(1, 3, commands.BucketType.user)
 async def gift(ctx, user: discord.Member, val):
+    if ctx.author.id is user.id:
+    await ctx.send("You can not give yourself credits")
+    return
     pconn = await bot.db.acquire()
     val = int(val)
     if user is None:
