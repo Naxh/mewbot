@@ -142,18 +142,19 @@ async def nick(ctx, *, val):
 ########################################################################################################33
 @bot.command()
 async def team(ctx):
-    if val is None:
-        pconn = await bot.db.acquire()
-        embed =  discord.Embed(title="Your Current Team!", color=0xeee647)
-        
-        for num in range(0,7):
-            t_num  = await pconn.fetchval("SELECT pokname FROM pokes WHERE team{num} = 1 AND ownerid = $1", ctx.author.id)
-            if t_num is None:
-                await ctx.send("Your Team is incomplete and cannot be viewed")
-            embed.add_field(name="Slot {num+1} Pokemon", value="{t_num}")
-        embed.set_footer(text="Your Current Pokemon Team")
-        await bot.db.release(pconn)
-        await ctx.send(embed=embed)
+    pconn = await bot.db.acquire()
+    embed =  discord.Embed(title="Your Current Team!", color=0xeee647)
+
+    for num in range(0,7):
+        t_num  = await pconn.fetchval("SELECT pokname FROM pokes WHERE team{num} = 1 AND ownerid = $1", ctx.author.id)
+        if t_num is None:
+            await ctx.send("Your Team is incomplete and cannot be viewed")
+            await bot.db.release(pconn)
+            return
+        embed.add_field(name="Slot {num+1} Pokemon", value="{t_num}")
+    embed.set_footer(text="Your Current Pokemon Team")
+    await bot.db.release(pconn)
+    await ctx.send(embed=embed)
 ############################################################################################################            
 @bot.command(aliases=["Help"])
 @commands.cooldown(1, 3, commands.BucketType.user)
