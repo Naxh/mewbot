@@ -165,7 +165,7 @@ async def team(ctx):
     await bot.db.release(pconn)
     await ctx.send(embed=embed)
 @bot.command()
-async def teamadd(ctx, slot):
+async def teamadd(ctx, slot:int):
     if slot > 6:
         await ctx.send("You can not add More than 6 Pokemon to a Team")
         return
