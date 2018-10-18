@@ -26,7 +26,7 @@ import dbl
 
 f = open("pokes.txt", "r")
 if f.mode == 'r':
-    pList = ast.literal_eval(f.read())
+    pList = ast.literal_eval(f)
 
 natlist = ['Lonely', 'Brave', 'Adamant', 'Naughty', 'Bold', 'Relaxed', 'Impish', 'Lax', 'Timid', 'Hasty', 'Jolly', 'Naive', 'Modest', 'Mild', 'Quiet', 'Rash', 'Calm', 'Gentle', 'Sassy', 'Careful', 'Bashful', 'Quirky', 'Serious', 'Docile', 'Hardy']
 emotes = ['<a:mewLoooop:446252694026321922>', '<a:sylveon:463817633578483723>', '<:sylveon:463817633578483723>', '<a:jirachigif:499179583531253760>', '<a:smewsleep:448075686100598784>']
