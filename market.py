@@ -12,13 +12,11 @@ class Market:
             ctx.bot.db = await asyncpg.create_pool(dburl, min_size=1, max_size=500)
 
     @commands.command(aliases=['marketadd'])
-    async def madd(self, ctx, poke, price):
+    async def madd(self, ctx, poke:int, price:int):
         pconn = await ctx.bot.db.acquire()
         pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE pnum = $1 AND ownerid = $2", poke, ctx.author.id)
         pokelv = await pconn.fetchval("SELECT pokelevel FROM pokes WHERE pnum = $1 AND ownerid = $2", poke, ctx.author.id)
         pokeid = await pconn.fetchval("SELECT id FROM pokes WHERE pnum = $1 AND ownerid = $2", poke, ctx.author.id)
-        pokeid = int(pokeid)
-        price = int(price)
         query = '''
         INSERT INTO market (id, price)
         VALUES ($1, $2)
@@ -29,7 +27,7 @@ class Market:
         await ctx.bot.db.release(pconn)
     
     @commands.command(aliases=['marketbuy'])
-    async def mbuy(self, ctx, id):
+    async def mbuy(self, ctx, id:int):
         pconn =  await ctx.bot.db.acquire()
         pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE id = $1", id)
         price = await pconn.fetchval("SELECT price FROM market WHERE id = $1", id)
@@ -52,7 +50,7 @@ class Market:
         await ctx.bot.db.release()
     
     @commands.command(aliases=['marketremove'])
-    async def mremove(self, ctx, id):
+    async def mremove(self, ctx, id:int):
         pconn = await ctx.bot.db.acquire()
         pokename = await pconn.fetchval("SELECT pokname FROM pokes WHERE id = $1", id)
         if pokename is None:
