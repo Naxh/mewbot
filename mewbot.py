@@ -837,23 +837,6 @@ async def show(ctx, val=None):
                     iurl = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
                 else:
                     iurl = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
-                wtrio = ['tornadus', 'landorus', 'thundurus']
-                if pn.lower() in wtrio:
-                    pn = pn+'-incarnate'
-                if pn.lower() == 'deoxys':
-                    pn = 'deoxys-normal'
-                if pn.lower() == 'xerneas':
-                    pn = 'xerneas-active'
-                if pn.lower() == 'arceus':
-                    pn = 'arceus-normal'
-                if pn.lower() == 'shaymin':
-                    pn = 'shaymin-land'
-                if pn.lower() == 'keldeo':
-                    pn = 'keldeo-ordinary'
-                if pn.lower() == 'giratina':
-                    pn = 'giratina-altered'
-                if pn.lower() == 'meloetta':
-                    pn = 'meloetta-aria'
 
 
                 pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
@@ -1063,23 +1046,6 @@ async def show(ctx, val=None):
                     irul = ('https://img.pokemondb.net/artwork/vector/necrozma-dusk-mane.png')
                 else:
                     irul = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
-                wtrio = ['tornadus', 'landorus', 'thundurus']
-                if pn.lower() in wtrio:
-                    pn = pn+'-incarnate'
-                elif pn.lower() == 'deoxys':
-                    pn = 'deoxys-normal'
-                elif pn.lower() == 'xerneas':
-                    pn = 'xerneas-active'
-                elif pn.lower() == 'arceus':
-                    pn = 'arceus-normal'
-                elif pn.lower() == 'shaymin':
-                    pn = 'shaymin-land'
-                elif pn.lower() == 'keldeo':
-                    pn = 'keldeo-ordinary'
-                elif pn.lower() == 'giratina':
-                    pn = 'giratina-altered'
-                elif pn.lower() == 'meloetta':
-                    pn = 'meloetta-aria'
 
 
                 pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
@@ -1290,23 +1256,6 @@ async def info(ctx):
             else:
                 irul = ('https://img.pokemondb.net/artwork/vector/' + pn.lower() + '.png')
             pn = pn.lower()
-            wtrio = ['tornadus', 'landorus', 'thundurus']
-            if pn.lower() in wtrio:
-                pn = pn+'-incarnate'
-            if pn.lower() == 'deoxys':
-                pn = 'deoxys-normal'
-            if pn.lower() == 'xerneas':
-                pn = 'xerneas-active'
-            if pn.lower() == 'arceus':
-                pn = 'arceus-normal'
-            if pn.lower() == 'shaymin':
-                pn = 'shaymin-land'
-            if pn.lower() == 'keldeo':
-                pn = 'keldeo-resolute'
-            if pn.lower() == 'meloetta':
-                pn = 'meloetta-aria'
-            if pn.lower() == 'giratina':
-                pn = 'giratina-altered'
 
             pkid = [i['pokemon_id'] for i in forms if i['identifier'] == pn.lower()]
 
@@ -2029,20 +1978,9 @@ async def form(ctx, val):
         weathertrio = ['landorus', 'thundurus', 'tornadus']
         weathevo = ['landorus-incarnate', 'tornadus-incarnate', 'thundurus-incarnate']
         pokename = pokename.lower()
-        if pokename in weathertrio:
-            pokename = pokename+'-incarnate'
-        if pokename == 'deoxys':
-            pokename = 'deoxys-normal'
-        if pokename == 'shaymin':
-            pokename = 'shaymin-land'
-        if pokename == 'arceus':
-            pokename = 'arceus-normal'
-        if pokename == 'keldeo':
-            pokename = 'keldeo-ordinary'
-        if pokename == 'giratina':
-            pokename = 'giratina-altered'
         if helditem is None:
             await ctx.send("This Pokemon Is not Holding the required item for transformation")
+        weathevo= ['thundurus', 'tornadus', 'landorus']
             
             return
         if pokename is None:
@@ -2114,7 +2052,7 @@ async def form(ctx, val):
                 
             else:
                 await ctx.send("Your Keldeo does not know Secret Sword Move")
-        elif pokename == 'deoxys-normal' and helditem == 'meteorite':
+        elif pokename == 'deoxys' and helditem == 'meteorite':
             if val == 'speed':
                 pre = [t['order'] for t in forms if t['identifier'] == pokename.lower()]
                 pre = pre[0]
