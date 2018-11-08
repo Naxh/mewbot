@@ -7,4 +7,6 @@ Currently being worked on are battles and all, but you NEED a SQL db for the bot
 
 
 Discord tag = Dylee#6669 
-Email = oyinxdoubx@gmail.com
+
+The main project is now closed source!.
+Feel free to use this anyways.
